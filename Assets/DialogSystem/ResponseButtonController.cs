@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ResponseButtonController : MonoBehaviour
 {
+	[SerializeField]
 	public DialogLine Line;
 	public Text text;
 
@@ -15,22 +16,23 @@ public class ResponseButtonController : MonoBehaviour
 		text = GetComponentInChildren<Text>();
 	}
 
-	public void Assign(DialogLine L)
+	public void Assign(DialogLine L = null)
 	{
 		Line = L;
 		text.text = Line.GetDialog();
 	}
 
+	public void AssignEnd()
+	{
+		text.text = "<End Conversation>";
+	}
+
 	public void Respond()
 	{
-<<<<<<< HEAD:Assets/DialogSystem/ResponseButtonController.cs
 		if(text.text != "<End Conversation>")
 			DialogController.Controller.Respond(Line);
 		else
 			DialogController.Controller.EndConversation();
-=======
-		DialogController.Controller.Respond(Line);
->>>>>>> 0ad35304c5cf51ac03de8e62113869e147e1772c:Assets/ResponseButtonController.cs
 	}
 
 }
