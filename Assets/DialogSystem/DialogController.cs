@@ -43,7 +43,7 @@ public class DialogController : MonoBehaviour
 	    f.SetDialog("Testing Testing 123 Testing! It's me, [Player]!");
 	    f.PossibleResponses.Add("test02");
 	    f.SpeakerID = "Player";
-	    f.Targets= new List<KeyValuePair<string, MoodTypes>>(){new KeyValuePair<string, MoodTypes>("Player", MoodTypes.Angry),new KeyValuePair<string, MoodTypes>("Player", MoodTypes.Happy),new KeyValuePair<string, MoodTypes>("Player", MoodTypes.Happy)};
+	    f.Targets= new List<KeyValuePair<string, MoodTypes>>(){new KeyValuePair<string, MoodTypes>("Player", MoodTypes.Happy)};
 	    f.SpeakerMood = MoodTypes.Angry;
 		
 	    DialogLine g = new DialogLine("test02");
