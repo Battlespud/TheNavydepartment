@@ -6,17 +6,21 @@ using System.IO;
 
 public static class DialogLoader
 {
+    /// <summary>
+    /// A chunk identifier type represents the actual tagged line in the dialog text file. The enum values and values in the text file need to be exact
+    /// </summary>
     enum ChunkIdentifierTypes //local enum
     {
         DialogString,
         LineID,
         SpeakerID,
-        TargetID,
+        //TargetID,
         PassTarget,
         FailTarget,
         CriticalFailTarget,
         SpeakerMood,
-        TargetMood,
+        //TargetMood,
+        TargetMoods,
         Responses,
         Fail,
         CriticalFail,
@@ -46,6 +50,7 @@ public static class DialogLoader
     public static void PopulateDialogLines()
     {
         DialogLine buffer = new DialogLine();
+        List<string> targetMoods = new List<string>();
         for (int i = 0; i < DialogByDayPaths.Length; i++)//loop through each file path
         {
             using (StreamReader reader = new StreamReader(File.Open(DialogByDayPaths[i], FileMode.Open, FileAccess.Read, FileShare.None)))//read each file
@@ -61,6 +66,7 @@ public static class DialogLoader
                     {
                         if (!DialogLine.DialogByLineID.ContainsKey(buffer.LineID))
                         {
+                            ParseTargetIDMoodPairs(targetMoods, buffer);
                             DialogLine.DialogByLineID.Add(buffer.LineID, buffer);
                         }
                         else
@@ -86,9 +92,6 @@ public static class DialogLoader
                                     case ChunkIdentifierTypes.SpeakerID:
                                         buffer.SpeakerID = raw;
                                         break;
-                                    case ChunkIdentifierTypes.TargetID:
-//TODO                                        buffer.TargetID = raw;
-                                        break;
                                     case ChunkIdentifierTypes.PassTarget:
                                         buffer.PassTarget = raw;
                                         break;
@@ -101,12 +104,35 @@ public static class DialogLoader
                                     case ChunkIdentifierTypes.SpeakerMood:
                                         buffer.SpeakerMood = (MoodTypes)Enum.Parse(typeof(MoodTypes), raw);
                                         break;
-                                    case ChunkIdentifierTypes.TargetMood:
-//TODO                                        buffer.TargetMood = (MoodTypes)Enum.Parse(typeof(MoodTypes), raw);
+                                    case ChunkIdentifierTypes.TargetMoods:
+                                        targetMoods.Clear();
+                                        do
+                                        {
+                                            string targetMood = reader.ReadLine();
+                                            if (targetMood.Contains('{'))
+                                            {
+                                                continue;
+                                            }
+                                            else if (targetMood.Contains('}'))//end of targetblock block, break loop and read to the next line
+                                            {
+                                                reader.ReadLine();
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(targetMood))
+                                                {
+                                                    targetMoods.Add(targetMood); //here its just adding the raw data from the file, it gets parsed at the end of each chunk
+                                                }
+                                                else
+                                                {
+                                                    Debugger.Log("Empty of null response");
+                                                }
+                                            }
+                                        } while (true);
                                         break;
                                     case ChunkIdentifierTypes.Responses:
-                                        bool isStartOfResponseBlock = true;
-                                        do//same deal with chunk indicators
+                                        do
                                         {
                                             string response = reader.ReadLine();
                                             if (response.Contains('{'))
@@ -115,16 +141,21 @@ public static class DialogLoader
                                             }
                                             else if (response.Contains('}'))//end of response block, break loop and read to the next line
                                             {
-                                                isStartOfResponseBlock = false;
                                                 reader.ReadLine();
                                                 break;
                                             }
                                             else
                                             {
-                                                if(!string.IsNullOrEmpty(response))
+                                                if (!string.IsNullOrEmpty(response))
+                                                {
                                                     buffer.PossibleResponses.Add(response);
+                                                }
+                                                else
+                                                {
+                                                    Debugger.Log("Empty of null response");
+                                                }
                                             }
-                                        } while (isStartOfResponseBlock);
+                                        } while (true);
                                         break;
                                     case ChunkIdentifierTypes.Fail:
                                     case ChunkIdentifierTypes.CriticalFail:
@@ -141,4 +172,21 @@ public static class DialogLoader
             }
         }
     }//end of PopulateDialogLines
+
+    /// <summary>
+    /// Parses kvps from text file into kvp string,MoodTypes. Being as this method is called at the end of each chunk being built, it can be used in the future for additional/broader parsing
+    /// </summary>
+    /// <param name="targetMoods">list of raw strings from text files</param>
+    /// <param name="buffer">buffer ref used to add parsed kvps to</param>
+    static void ParseTargetIDMoodPairs(List<string> targetMoods, DialogLine buffer)
+    {
+        foreach (string targetMood in targetMoods)
+        {
+            int separatorIndex = targetMood.IndexOf('|');
+            string target = targetMood.Substring(0, separatorIndex);
+            MoodTypes mood = (MoodTypes)Enum.Parse(typeof(MoodTypes), targetMood.Substring(separatorIndex + 1));
+            buffer.TargetMoods.Add(new KeyValuePair<string, MoodTypes>(target, mood));
+        }
+        //string targetID = line.Substring()
+    }//end of ParseTargetIDMoodPairs
 }//end of class

@@ -2,7 +2,6 @@
 DialogString:Fuck you that is all I'm gonna say blyad'
 LineID:PlayerGreetsSasha
 SpeakerID:Player
-TargetID:Sasha
 PassTarget:You passed the target
 FailTarget:You failed the target
 CriticalFailTarget:Critically failed target because you're absofuckingletely retarded
@@ -12,6 +11,12 @@ SashaFlipsOffPlayer
 SashaAnalRapesPlayer
 SashaSubtmitsToSasha
 }
+SpeakerMood:Neutral
+TargetMoods
+{
+Player|Angry
+Player|Happy
+}
 Fail://data format for Requirement goes here
 CriticalFail://data format for Requirement goes here
 Available://data format for Requirement goes here
@@ -20,13 +25,20 @@ Available://data format for Requirement goes here
 DialogString:You're a fucking white maaaaaale
 LineID:SashaFlipsOffPlayer
 SpeakerID:Sasha
-TargetID:Player
 PassTarget:You passed the target
 FailTarget:You failed the target
 CriticalFailTarget:Critically failed target because you're absofuckingletely retarded
 Responses
 {
-
+lineID1
+lineID2
+lineID3
+}
+SpeakerMood:Annoyed
+TargetMoods
+{
+Player|Neutral
+Player|Sad
 }
 Fail://data format for Requirement goes here
 CriticalFail://data format for Requirement goes here
@@ -36,7 +48,6 @@ Available://data format for Requirement goes here
 DialogString:No land for heteros
 LineID:SashaAnalRapesPlayer
 SpeakerID:Sasha
-TargetID:Player
 PassTarget:You passed the target
 FailTarget:You failed the target
 CriticalFailTarget:Critically failed target because you're absofuckingletely retarded
@@ -46,6 +57,12 @@ lineID1
 lineID2
 lineID3
 }
+SpeakerMood:Angry
+TargetMoods
+{
+Player|Sad
+Player|Neutral
+}
 Fail://data format for Requirement goes here
 CriticalFail://data format for Requirement goes here
 Available://data format for Requirement goes here
@@ -54,7 +71,6 @@ Available://data format for Requirement goes here
 DialogString:I'm gay, fuck me please
 LineID:SashaSubtmitsToSasha
 SpeakerID:Sasha
-TargetID:Player
 PassTarget:You passed the target
 FailTarget:You failed the target
 CriticalFailTarget:Critically failed target because you're absofuckingletely retarded
@@ -63,6 +79,12 @@ Responses
 lineID1
 lineID2
 lineID3
+}
+SpeakerMood:Happy
+TargetMoods
+{
+Player|Sad
+Player|Angry
 }
 Fail://data format for Requirement goes here
 CriticalFail://data format for Requirement goes here
