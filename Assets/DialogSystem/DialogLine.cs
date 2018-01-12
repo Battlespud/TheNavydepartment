@@ -7,36 +7,28 @@ using System.Text;
 [Serializable]
 public class DialogLine
 {
-
-    public static Dictionary<string,DialogLine> DialogByLineID = new Dictionary<string, DialogLine>();
-
-    
-    public string LineID; //ID of this line
+    public static Dictionary<string, DialogLine> DialogByLineID = new Dictionary<string, DialogLine>();
 
     public string DialogString;
-
+    public string LineID; //ID of this 
     public string SpeakerID;
     public MoodTypes SpeakerMood;
-
-    public List<KeyValuePair<string,MoodTypes>> Targets = new List<KeyValuePair<string, MoodTypes>>();
+    public List<KeyValuePair<string, MoodTypes>> TargetMoods;
 
     #region Responses Only
-    
-    //What the npc will say next 
-    public string PassTarget;           
+    //what the npc will say next
+    public string PassTarget;
     public string FailTarget;
     public string CritFailTarget;
-    
     //Requirement Fail        // if <= this condition, but > CritFail, failure.
     //Requirement CritFail   //If <= this condition, critical failure.
     //Requirement Available //Will this show up as an available response?
     #endregion Responses Only
-    
-    
+
     #region NPC Only
     public List<string> PossibleResponses = new List<string>();
     #endregion
-    
+
     public string GetDialog()
     {
         StringBuilder sb = new StringBuilder();
@@ -99,6 +91,25 @@ public class DialogLine
         return true;
     }
 
+    public DialogLine()
+    {
+        TargetMoods = new List<KeyValuePair<string, MoodTypes>>();
+    }//end of ctor()
+
+    public DialogLine(string thisID) : this() //ctor chain, after using DialogLine(string thisID) ctor, it goes to the parameterless ctor to init TargetMoods list
+    {
+        LineID = thisID;
+
+        try
+        {
+            DialogByLineID.Add(LineID, this);
+        }
+        catch
+        {
+            Debug.LogError("Duplicate LineID: " + LineID);
+        }
+    }//end of ctor(string thisID)
+
     public override string ToString()
     {
         StringBuilder responses = new StringBuilder();
@@ -108,21 +119,4 @@ public class DialogLine
         }
         return string.Format("LineID: {0}\n{1}:\tHello{2}, {3}.\nHere are your possible responses:\n{4}", LineID, SpeakerID, "TargetID", DialogString, responses.ToString());
     }//end of ToString override
-    
-    public DialogLine(string thisID)
-    {
-        LineID = thisID;
-
-        try
-        {
-            DialogByLineID.Add(LineID,this);
-       }
-      catch
-        {
-           Debug.LogError("Duplicate LineID: " + LineID);
-       }
-    }
-    public DialogLine()
-    {
-    }
 }

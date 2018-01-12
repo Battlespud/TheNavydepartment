@@ -38,20 +38,24 @@ public class DialogController : MonoBehaviour
     void Start()
     {
 	    Clean();
-    //   LoadLine(GetDialog("PlayerGreetsSasha"));
-	    DialogLine f = new DialogLine("test01");
-	    f.SetDialog("Testing Testing 123 Testing! It's me, [Player]!");
-	    f.PossibleResponses.Add("test02");
-	    f.SpeakerID = "Player";
-	    f.Targets= new List<KeyValuePair<string, MoodTypes>>(){new KeyValuePair<string, MoodTypes>("Player", MoodTypes.Happy)};
-	    f.SpeakerMood = MoodTypes.Angry;
-		
-	    DialogLine g = new DialogLine("test02");
-	    g.SpeakerID = "Player";
-	    g.SetDialog("Wow it worked!");
-	    g.SpeakerMood = MoodTypes.Happy;
-		
-	    LoadLine(GetDialog("test01"));
+        LoadLine(GetDialog("PlayerGreetsSasha"));
+    }
+
+    void ChrisTestingDialog()
+    {
+        DialogLine f = new DialogLine("test01");
+        f.SetDialog("Testing Testing 123 Testing! It's me, [Player]!");
+        f.PossibleResponses.Add("test02");
+        f.SpeakerID = "Player";
+        f.TargetMoods = new List<KeyValuePair<string, MoodTypes>>() { new KeyValuePair<string, MoodTypes>("Player", MoodTypes.Happy) };
+        f.SpeakerMood = MoodTypes.Angry;
+
+        DialogLine g = new DialogLine("test02");
+        g.SpeakerID = "Player";
+        g.SetDialog("Wow it worked!");
+        g.SpeakerMood = MoodTypes.Happy;
+
+        LoadLine(GetDialog("test01"));
     }
 
 	DialogLine GetDialog(string lineID)
@@ -123,7 +127,7 @@ public class DialogController : MonoBehaviour
 		catch{Debug.LogError("Something went wrong with assigning speaker sprites.");}
 
 		int targets = 0;
-		foreach (var t in Line.Targets)
+		foreach (var t in Line.TargetMoods)
 		{
 			Character c = Character.GetCharacter(t.Key);
 			Sprite sprite = c.GetSprite((t.Value));
