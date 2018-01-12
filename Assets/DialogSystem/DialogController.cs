@@ -32,20 +32,10 @@ public class DialogController : MonoBehaviour
 		Controller = this;
 	}
 
-	// Use this for initialization
-	void Start () {
-        //DialogLine f = new DialogLine("test01");
-        //f.SetDialog("Testing Testing 123 Testing! It's me, [Player]!");
-        //f.PossibleResponses.Add("test02");
-        //f.SpeakerID = "Player";
-        //f.SpeakerMood = MoodTypes.Angry;
-
-        //DialogLine g = new DialogLine("test02");
-        //g.SpeakerID = "Player";
-        //g.SetDialog("Wow it worked!");
-        //g.SpeakerMood = MoodTypes.Happy;
-        //LoadLine(GetDialog("test01"));
-        LoadLine(GetDialog("PlayerMeetsTanya"));
+    // Use this for initialization
+    void Start()
+    {
+        LoadLine(GetDialog("PlayerGreetsSasha"));
     }
 
 	DialogLine GetDialog(string lineID)

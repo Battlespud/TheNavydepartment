@@ -1,0 +1,72 @@
+[
+DialogString:Fuck you that is all I'm gonna say blyad'
+LineID:PlayerGreetsSasha
+SpeakerID:Player
+TargetID:Sasha
+PassTarget:You passed the target
+FailTarget:You failed the target
+CriticalFailTarget:Critically failed target because you're absofuckingletely retarded
+Responses
+{
+SashaFlipsOffPlayer
+SashaAnalRapesPlayer
+SashaSubtmitsToSasha
+}
+Fail://data format for Requirement goes here
+CriticalFail://data format for Requirement goes here
+Available://data format for Requirement goes here
+]
+[
+DialogString:You're a fucking white maaaaaale
+LineID:SashaFlipsOffPlayer
+SpeakerID:Sasha
+TargetID:Player
+PassTarget:You passed the target
+FailTarget:You failed the target
+CriticalFailTarget:Critically failed target because you're absofuckingletely retarded
+Responses
+{
+lineID1//placeholders
+lineID2
+lineID3
+}
+Fail://data format for Requirement goes here
+CriticalFail://data format for Requirement goes here
+Available://data format for Requirement goes here
+]
+[
+DialogString:No land for heteros
+LineID:SashaAnalRapesPlayer
+SpeakerID:Sasha
+TargetID:Player
+PassTarget:You passed the target
+FailTarget:You failed the target
+CriticalFailTarget:Critically failed target because you're absofuckingletely retarded
+Responses
+{
+lineID1
+lineID2
+lineID3
+}
+Fail://data format for Requirement goes here
+CriticalFail://data format for Requirement goes here
+Available://data format for Requirement goes here
+]
+[
+DialogString:I'm gay, fuck me please
+LineID:SashaSubtmitsToSasha
+SpeakerID:Sasha
+TargetID:Player
+PassTarget:You passed the target
+FailTarget:You failed the target
+CriticalFailTarget:Critically failed target because you're absofuckingletely retarded
+Responses
+{
+lineID1
+lineID2
+lineID3
+}
+Fail://data format for Requirement goes here
+CriticalFail://data format for Requirement goes here
+Available://data format for Requirement goes here
+]
