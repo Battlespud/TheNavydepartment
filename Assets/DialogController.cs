@@ -64,13 +64,9 @@ public class DialogController : MonoBehaviour
 		});
 		LeftSprite.sprite = null;
 		Character speaker = Character.GetCharacter(Line.SpeakerID);
-		try
-		{
-			Sprite speakerSprite = speaker.GetSprite((Line.SpeakerMood));
-			if (speakerSprite)
-				LeftSprite.sprite = speakerSprite;
-		}
-		catch{}
+		Sprite speakerSprite = speaker.GetSprite((Line.SpeakerMood));
+		if (speakerSprite)
+			LeftSprite.sprite = speakerSprite;
 		SpeakerText.text = Character.CharactersByID[Line.SpeakerID].CharacterName;
 		DialogText.text = Line.GetDialog();
 		int counter = 0;
@@ -90,6 +86,7 @@ public class DialogController : MonoBehaviour
 				c.Assign(D);
 			}
 		});
+<<<<<<< HEAD:Assets/DialogSystem/DialogController.cs
 		if (Line.PossibleResponses.Count < 1 && Line.SpeakerID == "Player")
 		{
 			GameObject g = Instantiate(ResponseButtonPrefab, DialogParent.transform);
@@ -116,6 +113,8 @@ public class DialogController : MonoBehaviour
 	{
 		Clean();
 		Hide(true);
+=======
+>>>>>>> 0ad35304c5cf51ac03de8e62113869e147e1772c:Assets/DialogController.cs
 	}
 
 	public void Respond(DialogLine response)

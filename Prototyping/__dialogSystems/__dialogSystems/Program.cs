@@ -227,6 +227,10 @@ namespace __dialogSystems
         public List<string> PossibleResponses = new List<string>();
         #endregion
 
+        /// <summary>
+        /// Really just a debug format
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             StringBuilder responses = new StringBuilder();

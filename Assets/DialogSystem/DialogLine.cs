@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-[Serializable]
 public class DialogLine
 {
 
     public static Dictionary<string,DialogLine> DialogByID = new Dictionary<string, DialogLine>();
 
-    
     public string LineID; //ID of this line
 
     string Dialog;
