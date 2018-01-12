@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
@@ -22,6 +23,9 @@ public class DialogLine
     public string FailTarget;
     public string CritFailTarget;
 
+    public MoodTypes SpeakerMood;
+    public MoodTypes TargetMood;
+    
     //Requirement Fail        // if <= this condition, but > CritFail, failure.
     //Requirement CritFail   //If <= this condition, critical failure.
     //Requirement Available //Will this show up as an available response?
@@ -52,21 +56,24 @@ public class DialogLine
         {
             Debug.LogError("Invalid Speaker ID: " + SpeakerID);
         }
-        try
+        if (!String.IsNullOrEmpty(TargetID))
         {
-            sb.Replace("[Target]", Character.CharactersByID[TargetID].CharacterName);
-        }
-        catch
-        {
-            Debug.LogError("Invalid Target ID: " + TargetID);
-        }
-        try
-        {
-            sb.Replace("[TargetShort]", Character.CharactersByID[TargetID].CharacterNameShort);
-        }
-        catch
-        {
-            Debug.LogError("Invalid Target ID: " + TargetID);
+            try
+            {
+                sb.Replace("[Target]", Character.CharactersByID[TargetID].CharacterName);
+            }
+            catch
+            {
+                Debug.LogError("Invalid Target ID: " + TargetID);
+            }
+            try
+            {
+                sb.Replace("[TargetShort]", Character.CharactersByID[TargetID].CharacterNameShort);
+            }
+            catch
+            {
+                Debug.LogError("Invalid Target ID: " + TargetID);
+            }
         }
         try
         {
@@ -74,11 +81,20 @@ public class DialogLine
         }
         catch
         {
-            Debug.LogError("Invalid Target ID: " + "Player");
+            Debug.LogError("Invalid Player ID: " + "Player");
         }
         return sb.ToString();
     }
 
+    public void SetDialog(string s)
+    {
+        Dialog = s;
+    }
+    public bool IsAvailable()
+    {
+        //TODO Evaluate AvailableReq
+        return true;
+    }
 
 
     public DialogLine(string thisID)
