@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\CJ\.Rider2017.2\system\resharper-host\local\Transient\ReSharperHost\v10\SolutionCaches\_The Navy Department.-1748074372.00" t="ExcludeRecursive" />
+    <e p="G:\Unity\Navy\The Navy Department" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Design.txt" t="Include" />
+        <e p="FreeParallax" t="Include">
+          <e p="Readme.txt" t="Include" />
+          <e p="Scripts" t="Include">
+            <e p="FreeParallax.cs" t="Include" />
+            <e p="FreeParallaxDemo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+      <e p="The Navy Department.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>

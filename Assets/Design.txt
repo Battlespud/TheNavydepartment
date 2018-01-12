@@ -1,0 +1,79 @@
+Design Doc
+
+
+Scenes:
+
+Splash
+	Desk with chair and computer in front of window looking out onto space, stars fade in and out.
+	
+Main Menu 
+	Zoom effect to computer screen, we can use a worldspace canvas at extreme scaling for this.
+		New Game
+		Continue
+		Options
+		Exit
+	
+Desk
+
+
+
+NPC:
+
+	Capt. Tanya
+		Female navy captain obsessed with explosions.
+		Pushes for more ships, more boom etc
+		
+	Ambassador Cyka
+		Tries to make you collude
+		Entirely unsubtle
+		Drinks heavily
+		
+	Admiral Moltker
+		Doesnt actually want to be an admiral
+		Uses player as a way to not do his job.
+		Entirely incompetent
+		Frequently recites entirely unrelated quotes from military history.
+		Always sadboi
+		Basically our tool for giving the player way more influence than they should reasonably have
+		
+	Colonel Dethgore
+		Actually wants to be a general
+		Pushes for less ships and more army
+		
+	Doctor _SomethingRussian_
+		Constantly proposes superweapon ideas when drunk
+		Player's drinking buddy.
+		Can divert funds towards his projects
+		
+	President  Topslee (Actually Trotsky)
+		secret russian
+		Hates anything related to icepicks
+		Constantly references revolutions
+		Pushes for funding for his secret pluto prison: Project Australia.
+
+
+
+Player Character:
+	Low level bureacrat
+	Background
+		Engineer - Ships are slightly cheaper
+		Psychiatrist - Can prescribe meds, "I'm feeling so attacked right now"
+	Stats
+		Charisma - Determines success convincing people of things
+		Intelligence - Opens up better
+		Strength
+		Endurance - Action points per turn
+		
+		
+		
+		
+Gameplay:
+	Divided into discrete turns
+		News Report gives information relevant to last turns results and hints for this turn
+		Player divides up funds for the turn between various interests
+		-> Approached by one of the NPC and dialog affects funding or relationship
+		
+	
+	
+Turn 1:
+	Tutorial
