@@ -7,12 +7,14 @@
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="Debugger.cs" t="Include" />
         <e p="Design.txt" t="Include" />
         <e p="DialogFormattingDesign.txt" t="Include" />
         <e p="DialogSystem" t="Include">
           <e p="Character.cs" t="Include" />
           <e p="DialogController.cs" t="Include" />
           <e p="DialogLine.cs" t="Include" />
+          <e p="DialogLoader.cs" t="Include" />
           <e p="ResponseButtonController.cs" t="Include" />
         </e>
         <e p="Plugins" t="Include">
@@ -132,6 +134,12 @@
                 <e p="UIWindowManager.cs" t="Include" />
               </e>
             </e>
+          </e>
+        </e>
+        <e p="StreamingAssets" t="Include">
+          <e p="Dialogs" t="Include">
+            <e p="DialogSamples.txt" t="Include" />
+            <e p="SingleSampleDialog.txt" t="Include" />
           </e>
         </e>
         <e p="Thread Ninja" t="Include">

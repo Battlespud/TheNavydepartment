@@ -69,8 +69,8 @@ public class DialogController : MonoBehaviour
 		catch{}
 		SpeakerText.text = Character.CharactersByID[Line.SpeakerID].CharacterName;
 		DialogText.text = Line.GetDialog();
-		int counter = 0;
-		float offset = 1.1f;
+		int counter = 2;
+		float offset = 100;
 		Line.PossibleResponses.ForEach(x =>
 		{
 			DialogLine D = null;
@@ -81,16 +81,18 @@ public class DialogController : MonoBehaviour
 			{
 				GameObject g = Instantiate(ResponseButtonPrefab, DialogParent.transform);
 				RectTransform r = g.GetComponent<RectTransform>();
-				r.anchoredPosition = new Vector2(ResponseButtonStartingTransform.anchoredPosition.x, ResponseButtonStartingTransform.anchoredPosition.y-r.sizeDelta.y*offset);
+				r.anchoredPosition = new Vector2(ResponseButtonStartingTransform.anchoredPosition.x, ResponseButtonStartingTransform.anchoredPosition.y-(counter*offset));
 				ResponseButtonController c = g.GetComponent<ResponseButtonController>();
 				c.Assign(D);
 			}
+			counter++;
+
 		});
 		if (Line.PossibleResponses.Count < 1 && Line.SpeakerID == "Player")
 		{
 			GameObject g = Instantiate(ResponseButtonPrefab, DialogParent.transform);
 			RectTransform r = g.GetComponent<RectTransform>();
-			r.anchoredPosition = new Vector2(ResponseButtonStartingTransform.anchoredPosition.x, ResponseButtonStartingTransform.anchoredPosition.y-r.sizeDelta.y*offset);
+			r.anchoredPosition = new Vector2(ResponseButtonStartingTransform.anchoredPosition.x, ResponseButtonStartingTransform.anchoredPosition.y-counter*offset);
 			ResponseButtonController c = g.GetComponent<ResponseButtonController>();
 			c.AssignEnd();
 		}

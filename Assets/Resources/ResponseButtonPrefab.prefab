@@ -60,6 +60,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b23a6c3c348e7f4f8c2921cfb971250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Line:
+    LineID: 
+    DialogString: 
+    SpeakerID: 
+    TargetID: 
+    PassTarget: 
+    FailTarget: 
+    CritFailTarget: 
+    SpeakerMood: 0
+    TargetMood: 0
+    PossibleResponses: []
   text: {fileID: 114823531649414526}
 --- !u!114 &114147743895931524
 MonoBehaviour:
