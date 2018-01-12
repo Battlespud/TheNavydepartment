@@ -1,0 +1,55 @@
+//actual layout, referred to simply as line
+//each line is analogous to a DialogLine instance
+DialogString:"some bullshit text goes here"\n
+LineID:"Sasha bullshits Vadim"\n
+SpeakerID:"Sasha"\n
+TargetID:"Vadim"\n
+PassTarget:"Passed target"\n
+FailTarget:"Failed target"\n
+CriticalFailTarget:"Critically failed target because you're absofuckingletely retarded"\n
+Responses
+{
+	1:"Response one"\n
+	2:"Response two"\n
+	3:"Response three"\n
+}
+Fail://data format for Requirement goes here
+CriticalFail://data format for Requirement goes here
+Available://data format for Requirement goes here
+
+//implicit data type layout
+string:
+string:
+string:
+string:
+string:
+string:
+string:
+List<string>:
+Requirement:
+Requirement:
+Requirement:
+
+//Condensed implicit data type layout will be string: x 7; List<string> x 1 requirement: x 3
+//because the format will be consistently 7, 1 and 3, we dont actually need to check data type
+
+Sample line:
+
+DialogString:"I'm Vadim, Welcome to the ship yobanyj urod"
+LineID:"VadimWelcomesPlayer"
+SpeakerID:"Vadim"
+TargetID:"Player"
+PassTarget:"Congrats, you don't absolutely suck at life"
+FailTarget:"You some how managed to fail the first dialog, how?"
+CriticalFailTarget:"You actually are retarded, you lost the game and you didn't even start, nu poshel suka"
+Responses
+{
+1:"Thanks I'm glad to be here, kill yourself"
+2:"I'm with her H-> hurrrrrrrrrrrrrrrrrrrrrrr"
+3:"NUUUUUUUUUU EBANYJ UROD POSHEL OTSYUDA CYKA, NO GDE TVAYA MAT', U VAS RABOTY, UNIVERSITET POKHODISH'?? NU CHTO?"
+4:"I'm a straight white male, please hire me."
+5:"I only identify as a gay transexual non binary gender fluid toad"
+}
+//Fail
+//CriticalFail
+//Available
