@@ -29,7 +29,7 @@ public class ResponseButtonController : MonoBehaviour
 
 	public void Respond()
 	{
-		if(Line != null)
+		if(text.text != "<End Conversation>")
 			DialogController.Controller.Respond(Line);
 		else
 			DialogController.Controller.EndConversation();

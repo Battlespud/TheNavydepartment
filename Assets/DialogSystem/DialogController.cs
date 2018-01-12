@@ -114,6 +114,7 @@ public class DialogController : MonoBehaviour
 	
 	public void EndConversation()
 	{
+		Clean();
 		Hide(true);
 	}
 
