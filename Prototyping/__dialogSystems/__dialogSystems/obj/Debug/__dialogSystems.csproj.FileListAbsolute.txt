@@ -1,0 +1,7 @@
+F:\GitHub\TheNavydepartment\Prototyping\__dialogSystems\__dialogSystems\bin\Debug\__dialogSystems.exe.config
+F:\GitHub\TheNavydepartment\Prototyping\__dialogSystems\__dialogSystems\bin\Debug\__dialogSystems.exe
+F:\GitHub\TheNavydepartment\Prototyping\__dialogSystems\__dialogSystems\bin\Debug\__dialogSystems.pdb
+F:\GitHub\TheNavydepartment\Prototyping\__dialogSystems\__dialogSystems\obj\Debug\__dialogSystems.csprojResolveAssemblyReference.cache
+F:\GitHub\TheNavydepartment\Prototyping\__dialogSystems\__dialogSystems\obj\Debug\__dialogSystems.csproj.CoreCompileInputs.cache
+F:\GitHub\TheNavydepartment\Prototyping\__dialogSystems\__dialogSystems\obj\Debug\__dialogSystems.exe
+F:\GitHub\TheNavydepartment\Prototyping\__dialogSystems\__dialogSystems\obj\Debug\__dialogSystems.pdb
