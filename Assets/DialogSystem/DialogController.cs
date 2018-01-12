@@ -12,9 +12,11 @@ public class DialogController : MonoBehaviour
 	public GameObject DialogParent;
 	public GameObject ResponseButtonPrefab;
 
-	public Image LeftSprite;
-	public Image RightSprite;
-
+	public ImageHandler LeftSprite;
+	public ImageHandler RightSprite;
+	public ImageHandler InnerLeftSprite;
+	public ImageHandler InnerRightSprite;
+	
 	public Text SpeakerText;
 	public Text DialogText;
 
@@ -35,7 +37,21 @@ public class DialogController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        LoadLine(GetDialog("PlayerGreetsSasha"));
+	    Clean();
+    //   LoadLine(GetDialog("PlayerGreetsSasha"));
+	    DialogLine f = new DialogLine("test01");
+	    f.SetDialog("Testing Testing 123 Testing! It's me, [Player]!");
+	    f.PossibleResponses.Add("test02");
+	    f.SpeakerID = "Player";
+	    f.Targets= new List<KeyValuePair<string, MoodTypes>>(){new KeyValuePair<string, MoodTypes>("Player", MoodTypes.Angry),new KeyValuePair<string, MoodTypes>("Player", MoodTypes.Happy),new KeyValuePair<string, MoodTypes>("Player", MoodTypes.Happy)};
+	    f.SpeakerMood = MoodTypes.Angry;
+		
+	    DialogLine g = new DialogLine("test02");
+	    g.SpeakerID = "Player";
+	    g.SetDialog("Wow it worked!");
+	    g.SpeakerMood = MoodTypes.Happy;
+		
+	    LoadLine(GetDialog("test01"));
     }
 
 	DialogLine GetDialog(string lineID)
@@ -58,15 +74,11 @@ public class DialogController : MonoBehaviour
 		{
 			Destroy(x);
 		});
-		LeftSprite.sprite = null;
+		ResponseButtons.Clear();
+
+		AssignSprites(Line);
 		Character speaker = Character.GetCharacter(Line.SpeakerID);
-		try
-		{
-			Sprite speakerSprite = speaker.GetSprite((Line.SpeakerMood));
-			if (speakerSprite)
-				LeftSprite.sprite = speakerSprite;
-		}
-		catch{}
+		
 		SpeakerText.text = Character.CharactersByID[Line.SpeakerID].CharacterName;
 		DialogText.text = Line.GetDialog();
 		float counter = 1.8f;
@@ -98,16 +110,88 @@ public class DialogController : MonoBehaviour
 		}
 	}
 
+	private void AssignSprites(DialogLine Line)
+	{
+		Character speaker = Character.GetCharacter(Line.SpeakerID);
+
+		try
+		{
+			Sprite speakerSprite = speaker.GetSprite((Line.SpeakerMood));
+			if (speakerSprite)
+				LeftSprite.Assign(speakerSprite, speaker);
+		}
+		catch{Debug.LogError("Something went wrong with assigning speaker sprites.");}
+
+		int targets = 0;
+		foreach (var t in Line.Targets)
+		{
+			Character c = Character.GetCharacter(t.Key);
+			Sprite sprite = c.GetSprite((t.Value));
+			if (sprite)
+			{
+
+				if (ImageHandler.CharacterIsOnscreen(c))
+				{
+					ImageHandler h = ImageHandler.GetCharacterImageHandler(c);
+					h.Assign(sprite,c);
+				}
+
+				else
+				{
+					switch (targets)
+					{
+						case(0):
+						{
+							if (RightSprite.C != null)
+							{
+								goto case 1;
+							}
+							RightSprite.Assign(sprite, c);
+							break;
+						}
+						case(1):
+						{
+							if (InnerRightSprite.C != null)
+							{
+								goto case 2;
+							}
+							InnerRightSprite.Assign(sprite, c);
+							break;
+						}
+						case(2):
+						{
+							if (InnerLeftSprite.C != null)
+							{
+								goto default;
+							}
+							InnerLeftSprite.Assign(sprite, c);
+							break;
+						}
+						default:
+						{
+							Debug.LogError(
+								string.Format("Dialog Line [{0}] has too many targets and not all will be displayed", Line.LineID));
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	void Clean()
 	{
-		LeftSprite.sprite = null;
-		RightSprite.sprite = null;
+		LeftSprite.Unassign();
+		RightSprite.Unassign();
+		InnerLeftSprite.Unassign();
+		InnerRightSprite.Unassign();
 		SpeakerText.text = "";
 		DialogText.text = "";
 		ResponseButtons.ForEach(x =>
 		{
 			Destroy(x);
 		});
+		ResponseButtons.Clear();
 	}
 	
 	public void EndConversation()

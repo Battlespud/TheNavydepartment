@@ -17,6 +17,7 @@
           <e p="DialogLoader.cs" t="Include" />
           <e p="ResponseButtonController.cs" t="Include" />
         </e>
+        <e p="ImageHandler.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="Editor" t="Include">
             <e p="JetBrains" t="Include">

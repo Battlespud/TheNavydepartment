@@ -16,7 +16,9 @@ public class DialogLine
     public string DialogString;
 
     public string SpeakerID;
-    public string TargetID;
+    public MoodTypes SpeakerMood;
+
+    public List<KeyValuePair<string,MoodTypes>> Targets = new List<KeyValuePair<string, MoodTypes>>();
 
     #region Responses Only
     
@@ -24,9 +26,6 @@ public class DialogLine
     public string PassTarget;           
     public string FailTarget;
     public string CritFailTarget;
-
-    public MoodTypes SpeakerMood;
-    public MoodTypes TargetMood;
     
     //Requirement Fail        // if <= this condition, but > CritFail, failure.
     //Requirement CritFail   //If <= this condition, critical failure.
@@ -58,6 +57,7 @@ public class DialogLine
         {
             Debug.LogError("Invalid Speaker ID: " + SpeakerID);
         }
+        /*
         if (!String.IsNullOrEmpty(TargetID))
         {
             try
@@ -77,6 +77,7 @@ public class DialogLine
                 Debug.LogError("Invalid Target ID: " + TargetID);
             }
         }
+        */
         try
         {
             sb.Replace("[Player]", Character.CharactersByID["Player"].CharacterName);
@@ -98,25 +99,6 @@ public class DialogLine
         return true;
     }
 
-
-    //public DialogLine(string thisID)
-    //{
-    //    LineID = thisID;
-
-    //    try
-    //    {
-    //        DialogByLineID.Add(LineID,this);
-    //    }
-    //    catch
-    //    {
-    //        Debug.LogError("Duplicate LineID: " + LineID);
-    //    }
-    //}
-
-    /// <summary>
-    /// Really just a debug format
-    /// </summary>
-    /// <returns></returns>
     public override string ToString()
     {
         StringBuilder responses = new StringBuilder();
@@ -124,6 +106,23 @@ public class DialogLine
         {
             responses.AppendLine(PossibleResponses[i]);
         }
-        return string.Format("LineID: {0}\n{1}:\tHello{2}, {3}.\nHere are your possible responses:\n{4}", LineID, SpeakerID, TargetID, DialogString, responses.ToString());
+        return string.Format("LineID: {0}\n{1}:\tHello{2}, {3}.\nHere are your possible responses:\n{4}", LineID, SpeakerID, "TargetID", DialogString, responses.ToString());
     }//end of ToString override
+    
+    public DialogLine(string thisID)
+    {
+        LineID = thisID;
+
+        try
+        {
+            DialogByLineID.Add(LineID,this);
+       }
+      catch
+        {
+           Debug.LogError("Duplicate LineID: " + LineID);
+       }
+    }
+    public DialogLine()
+    {
+    }
 }

@@ -87,7 +87,7 @@ public static class DialogLoader
                                         buffer.SpeakerID = raw;
                                         break;
                                     case ChunkIdentifierTypes.TargetID:
-                                        buffer.TargetID = raw;
+//TODO                                        buffer.TargetID = raw;
                                         break;
                                     case ChunkIdentifierTypes.PassTarget:
                                         buffer.PassTarget = raw;
@@ -102,7 +102,7 @@ public static class DialogLoader
                                         buffer.SpeakerMood = (MoodTypes)Enum.Parse(typeof(MoodTypes), raw);
                                         break;
                                     case ChunkIdentifierTypes.TargetMood:
-                                        buffer.TargetMood = (MoodTypes)Enum.Parse(typeof(MoodTypes), raw);
+//TODO                                        buffer.TargetMood = (MoodTypes)Enum.Parse(typeof(MoodTypes), raw);
                                         break;
                                     case ChunkIdentifierTypes.Responses:
                                         bool isStartOfResponseBlock = true;
