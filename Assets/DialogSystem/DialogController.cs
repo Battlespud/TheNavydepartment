@@ -18,6 +18,8 @@ public class DialogController : MonoBehaviour
 	public Text SpeakerText;
 	public Text DialogText;
 
+	public GameObject TextBoxes;
+
 
 	public RectTransform ResponseButtonStartingTransform;
 	public List<GameObject> ResponseButtons;
@@ -52,7 +54,10 @@ public class DialogController : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetKeyDown(KeyCode.H))
+		{
+			HideText(TextBoxes.active);
+		}
 	}
 
 
@@ -127,5 +132,10 @@ public class DialogController : MonoBehaviour
 	public void Hide(bool b)
 	{
 		DialogParent.SetActive(!b);
+	}
+
+	public void HideText(bool b)
+	{
+		TextBoxes.SetActive(!b);
 	}
 }
