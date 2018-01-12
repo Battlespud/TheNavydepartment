@@ -8,12 +8,12 @@ using System.Text;
 public class DialogLine
 {
 
-    public static Dictionary<string,DialogLine> DialogByID = new Dictionary<string, DialogLine>();
+    public static Dictionary<string,DialogLine> DialogByLineID = new Dictionary<string, DialogLine>();
 
     
     public string LineID; //ID of this line
 
-    string Dialog;
+    public string DialogString;
 
     public string SpeakerID;
     public string TargetID;
@@ -41,7 +41,7 @@ public class DialogLine
     public string GetDialog()
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(Dialog);
+        sb.Append(DialogString);
         try
         {
             sb.Replace("[Speaker]", Character.CharactersByID[SpeakerID].CharacterName);
@@ -90,7 +90,7 @@ public class DialogLine
 
     public void SetDialog(string s)
     {
-        Dialog = s;
+        DialogString = s;
     }
     public bool IsAvailable()
     {
@@ -99,18 +99,31 @@ public class DialogLine
     }
 
 
-    public DialogLine(string thisID)
+    //public DialogLine(string thisID)
+    //{
+    //    LineID = thisID;
+
+    //    try
+    //    {
+    //        DialogByLineID.Add(LineID,this);
+    //    }
+    //    catch
+    //    {
+    //        Debug.LogError("Duplicate LineID: " + LineID);
+    //    }
+    //}
+
+    /// <summary>
+    /// Really just a debug format
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
     {
-        LineID = thisID;
-
-        try
+        StringBuilder responses = new StringBuilder();
+        for (int i = 0; i < PossibleResponses.Count; i++)
         {
-            DialogByID.Add(LineID,this);
+            responses.AppendLine(PossibleResponses[i]);
         }
-        catch
-        {
-            Debug.LogError("Duplicate LineID: " + LineID);
-        }
-    }
-
+        return string.Format("LineID: {0}\n{1}:\tHello{2}, {3}.\nHere are your possible responses:\n{4}", LineID, SpeakerID, TargetID, DialogString, responses.ToString());
+    }//end of ToString override
 }

@@ -54,15 +54,14 @@ namespace __dialogSystems
 
     public static class DialogLoader
     {
-        static Dictionary<ChunkFormatTypes, int> ChunkFormat;
-        enum ChunkFormatTypes //local enum
-        {
-            String,
-            MoodTypes,
-            ListString,
-            Requirements
-        }//end of ChunkFormatTypes
-
+        //static Dictionary<ChunkFormatTypes, int> ChunkFormat;
+        //enum ChunkFormatTypes //local enum
+        //{
+        //    String,
+        //    MoodTypes,
+        //    ListString,
+        //    Requirements
+        //}//end of ChunkFormatTypes
         enum ChunkIdentifierTypes
         {
             DialogString,
@@ -78,7 +77,7 @@ namespace __dialogSystems
             Fail,
             CriticalFail,
             Available
-        }
+        }//end of ChunkIdentifierTypes
 
         public static void PopulateDialogLines()
         {
@@ -215,18 +214,23 @@ namespace __dialogSystems
         public string PassTarget;
         public string FailTarget;
         public string CritFailTarget;
+        public MoodTypes SpeakerMood;
+        public MoodTypes TargetMood;
         //Requirement Fail        // if <= this condition, but > CritFail, failure.
         //Requirement CritFail   //If <= this condition, critical failure.
         //Requirement Available //Will this show up as an available response?
         #endregion Responses Only
 
-        public MoodTypes SpeakerMood;
-        public MoodTypes TargetMood;
+
 
         #region NPC Only
         public List<string> PossibleResponses = new List<string>();
         #endregion
 
+        /// <summary>
+        /// Really just a debug format
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             StringBuilder responses = new StringBuilder();
@@ -235,6 +239,6 @@ namespace __dialogSystems
                 responses.AppendLine(PossibleResponses[i]);
             }
             return string.Format("LineID: {0}\n{1}:\tHello{2}, {3}.\nHere are your possible responses:\n{4}", LineID, SpeakerID, TargetID, DialogString, responses.ToString());
-        }
+        }//end of ToString override
     }//end of class
 }//end of namespace

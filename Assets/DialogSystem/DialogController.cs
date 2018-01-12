@@ -26,30 +26,31 @@ public class DialogController : MonoBehaviour
 
 	private void Awake()
 	{
-		if(Controller != null)
+        DialogLoader.Initialize(Application.streamingAssetsPath);
+        if (Controller != null)
 			Debug.LogError("Multiple Dialogcontrollers Found");
 		Controller = this;
 	}
 
 	// Use this for initialization
 	void Start () {
-		DialogLine f = new DialogLine("test01");
-		f.SetDialog("Testing Testing 123 Testing! It's me, [Player]!");
-		f.PossibleResponses.Add("test02");
-		f.SpeakerID = "Player";
-		f.SpeakerMood = MoodTypes.Angry;
-		
-		DialogLine g = new DialogLine("test02");
-		g.SpeakerID = "Player";
-		g.SetDialog("Wow it worked!");
-		g.SpeakerMood = MoodTypes.Happy;
-		
-		LoadLine(GetDialog("test01"));
-	}
+        //DialogLine f = new DialogLine("test01");
+        //f.SetDialog("Testing Testing 123 Testing! It's me, [Player]!");
+        //f.PossibleResponses.Add("test02");
+        //f.SpeakerID = "Player";
+        //f.SpeakerMood = MoodTypes.Angry;
 
-	DialogLine GetDialog(string s)
+        //DialogLine g = new DialogLine("test02");
+        //g.SpeakerID = "Player";
+        //g.SetDialog("Wow it worked!");
+        //g.SpeakerMood = MoodTypes.Happy;
+        //LoadLine(GetDialog("test01"));
+        LoadLine(GetDialog("PlayerMeetsTanya"));
+    }
+
+	DialogLine GetDialog(string lineID)
 	{
-		return DialogLine.DialogByID[s];
+		return DialogLine.DialogByLineID[lineID];
 	}
 	
 	// Update is called once per frame
@@ -83,7 +84,7 @@ public class DialogController : MonoBehaviour
 		Line.PossibleResponses.ForEach(x =>
 		{
 			DialogLine D = null;
-			try{D = DialogLine.DialogByID[x];}catch{
+			try{D = DialogLine.DialogByLineID[x];}catch{
 				Debug.LogError("Invalid LineID: " + x);
 			}
 			if (D.IsAvailable())

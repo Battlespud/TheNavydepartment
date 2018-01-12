@@ -1,0 +1,88 @@
+[ //denotes chunk
+DialogString:I'm Vadim, Welcome to the ship yobanyj urod
+LineID:PlayerMeetsVadim
+SpeakerID:Player
+TargetID:Vadim
+PassTarget:Congrats, you don't absolutely suck at life
+FailTarget:You some how managed to fail the first dialog, how?
+CriticalFailTarget:You actually are retarded, you lost the game and you didn't even start, nu poshel suka
+SpeakerMood:Happy
+TargetMood:Questioning
+Responses# (number of responses)
+{ //denotes variable sized response list
+1:Thanks I'm glad to be here, kill yourself
+2:I'm with her H-> hurrrrrrrrrrrrrrrrrrrrrrr
+3:NUUUUUUUUUU EBANYJ UROD POSHEL OTSYUDA CYKA, NO GDE TVAYA MAT', U VAS RABOTY, UNIVERSITET POKHODISH'?? NU CHTO?
+4:I'm a straight white male, please hire me.
+5:I only identify as a gay transexual non binary gender fluid toad
+}
+//Fail
+//CriticalFail
+//Available
+]
+[ //denotes chunk
+DialogString:I'm Petr, Welcome to the ship yobanyj urod
+LineID:PlayerMeetsPetr
+SpeakerID:Player
+TargetID:Petr
+PassTarget:Congrats, you don't absolutely suck at life
+FailTarget:You some how managed to fail the first dialog, how?
+CriticalFailTarget:You actually are retarded, you lost the game and you didn't even start, nu poshel suka
+SpeakerMood:Angry
+TargetMood:Questioning
+Responses# (number of responses)
+{ //denotes variable sized response list
+1:Thanks I'm glad to be here, kill yourself
+2:I'm with her H-> hurrrrrrrrrrrrrrrrrrrrrrr
+3:NUUUUUUUUUU EBANYJ UROD POSHEL OTSYUDA CYKA, NO GDE TVAYA MAT', U VAS RABOTY, UNIVERSITET POKHODISH'?? NU CHTO?
+4:I'm a straight white male, please hire me.
+5:I only identify as a gay transexual non binary gender fluid toad
+}
+//Fail
+//CriticalFail
+//Available
+]
+[ //denotes chunk
+DialogString:I'm Tanya, Welcome to the ship yobanyj urod
+LineID:PlayerMeetsTanya
+SpeakerID:Player
+TargetID:Tanya
+PassTarget:Congrats, you don't absolutely suck at life
+FailTarget:You some how managed to fail the first dialog, how?
+CriticalFailTarget:You actually are retarded, you lost the game and you didn't even start, nu poshel suka
+SpeakerMood:Sad
+TargetMood:Questioning
+Responses# (number of responses)
+{ //denotes variable sized response list
+1:Thanks I'm glad to be here, kill yourself
+2:I'm with her H-> hurrrrrrrrrrrrrrrrrrrrrrr
+3:NUUUUUUUUUU EBANYJ UROD POSHEL OTSYUDA CYKA, NO GDE TVAYA MAT', U VAS RABOTY, UNIVERSITET POKHODISH'?? NU CHTO?
+4:I'm a straight white male, please hire me.
+5:I only identify as a gay transexual non binary gender fluid toad
+}
+//Fail
+//CriticalFail
+//Available
+]
+[ //denotes chunk
+DialogString:I'm Sasha, Welcome to the ship yobanyj urod
+LineID:PlayerMeetsSasha
+SpeakerID:Player
+TargetID:Sasha
+PassTarget:Congrats, you don't absolutely suck at life
+FailTarget:You some how managed to fail the first dialog, how?
+CriticalFailTarget:You actually are retarded, you lost the game and you didn't even start, nu poshel suka
+SpeakerMood:Neutral
+TargetMood:Questioning
+Responses# (number of responses)
+{ //denotes variable sized response list
+1:Thanks I'm glad to be here, kill yourself
+2:I'm with her H-> hurrrrrrrrrrrrrrrrrrrrrrr
+3:NUUUUUUUUUU EBANYJ UROD POSHEL OTSYUDA CYKA, NO GDE TVAYA MAT', U VAS RABOTY, UNIVERSITET POKHODISH'?? NU CHTO?
+4:I'm a straight white male, please hire me.
+5:I only identify as a gay transexual non binary gender fluid toad
+}
+//Fail
+//CriticalFail
+//Available
+]
