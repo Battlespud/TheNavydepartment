@@ -121,7 +121,8 @@ public static class DialogLoader
                                             }
                                             else
                                             {
-                                                buffer.PossibleResponses.Add(response);
+                                                if(!string.IsNullOrEmpty(response))
+                                                    buffer.PossibleResponses.Add(response);
                                             }
                                         } while (isStartOfResponseBlock);
                                         break;

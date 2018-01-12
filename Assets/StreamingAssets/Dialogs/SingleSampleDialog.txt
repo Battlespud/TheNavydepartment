@@ -26,9 +26,7 @@ FailTarget:You failed the target
 CriticalFailTarget:Critically failed target because you're absofuckingletely retarded
 Responses
 {
-lineID1//placeholders
-lineID2
-lineID3
+
 }
 Fail://data format for Requirement goes here
 CriticalFail://data format for Requirement goes here

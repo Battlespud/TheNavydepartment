@@ -88,7 +88,7 @@ public class DialogController : MonoBehaviour
 			counter++;
 
 		});
-		if (Line.PossibleResponses.Count < 1 && Line.SpeakerID == "Player")
+		if (Line.PossibleResponses.Count < 1)
 		{
 			GameObject g = Instantiate(ResponseButtonPrefab, DialogParent.transform);
 			RectTransform r = g.GetComponent<RectTransform>();
