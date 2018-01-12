@@ -64,9 +64,13 @@ public class DialogController : MonoBehaviour
 		});
 		LeftSprite.sprite = null;
 		Character speaker = Character.GetCharacter(Line.SpeakerID);
-		Sprite speakerSprite = speaker.GetSprite((Line.SpeakerMood));
-		if (speakerSprite)
-			LeftSprite.sprite = speakerSprite;
+		try
+		{
+			Sprite speakerSprite = speaker.GetSprite((Line.SpeakerMood));
+			if (speakerSprite)
+				LeftSprite.sprite = speakerSprite;
+		}
+		catch{}
 		SpeakerText.text = Character.CharactersByID[Line.SpeakerID].CharacterName;
 		DialogText.text = Line.GetDialog();
 		int counter = 0;
@@ -86,6 +90,31 @@ public class DialogController : MonoBehaviour
 				c.Assign(D);
 			}
 		});
+		if (Line.PossibleResponses.Count < 1 && Line.SpeakerID == "Player")
+		{
+			GameObject g = Instantiate(ResponseButtonPrefab, DialogParent.transform);
+			RectTransform r = g.GetComponent<RectTransform>();
+			r.anchoredPosition = new Vector2(ResponseButtonStartingTransform.anchoredPosition.x, ResponseButtonStartingTransform.anchoredPosition.y-r.sizeDelta.y*offset);
+			ResponseButtonController c = g.GetComponent<ResponseButtonController>();
+			c.AssignEnd();
+		}
+	}
+
+	void Clean()
+	{
+		LeftSprite.sprite = null;
+		RightSprite.sprite = null;
+		SpeakerText.text = "";
+		DialogText.text = "";
+		ResponseButtons.ForEach(x =>
+		{
+			Destroy(x);
+		});
+	}
+	
+	public void EndConversation()
+	{
+		Hide(true);
 	}
 
 	public void Respond(DialogLine response)
