@@ -69,8 +69,8 @@ public class DialogController : MonoBehaviour
 		catch{}
 		SpeakerText.text = Character.CharactersByID[Line.SpeakerID].CharacterName;
 		DialogText.text = Line.GetDialog();
-		int counter = 2;
-		float offset = 100;
+		float counter = 1.8f;
+		float offset = 90;
 		Line.PossibleResponses.ForEach(x =>
 		{
 			DialogLine D = null;
