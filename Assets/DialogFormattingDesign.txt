@@ -9,13 +9,14 @@ FailTarget:"Failed target"\n
 CriticalFailTarget:"Critically failed target because you're absofuckingletely retarded"\n
 Responses
 {
-	1:"Response one"\n
-	2:"Response two"\n
-	3:"Response three"\n
+1:lineID
+2:lineID
+3:lineID
 }
 Fail://data format for Requirement goes here
 CriticalFail://data format for Requirement goes here
 Available://data format for Requirement goes here
+IsRoot: true || false
 
 //implicit data type layout
 string:
@@ -29,6 +30,7 @@ List<LineID>:
 Requirement:
 Requirement:
 Requirement:
+bool:
 
 //Condensed implicit data type layout will be string: x 7; List<string> x 1 requirement: x 3
 //because the format will be consistently 7, 1 and 3, we dont actually need to check data type

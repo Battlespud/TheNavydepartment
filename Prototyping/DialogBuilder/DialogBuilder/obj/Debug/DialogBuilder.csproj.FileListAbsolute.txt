@@ -1,0 +1,15 @@
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\bin\Debug\DialogBuilder.exe.config
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\bin\Debug\DialogBuilder.exe
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\bin\Debug\DialogBuilder.pdb
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder.csprojResolveAssemblyReference.cache
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\MainWindow.g.cs
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\App.g.cs
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder_MarkupCompile.cache
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder_MarkupCompile.lref
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\MainWindow.baml
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder.g.resources
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder.Properties.Resources.resources
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder.csproj.GenerateResource.Cache
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder.csproj.CoreCompileInputs.cache
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder.exe
+F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder.pdb
