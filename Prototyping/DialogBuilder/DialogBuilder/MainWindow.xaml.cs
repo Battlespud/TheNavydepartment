@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace DialogBuilder
 {
@@ -20,8 +21,11 @@ namespace DialogBuilder
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<CheckBox> SelectedResponses;
-        public int ResponsesCount;
+        public static DialogLine currentSelection;
+        public static List<TargetMoodPairControl> SelectedTMPs;
+        public static int TMPCount;
+        public static List<CheckBox> SelectedResponses;
+        public static int ResponsesCount;
 
         public MainWindow()
         {
@@ -35,64 +39,70 @@ namespace DialogBuilder
         /// </summary>
         void Initialize()
         {
+            SelectedTMPs = new List<TargetMoodPairControl>();
+            TMPCount = 0;
             SelectedResponses = new List<CheckBox>();
             ResponsesCount = 0;
+            DialogLoader.Initialize();
             InitializeSpeakerIDList();
+            InitializeResponsePanel();
         }
 
         void InitializeSpeakerIDList()
         {
             foreach (var item in Enum.GetValues(typeof(CharacterNames)))
             {
-                SpeakerIDBox.Items.Add(new ComboBoxItem() { Content = item.ToString() });
+                SpeakerIDBox.Items.Add(item);
             }
             SpeakerIDBox.SelectedItem = SpeakerIDBox.Items[0];
+
+            foreach (var item in Enum.GetValues(typeof(MoodTypes)))
+            {
+                SpeakerMoodBox.Items.Add(item);
+            }
+            SpeakerMoodBox.SelectedItem = SpeakerMoodBox.Items[0];
         }
 
-        /// <summary>
-        /// add item testing button
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        void InitializeResponsePanel()
         {
-            ListBoxItem item = new ListBoxItem() { Content = string.Format("DebugDialogLine{0}", DialogLinesList.Items.Count) };
-            item.GotFocus += (object subSender, RoutedEventArgs subE) =>
+            ResponseLineIDsList.SelectionChanged += (object sender, SelectionChangedEventArgs e) =>
             {
-                //display total dialogline data function implementation here
-            };
-            DialogLinesList.Items.Add(item);
-        }//end of MenuItemClick
-
-        private void AddResponseButton_Click(object sender, RoutedEventArgs e)
-        {
-            CheckBox item = new CheckBox() { Content = string.Format("ResponseNumber{0}", ResponsesPanel.Children.Count - 1) };
-            ResponsesCount++;
-
-            item.Checked += (object subSender, RoutedEventArgs subE) =>
-            {
-                SelectedResponses.Add((CheckBox)subSender);
-                if (SelectedResponses.Count == ResponsesCount && !(bool)SelectAllBox.IsChecked)
+                foreach (var response in ResponsesPanel.Children)
                 {
-                    SelectAllBox.IsChecked = true;
+                    if (response is CheckBox && (response as CheckBox).Content == (ResponseLineIDsList.SelectedItem as ComboBoxItem).Content)
+                    {
+                        return;
+                    }
                 }
-            };
 
-            item.Unchecked += (object subSender, RoutedEventArgs subE) =>
-            {
-                SelectedResponses.Remove((CheckBox)subSender);
-                if (SelectedResponses.Count <= 0 && (bool)SelectAllBox.IsChecked)
+                CheckBox item = new CheckBox() { Content = (ResponseLineIDsList.SelectedValue as ComboBoxItem).Content };
+
+                item.Checked += (object subSender, RoutedEventArgs subE) =>
                 {
-                    SelectAllBox.IsChecked = false;
-                }
-            };
+                    SelectedResponses.Add(item);
+                    if (SelectedResponses.Count == ResponsesCount && !(bool)SelectAllResponsesBox.IsChecked)
+                    {
+                        SelectAllResponsesBox.IsChecked = true;
+                    }
+                };
 
-            ResponsesPanel.Children.Add(item);
+                item.Unchecked += (object subSender, RoutedEventArgs subE) =>
+                {
+                    SelectedResponses.Remove(item);
+                    if (SelectedResponses.Count <= 0 && (bool)SelectAllResponsesBox.IsChecked)
+                    {
+                        SelectAllResponsesBox.IsChecked = false;
+                    }
+                };
+
+                ResponsesPanel.Children.Add(item);
+                ResponsesCount++;
+            };
         }
 
         private void RemoveResponseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedResponses.Count <= 0 && ResponsesCount > 0 )
+            if (SelectedResponses.Count <= 0 && ResponsesCount > 0)
             {
                 ResponsesPanel.Children.RemoveAt(ResponsesCount);
                 ResponsesCount--;
@@ -102,7 +112,6 @@ namespace DialogBuilder
                 List<CheckBox> unselected = new List<CheckBox>();
                 foreach (CheckBox item in SelectedResponses)
                 {
-                    //int index = ResponsesPanel.Children.IndexOf(item);
                     ResponsesPanel.Children.Remove(item);
                     unselected.Add(item);
                     ResponsesCount--;
@@ -114,13 +123,13 @@ namespace DialogBuilder
                 }
             }
 
-            if (ResponsesCount <= 0 && (bool)SelectAllBox.IsChecked)
+            if (ResponsesCount <= 0 && (bool)SelectAllResponsesBox.IsChecked)
             {
-                SelectAllBox.IsChecked = false;
+                SelectAllResponsesBox.IsChecked = false;
             }
         }
 
-        private void SelectAllBox_Checked(object sender, RoutedEventArgs e)
+        private void SelectAllResponsesBox_Checked(object sender, RoutedEventArgs e)
         {
             foreach (var item in ResponsesPanel.Children)
             {
@@ -131,7 +140,7 @@ namespace DialogBuilder
             }
         }
 
-        private void SelectAllBox_Unchecked(object sender, RoutedEventArgs e)
+        private void SelectAllResponsesBox_Unchecked(object sender, RoutedEventArgs e)
         {
             foreach (var item in ResponsesPanel.Children)
             {
@@ -140,6 +149,189 @@ namespace DialogBuilder
                     (item as CheckBox).IsChecked = ((CheckBox)sender).IsChecked;
                 }
             }
+        }
+
+        private void SelectAllTMPsBox_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in TMPsPanel.Children)
+            {
+                if (item is DockPanel && (item as DockPanel).Name != "TMPAddRemovePanel")
+                {
+                    ((item as DockPanel).Children[0] as CheckBox).IsChecked = ((CheckBox)sender).IsChecked;
+                }
+            }
+        }
+
+        private void SelectAllTMPsBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in TMPsPanel.Children)
+            {
+                if (item is DockPanel && (item as DockPanel).Name != "TMPAddRemovePanel")
+                {
+                    ((item as DockPanel).Children[0] as CheckBox).IsChecked = ((CheckBox)sender).IsChecked;
+                }
+            }
+        }
+
+        private void AddTMPButton_Click(object sender, RoutedEventArgs e)
+        {
+            TargetMoodPairControl item = new TargetMoodPairControl(TMPsPanel, SelectAllTMPsBox);
+            TMPCount++;
+        }
+
+        private void RemoveTMPButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedTMPs.Count <= 0 && TMPCount > 0)
+            {
+                TMPsPanel.Children.RemoveAt(TMPCount);
+                TMPCount--;
+            }
+            else
+            {
+                List<TargetMoodPairControl> unselected = new List<TargetMoodPairControl>();
+                foreach (TargetMoodPairControl item in SelectedTMPs)
+                {
+                    TMPsPanel.Children.Remove(item.tmpPanel);
+                    unselected.Add(item);
+                    TMPCount--;
+                }
+
+                foreach (TargetMoodPairControl item in unselected)
+                {
+                    SelectedTMPs.Remove(item);
+                }
+            }
+
+            if (TMPCount <= 0 && (bool)SelectAllTMPsBox.IsChecked)
+            {
+                SelectAllTMPsBox.IsChecked = false;
+            }
+        }
+
+        private void CreateDialogLineButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!DialogLoader.MasterDialogLineList.ContainsKey(LineIDBox.Text))
+            {
+                DialogLine item = new DialogLine()
+                {
+                    LineID = LineIDBox.Text,
+                    DialogString = DialogBox.Text ?? "null",
+                    SpeakerID = SpeakerIDBox.Text ?? "null",
+                    SpeakerMood = (MoodTypes)SpeakerMoodBox.SelectedItem,
+                    PassTarget = PassBox.Text ?? "null",
+                    FailTarget = FailBox.Text ?? "null",
+                    CritFailTarget = CritFailBox.Text ?? "null",
+                };
+
+                List<string> responses = new List<string>();
+                foreach (var response in ResponsesPanel.Children)
+                {
+                    if (response is CheckBox)
+                    {
+                        responses.Add((response as CheckBox).Content.ToString());
+                    }
+                }
+
+                DialogLoader.MasterDialogLineList.Add(item.LineID, item);
+            }
+        }
+
+        private void OpenItem_Click(object sender, RoutedEventArgs e)
+        {
+            DialogLinesList.Items.Clear();
+            ResponseLineIDsList.Items.Clear();
+            OpenFileDialog open = new OpenFileDialog();
+            open.ShowDialog();
+            DialogLoader.LoadDialogLinesFromFile(open.FileName);
+            foreach (var kvp in DialogLoader.MasterDialogLineList)
+            {
+                ListBoxItem item = new ListBoxItem() { Content = kvp.Key };
+                item.Selected += (object subSender, RoutedEventArgs subE) => 
+                {
+                    PopulateForm(kvp.Key);
+                };
+
+                DialogLinesList.Items.Add(item);
+                ResponseLineIDsList.Items.Add(new ListBoxItem() { Content = kvp.Key });
+            }
+        }
+
+        private void SaveItem_Click(object sender, RoutedEventArgs e)
+        {
+            //wip
+        }
+
+        private void ExitItem_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void ClearItem_Click(object sender, RoutedEventArgs e)
+        {
+            ClearForm();
+        }
+
+        private void ClearForm()
+        {
+            LineIDBox.Text = null;
+            SpeakerIDBox.SelectedItem = SpeakerIDBox.Items[0];
+            SpeakerMoodBox.SelectedItem = SpeakerMoodBox.Items[0];
+            IsExtensionBox.IsChecked = false;
+            HierarchyTypeLabel.Content = "N/A";
+            DialogBox.Text = null;
+            PassBox.Text = null;
+            FailBox.Text = null;
+            CritFailBox.Text = null;
+
+            if (TMPCount > 0)
+            {
+                TMPsPanel.Children.RemoveRange(1, TMPCount);
+                TMPCount = 0;
+                SelectedTMPs.Clear();
+            }
+
+            if (ResponsesCount > 0)
+            {
+                ResponsesPanel.Children.RemoveRange(1, ResponsesCount);
+                ResponsesCount = 0;
+                SelectedResponses.Clear();
+            }
+
+            SelectAllTMPsBox.IsChecked = false;
+            SelectAllResponsesBox.IsChecked = false;
+        }
+
+        private void PopulateForm(string lineID)
+        {
+            ClearForm();
+            DialogLine selected = DialogLoader.MasterDialogLineList[lineID];
+
+            LineIDBox.Text = lineID;
+            SpeakerIDBox.SelectedItem = selected.SpeakerID;
+            SpeakerMoodBox.SelectedItem = selected.SpeakerMood;
+            IsExtensionBox.IsChecked = false;
+            HierarchyTypeLabel.Content = "N/A";
+            DialogBox.Text = selected.DialogString;
+            PassBox.Text = selected.PassTarget;
+            FailBox.Text = selected.FailTarget;
+            CritFailBox.Text = selected.CritFailTarget;
+
+            foreach (string response in selected.PossibleResponses)
+            {
+                ResponsesPanel.Children.Add(new CheckBox() { Content = response });
+                ResponsesCount++;
+            }
+
+            foreach (var kvp in selected.TargetMoods)
+            {
+                TargetMoodPairControl item = new TargetMoodPairControl(TMPsPanel, SelectAllTMPsBox);
+                item.targets.Items.Add(kvp.Key);
+                item.moods.Items.Add(kvp.Value);
+                TMPCount++;
+            }
+
+            SelectAllTMPsBox.IsChecked = false;
+            SelectAllResponsesBox.IsChecked = false;
         }
     }
 }

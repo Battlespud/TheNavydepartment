@@ -16,50 +16,71 @@
             <RowDefinition Height="23"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Menu Grid.ColumnSpan="2">
-            <MenuItem Header="Add Item" Click="MenuItem_Click"/>
+        <Menu>
+            <MenuItem Name="OpenItem" Header="Open" Click="OpenItem_Click"/>
+            <MenuItem Name="SaveItem" Header="Save" Click="SaveItem_Click"/>
+            <MenuItem Name="ExitItem" Header="Exit" Click="ExitItem_Click"/>
+        </Menu>
+        <Menu Grid.Column="1">
+            <MenuItem Name="ClearItem" Header="Clear" Click="ClearItem_Click"/>
         </Menu>
         <StackPanel Name="DialogLinesPanel" Grid.Column="0" Grid.Row="1">
             <ListBox Name="DialogLinesList"/>
         </StackPanel>
-        <StackPanel Name="DialogLineDataDisplay" Grid.Column="1" Grid.Row="1">
+        <StackPanel Name="DialogLineDataDisplay" Grid.Column="1" Grid.Row="1" CanVerticallyScroll="True">
             <DockPanel Name="LineIDSpeakerIDPanel" Height="30" VerticalAlignment="Center">
+                <Button Name="CreateDialogLineButton" Content="Create" Width="75" Click="CreateDialogLineButton_Click"/>
                 <Label Content="Line ID" VerticalAlignment="Center" ToolTip="Enter a unique line ID used for building the dialog tree"/>
-                <TextBox Name="LineIDBox" VerticalAlignment="Center" Text="Enter unique line ID"/>
+                <TextBox Name="LineIDBox" VerticalAlignment="Center" MinWidth="75"/>
                 <Label Content="Speaker:" VerticalAlignment="Center" ToolTip="Choose the speaker of this line"/>
                 <ComboBox Name="SpeakerIDBox" VerticalAlignment="Center"/>
+                <Label Content="Speaker Mood:" VerticalAlignment="Center" ToolTip="Speaker's mood for this exact dialog"/>
+                <ComboBox Name="SpeakerMoodBox" VerticalAlignment="Center"/>
                 <Label Content="Parent:" VerticalAlignment="Center" ToolTip="Choose which parent dialog to extend from or build in the same scope as"/>
                 <ComboBox Name="ParentBox" VerticalAlignment="Center"/>
-                <CheckBox Content="Is Extension" VerticalAlignment="Center" ToolTip="true: This dialog is an extension of the selected parent; false: This dialog is in the same scope as the selected parent"/>
+                <CheckBox Name="IsExtensionBox" Content="Is Extension" VerticalAlignment="Center" ToolTip="true: This dialog is an extension of the selected parent; false: This dialog is in the same scope as the selected parent"/>
                 <Label Content="Hierarchy Type:" VerticalAlignment="Center"/>
-                <Label Content="N/A" VerticalAlignment="Center"/>
+                <Label Name="HierarchyTypeLabel" Content="N/A" VerticalAlignment="Center"/>
             </DockPanel>
             <Label Content="Dialog"/>
-            <TextBox Name="DialogBox" Height="50"/>
-            <DockPanel>
-                <Label Content="Responses" Width="200" ToolTip="List of Line IDs that could be possible responses"/>
-                <Label Content="Succession Results" ToolTip="A string response depending on certain conditions"/>
-            </DockPanel>
-            <DockPanel Name="ResponsesSuccessionResultsPanel">
-                <StackPanel Name="ResponsesPanel" DockPanel.Dock="Left" Width="200">
-                    <DockPanel>
-                        <CheckBox Name="SelectAllBox" VerticalAlignment="Center" Checked="SelectAllBox_Checked" Unchecked="SelectAllBox_Unchecked"/>
-                        <Button Name="AddResponseButton" Content="+" Click="AddResponseButton_Click" Width="100"/>
-                        <Button Name="RemoveResponseButton" Content="-" Click="RemoveResponseButton_Click"/>
-                    </DockPanel>
-                </StackPanel>
-                <StackPanel Name="SuccessionResultsPanel" DockPanel.Dock="Right">
+            <TextBox Name="DialogBox" MinHeight="50" TextWrapping="Wrap"/>
+            <Label Content="Succession Results" ToolTip="A string response depending on certain conditions"/>
+
+            <DockPanel Name="SuccessionResultsPanel">
+                <StackPanel>
                     <DockPanel>
                         <Label Content="Pass" Width="90"/>
-                        <TextBox Name="PassBox"/>
+                        <TextBox Name="PassBox" TextWrapping="Wrap"/>
                     </DockPanel>
                     <DockPanel>
                         <Label Content="Failure" Width="90"/>
-                        <TextBox Name="FailBox"/>
+                        <TextBox Name="FailBox" TextWrapping="Wrap"/>
                     </DockPanel>
                     <DockPanel>
                         <Label Content="Critical Failure" Width="90"/>
-                        <TextBox Name="CritFailBox"/>
+                        <TextBox Name="CritFailBox" TextWrapping="Wrap"/>
+                    </DockPanel>
+                </StackPanel>
+            </DockPanel>
+            <DockPanel>
+                <Label Content="Target Mood Pairs" Width="200" ToolTip="The target listener(s) and their mood(s)"/>
+                <Label Content="Responses" Width="200" ToolTip="List of Line IDs that could be possible responses"/>
+            </DockPanel>
+            <DockPanel Name="ResponsesTargetMoodsPanel">
+                <StackPanel Name="TMPsPanel" Width="200">
+                    <DockPanel Name="TMPAddRemovePanel">
+                        <CheckBox Name="SelectAllTMPsBox" VerticalAlignment="Bottom" Width="16" Checked="SelectAllTMPsBox_Checked" Unchecked="SelectAllTMPsBox_Unchecked"/>
+                        <Button Name="AddTMPButton" Content="+" Width="92" Click="AddTMPButton_Click"/>
+                        <Button Name="RemoveTMPButton" Content="-" Click="RemoveTMPButton_Click" />
+                    </DockPanel>
+                </StackPanel>
+                <Separator Width="50" Background="White"/>
+                <StackPanel Name="ResponsesPanel">
+                    <DockPanel HorizontalAlignment="Left">
+                        <CheckBox Name="SelectAllResponsesBox" VerticalAlignment="Bottom" Checked="SelectAllResponsesBox_Checked" Unchecked="SelectAllResponsesBox_Unchecked"/>
+                        <Button Name="RemoveResponseButton" Content="-" Width="92" Click="RemoveResponseButton_Click"/>
+                        <Label Content="Responses:"/>
+                        <ComboBox Name="ResponseLineIDsList"/>
                     </DockPanel>
                 </StackPanel>
             </DockPanel>
