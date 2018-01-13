@@ -5,12 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DialogBuilder"
         mc:Ignorable="d"
-        Title="Dialog Builder" Height="350" Width="525"
+        Title="MainWindow" Height="500" Width="1000"
         WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Grid.ColumnSpan="2">
+            <MenuItem Header="Add Item" Click="MenuItem_Click"/>
+        </Menu>
+        <StackPanel Name="DialogLinesPanel" Grid.Column="0" Grid.Row="1">
+            <ListBox Name="DialogLinesList"/>
+        </StackPanel>
+        <StackPanel Name="DialogLineDataDisplay" Grid.Column="1" Grid.Row="1">
+            <DockPanel Name="LineIDSpeakerIDPanel" Height="30" VerticalAlignment="Center">
+                <Label Content="Line ID" VerticalAlignment="Center" ToolTip="Enter a unique line ID used for building the dialog tree"/>
+                <TextBox Name="LineIDBox" VerticalAlignment="Center" Text="Enter unique line ID"/>
+                <Label Content="Speaker:" VerticalAlignment="Center" ToolTip="Choose the speaker of this line"/>
+                <ComboBox Name="SpeakerIDBox" VerticalAlignment="Center"/>
+                <Label Content="Parent:" VerticalAlignment="Center" ToolTip="Choose which parent dialog to extend from or build in the same scope as"/>
+                <ComboBox Name="ParentBox" VerticalAlignment="Center"/>
+                <CheckBox Content="Is Extension" VerticalAlignment="Center" ToolTip="true: This dialog is an extension of the selected parent; false: This dialog is in the same scope as the selected parent"/>
+                <Label Content="Hierarchy Type:" VerticalAlignment="Center"/>
+                <Label Content="N/A" VerticalAlignment="Center"/>
+            </DockPanel>
+            <Label Content="Dialog"/>
+            <TextBox Name="DialogBox" Height="50"/>
+            <DockPanel>
+                <Label Content="Responses" Width="200" ToolTip="List of Line IDs that could be possible responses"/>
+                <Label Content="Succession Results" ToolTip="A string response depending on certain conditions"/>
+            </DockPanel>
+            <DockPanel Name="ResponsesSuccessionResultsPanel">
+                <StackPanel Name="ResponsesPanel" DockPanel.Dock="Left" Width="200">
+                    <DockPanel>
+                        <CheckBox Name="SelectAllBox" VerticalAlignment="Center" Checked="SelectAllBox_Checked" Unchecked="SelectAllBox_Unchecked"/>
+                        <Button Name="AddResponseButton" Content="+" Click="AddResponseButton_Click" Width="100"/>
+                        <Button Name="RemoveResponseButton" Content="-" Click="RemoveResponseButton_Click"/>
+                    </DockPanel>
+                </StackPanel>
+                <StackPanel Name="SuccessionResultsPanel" DockPanel.Dock="Right">
+                    <DockPanel>
+                        <Label Content="Pass" Width="90"/>
+                        <TextBox Name="PassBox"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Content="Failure" Width="90"/>
+                        <TextBox Name="FailBox"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Content="Critical Failure" Width="90"/>
+                        <TextBox Name="CritFailBox"/>
+                    </DockPanel>
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
     </Grid>
 </Window>
