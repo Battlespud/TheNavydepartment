@@ -20,6 +20,8 @@
         </e>
         <e p="DirectionalTrackingTrigger.cs" t="Include" />
         <e p="ImageHandler.cs" t="Include" />
+        <e p="Interactable.cs" t="Include" />
+        <e p="NPC.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="Editor" t="Include">
             <e p="JetBrains" t="Include">

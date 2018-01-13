@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 
@@ -14,7 +15,8 @@ public class MovementController : MonoBehaviour
 
 	public CharacterController Controller;
 	public Facing facing = Facing.RIGHT;
-
+	
+	
 	public Sprite Right;
 	public Sprite Left;
 
@@ -48,7 +50,23 @@ public class MovementController : MonoBehaviour
 		InputProcess();
 	}
 
-	
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.GetComponent<IInteractable>() != null)
+		{
+			other.GetComponent<IInteractable>().IEnableInteraction(true);
+		}
+	}
+
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.GetComponent<IInteractable>() != null)
+		{
+			other.GetComponent<IInteractable>().IEnableInteraction(false);
+		}
+		
+	}
+
 	void InputProcess()
 	{
 		Vector2 Movement = new Vector2();
