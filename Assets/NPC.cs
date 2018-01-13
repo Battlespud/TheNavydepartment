@@ -25,7 +25,7 @@ public enum NPCTypes
         public GameObject SpeechBubble;
 
         public GameObject InteractButton;
-
+        public GameObject EndConvoButton;
 
         
         [SerializeField]
@@ -39,6 +39,7 @@ public enum NPCTypes
             LinesOfSpeech = new List<string>(){"Hi Tanya!", "Lovely Meteor Shower last weekend huh?", "Real shame how Detroit got nuked.."};
             SpeechBubble.SetActive(false);
             InteractButton.SetActive(false);
+            EndConvoButton.SetActive(false);
             SpeechTextbox.text = "";
         }
         
@@ -53,8 +54,17 @@ public enum NPCTypes
             StartCoroutine(ShowSpeech());
         }
 
+        public void EndConvo()
+        {
+            StopAllCoroutines();
+            EndConvoButton.SetActive(false);
+            SpeechBubble.SetActive(false);
+            EndConvoButton.SetActive(false);
+        }
+
         IEnumerator ShowSpeech()
         {
+            EndConvoButton.SetActive(true);
             if (SpeechCounter >= LinesOfSpeech.Count)
                 SpeechCounter = 0;
             try
@@ -75,6 +85,7 @@ public enum NPCTypes
                 yield return null;
             }
             SpeechBubble.SetActive(false);
+            EndConvoButton.SetActive(false);
         }
     }
     
