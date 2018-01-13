@@ -7,6 +7,7 @@
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="CenterTrackTrigger.cs" t="Include" />
         <e p="Debugger.cs" t="Include" />
         <e p="Design.txt" t="Include" />
         <e p="DialogFormattingDesign.txt" t="Include" />
@@ -17,6 +18,7 @@
           <e p="DialogLoader.cs" t="Include" />
           <e p="ResponseButtonController.cs" t="Include" />
         </e>
+        <e p="DirectionalTrackingTrigger.cs" t="Include" />
         <e p="ImageHandler.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="Editor" t="Include">
@@ -25,6 +27,7 @@
             </e>
           </e>
         </e>
+        <e p="PositionRefresher.cs" t="Include" />
         <e p="Resources" t="Include">
           <e p="FreeParallax" t="Include">
             <e p="Readme.txt" t="Include" />
@@ -143,6 +146,9 @@
             <e p="SingleSampleDialog.txt" t="Include" />
           </e>
         </e>
+        <e p="TestMovementScene" t="Include">
+          <e p="MovementController.cs" t="Include" />
+        </e>
         <e p="Thread Ninja" t="Include">
           <e p="Example" t="Include">
             <e p="ExampleScript.cs" t="Include" />
@@ -152,6 +158,7 @@
           <e p="TaskState.cs" t="Include" />
           <e p="ThreadNinjaMonoBehaviourExtensions.cs" t="Include" />
         </e>
+        <e p="TrackingTrigger.cs" t="Include" />
       </e>
       <e p="Library" t="ExcludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
