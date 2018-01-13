@@ -33,6 +33,10 @@ public class PositionRefresher : MonoBehaviour
 	void InputProcess()
 	{
 		Vector2 Movement = new Vector2();
+		if (Player.transform.position.x > transform.position.x)
+			OverMoveDir = Facing.LEFT;
+		else
+			OverMoveDir = Facing.RIGHT;
 
 		if(Input.GetKey(KeyCode.A))
 			Movement.x -= MovementController.GetSpeed()*1.05f;
