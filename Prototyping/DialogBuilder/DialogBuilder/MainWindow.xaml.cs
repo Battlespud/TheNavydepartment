@@ -252,7 +252,7 @@ namespace DialogBuilder
                 };
 
                 DialogLinesList.Items.Add(item);
-                ResponseLineIDsList.Items.Add(new ListBoxItem() { Content = kvp.Key });
+                ResponseLineIDsList.Items.Add(new ComboBoxItem() { Content = kvp.Key });
             }
         }
 
@@ -319,14 +319,36 @@ namespace DialogBuilder
             foreach (string response in selected.PossibleResponses)
             {
                 ResponsesPanel.Children.Add(new CheckBox() { Content = response });
+
+                //CheckBox item = new CheckBox() { Content = response };
+
+                //item.Checked += (object sender, RoutedEventArgs e) =>
+                //{
+                //    SelectedResponses.Add(item);
+                //    if (SelectedResponses.Count == ResponsesCount && !(bool)SelectAllResponsesBox.IsChecked)
+                //    {
+                //        SelectAllResponsesBox.IsChecked = true;
+                //    }
+                //};
+
+                //item.Unchecked += (object sender, RoutedEventArgs e) =>
+                //{
+                //    SelectedResponses.Remove(item);
+                //    if (SelectedResponses.Count <= 0 && (bool)SelectAllResponsesBox.IsChecked)
+                //    {
+                //        SelectAllResponsesBox.IsChecked = false;
+                //    }
+                //};
+
                 ResponsesCount++;
             }
 
             foreach (var kvp in selected.TargetMoods)
             {
                 TargetMoodPairControl item = new TargetMoodPairControl(TMPsPanel, SelectAllTMPsBox);
-                item.targets.Items.Add(kvp.Key);
-                item.moods.Items.Add(kvp.Value);
+
+                item.targets.SelectedItem = (CharacterNames)Enum.Parse(typeof(CharacterNames), kvp.Key);
+                item.moods.SelectedItem = kvp.Value;
                 TMPCount++;
             }
 

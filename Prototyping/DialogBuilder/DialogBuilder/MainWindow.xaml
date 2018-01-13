@@ -22,6 +22,7 @@
             <MenuItem Name="ExitItem" Header="Exit" Click="ExitItem_Click"/>
         </Menu>
         <Menu Grid.Column="1">
+            <MenuItem Name="CreateDialogLineButton" Header="Create" Width="75" Click="CreateDialogLineButton_Click"/>
             <MenuItem Name="ClearItem" Header="Clear" Click="ClearItem_Click"/>
         </Menu>
         <StackPanel Name="DialogLinesPanel" Grid.Column="0" Grid.Row="1">
@@ -29,7 +30,6 @@
         </StackPanel>
         <StackPanel Name="DialogLineDataDisplay" Grid.Column="1" Grid.Row="1" CanVerticallyScroll="True">
             <DockPanel Name="LineIDSpeakerIDPanel" Height="30" VerticalAlignment="Center">
-                <Button Name="CreateDialogLineButton" Content="Create" Width="75" Click="CreateDialogLineButton_Click"/>
                 <Label Content="Line ID" VerticalAlignment="Center" ToolTip="Enter a unique line ID used for building the dialog tree"/>
                 <TextBox Name="LineIDBox" VerticalAlignment="Center" MinWidth="75"/>
                 <Label Content="Speaker:" VerticalAlignment="Center" ToolTip="Choose the speaker of this line"/>
