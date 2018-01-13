@@ -10,6 +10,7 @@ public class PositionRefresher : MonoBehaviour
 	private CharacterController Controller;
 	public Facing OverMoveDir;
 	public GameObject Player;
+	[SerializeField] private float VisualAreaWidth;
 	
 	// Use this for initialization
 	void Start ()
@@ -21,6 +22,7 @@ public class PositionRefresher : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 	//	transform.position = new Vector3(transform.position.x,transform.position.y,Z);
+		VisualAreaWidth = Mathf.Abs(Mathf.Tan(Camera.main.fieldOfView) *Mathf.Abs(Player.transform.position.z - transform.position.z));
 
 		if (RecieveInput)
 		{
@@ -50,9 +52,11 @@ public class PositionRefresher : MonoBehaviour
 		else
 			MovementFacing = Facing.LEFT;
 
+
+		
 		if (MovementFacing != OverMoveDir)
 		{
-			Controller.Move(new Vector3(M.x*(XDist/2), 0f, M.y));
+			Controller.Move(new Vector3(M.x*(XDist/(VisualAreaWidth*.4f)), 0f, M.y));
 		}
 	}
 }

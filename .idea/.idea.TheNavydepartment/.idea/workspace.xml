@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8a7de069-4e57-4f45-b2dc-eadaf38c8713" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.TheNavydepartment/.idea/contentModel.xml" afterPath="$PROJECT_DIR$/.idea/.idea.TheNavydepartment/.idea/contentModel.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.TheNavydepartment/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.TheNavydepartment/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" afterPath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/PositionRefresher.cs" afterPath="$PROJECT_DIR$/Assets/PositionRefresher.cs" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -174,17 +171,17 @@
       <file leaf-file-name="PositionRefresher.cs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/PositionRefresher.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="54" column="44" lean-forward="false" selection-start-line="54" selection-start-column="44" selection-end-line="54" selection-end-column="44" />
+            <state relative-caret-position="870">
+              <caret line="58" column="70" lean-forward="false" selection-start-line="58" selection-start-column="70" selection-end-line="58" selection-end-column="70" />
               <folding>
-                <marker date="1515810559688" expanded="true" signature="6:78" ph="..." />
-                <marker date="1515810559688" expanded="true" signature="126:1227" ph="{...}" />
-                <marker date="1515810559688" expanded="true" signature="335:438" ph="{...}" />
-                <marker date="1515810559688" expanded="true" signature="493:628" ph="{...}" />
-                <marker date="1515810559688" expanded="true" signature="598:625" ph="{...}" />
-                <marker date="1515810559688" expanded="true" signature="651:895" ph="{...}" />
-                <marker date="1515810559688" expanded="true" signature="920:1225" ph="{...}" />
-                <marker date="1515810559688" expanded="true" signature="1157:1222" ph="{...}" />
+                <marker date="1515811375083" expanded="true" signature="6:78" ph="..." />
+                <marker date="1515811375083" expanded="true" signature="126:1430" ph="{...}" />
+                <marker date="1515811375083" expanded="true" signature="384:487" ph="{...}" />
+                <marker date="1515811375083" expanded="true" signature="542:807" ph="{...}" />
+                <marker date="1515811375083" expanded="true" signature="777:804" ph="{...}" />
+                <marker date="1515811375083" expanded="true" signature="830:1074" ph="{...}" />
+                <marker date="1515811375083" expanded="true" signature="1099:1428" ph="{...}" />
+                <marker date="1515811375083" expanded="true" signature="1340:1425" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -302,11 +299,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="87" />
-    <option name="y" value="-8" />
-    <option name="width" value="2316" />
-    <option name="height" value="1354" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1280" />
+    <option name="width" value="1280" />
+    <option name="height" value="1400" />
   </component>
   <component name="ProjectView">
     <navigator currentView="SolutionExplorer" proportions="" version="1">
@@ -370,12 +366,12 @@
       <workItem from="1515735352212" duration="10242000" />
       <workItem from="1515747457772" duration="2314000" />
       <workItem from="1515785062146" duration="992000" />
-      <workItem from="1515787311873" duration="14427000" />
+      <workItem from="1515787311873" duration="15265000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27975000" />
+    <option name="totallyTimeSpent" value="28813000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -387,7 +383,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
+    <frame x="1280" y="0" width="1280" height="1400" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -447,13 +443,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/PositionRefresher.cs</url>
-          <line>22</line>
+          <line>23</line>
           <properties documentPath="$PROJECT_DIR$/Assets/PositionRefresher.cs">
             <startOffsets>
-              <startOffset value="499" />
+              <startOffset value="548" />
             </startOffsets>
             <endOffsets>
-              <endOffset value="577" />
+              <endOffset value="626" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="3" />
@@ -1009,17 +1005,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/PositionRefresher.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="54" column="44" lean-forward="false" selection-start-line="54" selection-start-column="44" selection-end-line="54" selection-end-column="44" />
+        <state relative-caret-position="870">
+          <caret line="58" column="70" lean-forward="false" selection-start-line="58" selection-start-column="70" selection-end-line="58" selection-end-column="70" />
           <folding>
-            <marker date="1515810559688" expanded="true" signature="6:78" ph="..." />
-            <marker date="1515810559688" expanded="true" signature="126:1227" ph="{...}" />
-            <marker date="1515810559688" expanded="true" signature="335:438" ph="{...}" />
-            <marker date="1515810559688" expanded="true" signature="493:628" ph="{...}" />
-            <marker date="1515810559688" expanded="true" signature="598:625" ph="{...}" />
-            <marker date="1515810559688" expanded="true" signature="651:895" ph="{...}" />
-            <marker date="1515810559688" expanded="true" signature="920:1225" ph="{...}" />
-            <marker date="1515810559688" expanded="true" signature="1157:1222" ph="{...}" />
+            <marker date="1515811375083" expanded="true" signature="6:78" ph="..." />
+            <marker date="1515811375083" expanded="true" signature="126:1430" ph="{...}" />
+            <marker date="1515811375083" expanded="true" signature="384:487" ph="{...}" />
+            <marker date="1515811375083" expanded="true" signature="542:807" ph="{...}" />
+            <marker date="1515811375083" expanded="true" signature="777:804" ph="{...}" />
+            <marker date="1515811375083" expanded="true" signature="830:1074" ph="{...}" />
+            <marker date="1515811375083" expanded="true" signature="1099:1428" ph="{...}" />
+            <marker date="1515811375083" expanded="true" signature="1340:1425" ph="{...}" />
           </folding>
         </state>
       </provider>
