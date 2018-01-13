@@ -46,6 +46,11 @@ public enum NPCTypes
         public void IEnableInteraction(bool b)
         {
                 InteractButton.SetActive(b);
+
+            if (!b)
+            {
+                EndConvo();
+            }
         }
 
         public void IInteract()
