@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace DialogBuilder
 {
-    class DialogLine
+    public class DialogLine
     {
+        public int indexInFile;
         public string DialogString;
         public string LineID; //ID of this 
         public string SpeakerID;
         public MoodTypes SpeakerMood;
-        public List<KeyValuePair<string, MoodTypes>> TargetMoods;
+        public List<KeyValuePair<string, MoodTypes>> TargetMoods = new List<KeyValuePair<string, MoodTypes>>();
 
         #region Responses Only
         //what the npc will say next

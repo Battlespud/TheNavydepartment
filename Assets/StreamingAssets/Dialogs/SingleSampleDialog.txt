@@ -1,6 +1,6 @@
 [
-DialogString:Fuck you that is all I'm gonna say blyad'
 LineID:PlayerGreetsSasha
+DialogString:Fuck you that is all I'm gonna say blyad'
 SpeakerID:Player
 PassTarget:You passed the target
 FailTarget:You failed the target
@@ -22,8 +22,8 @@ CriticalFail://data format for Requirement goes here
 Available://data format for Requirement goes here
 ]
 [
-DialogString:You're a fucking white maaaaaale
 LineID:SashaFlipsOffPlayer
+DialogString:You're a fucking white maaaaaale
 SpeakerID:Sasha
 PassTarget:You passed the target
 FailTarget:You failed the target
@@ -45,8 +45,8 @@ CriticalFail://data format for Requirement goes here
 Available://data format for Requirement goes here
 ]
 [
-DialogString:No land for heteros
 LineID:SashaAnalRapesPlayer
+DialogString:No land for heteros
 SpeakerID:Sasha
 PassTarget:You passed the target
 FailTarget:You failed the target
@@ -68,8 +68,8 @@ CriticalFail://data format for Requirement goes here
 Available://data format for Requirement goes here
 ]
 [
-DialogString:I'm gay, fuck me please
 LineID:SashaSubtmitsToSasha
+DialogString:I'm gay, fuck me please
 SpeakerID:Sasha
 PassTarget:You passed the target
 FailTarget:You failed the target
