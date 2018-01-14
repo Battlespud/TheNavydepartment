@@ -28,18 +28,32 @@ public class DialogController : MonoBehaviour
 
 	private void Awake()
 	{
-        DialogLoader.Initialize(Application.streamingAssetsPath);
-        if (Controller != null)
-			Debug.LogError("Multiple Dialogcontrollers Found");
-		Controller = this;
+
 	}
 
     // Use this for initialization
     void Start()
     {
-	    Clean();
-        LoadLine(GetDialog("PlayerGreetsSasha"));
+	    StartCoroutine(Initialize());
     }
+
+	IEnumerator Initialize()
+	{
+		if (Controller != null)
+			Debug.LogError("Multiple Dialogcontrollers Found");
+		Controller = this;
+		Clean();
+		while (!Character.Loaded)
+		{
+			yield return null;
+		}
+		DialogLoader.Initialize(Application.streamingAssetsPath);
+		foreach (var v in Character.CharactersByID.Values)
+		{
+//			Debug.Log(v.CharacterID + " " + v.CharacterName);
+		}
+		ChrisTestingDialog();
+	}
 
     void ChrisTestingDialog()
     {

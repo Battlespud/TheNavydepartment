@@ -3,11 +3,13 @@
   <component name="ContentModelStore">
     <e p="C:\Users\CJ\.Rider2017.2\system\resharper-host\local\Transient\ReSharperHost\v10\SolutionCaches\_TheNavydepartment.-1100297964.00" t="ExcludeRecursive" />
     <e p="G:\Unity\Navy\TheNavydepartment" t="IncludeRecursive">
-      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="CenterTrackTrigger.cs" t="Include" />
+        <e p="Characters" t="Include">
+          <e p="CharacterLoader.cs" t="Include" />
+        </e>
         <e p="Debugger.cs" t="Include" />
         <e p="Design.txt" t="Include" />
         <e p="DialogFormattingDesign.txt" t="Include" />
@@ -19,16 +21,14 @@
           <e p="ResponseButtonController.cs" t="Include" />
         </e>
         <e p="DirectionalTrackingTrigger.cs" t="Include" />
+        <e p="Editor" t="Include">
+          <e p="JetBrains" t="Include">
+            <e p="Unity3DRider.cs" t="Include" />
+          </e>
+        </e>
         <e p="ImageHandler.cs" t="Include" />
         <e p="Interactable.cs" t="Include" />
         <e p="NPC.cs" t="Include" />
-        <e p="Plugins" t="Include">
-          <e p="Editor" t="Include">
-            <e p="JetBrains" t="Include">
-              <e p="Unity3DRider.cs" t="Include" />
-            </e>
-          </e>
-        </e>
         <e p="PositionRefresher.cs" t="Include" />
         <e p="Resources" t="Include">
           <e p="FreeParallax" t="Include">
@@ -143,6 +143,11 @@
           </e>
         </e>
         <e p="StreamingAssets" t="Include">
+          <e p="Characters" t="Include">
+            <e p="Tanya" t="Include">
+              <e p="Character.txt" t="Include" />
+            </e>
+          </e>
           <e p="Dialogs" t="Include">
             <e p="DialogSamples.txt" t="Include" />
             <e p="SingleSampleDialog.txt" t="Include" />
