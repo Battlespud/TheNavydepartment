@@ -71,14 +71,14 @@ public class PositionRefresher : MonoBehaviour
 		}
 	}
 
-	public void FadeToBlack(float time = .5f)
+	public void FadeToBlack(float time = .65f)
 	{
 		blackScreen.color = Color.black;
 		blackScreen.canvasRenderer.SetAlpha(0.0f);
 		blackScreen.CrossFadeAlpha (1.0f, time, false);
 	}
      
-	public void FadeFromBlack (float time = .5f)
+	public void FadeFromBlack (float time = .75f)
 	{
 		blackScreen.color = Color.black;
 		blackScreen.canvasRenderer.SetAlpha(1.0f);
