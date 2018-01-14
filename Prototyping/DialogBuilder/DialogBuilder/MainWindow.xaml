@@ -26,7 +26,7 @@
             <MenuItem Name="ClearItem" Header="Clear" Click="ClearItem_Click"/>
         </Menu>
         <StackPanel Name="DialogLinesPanel" Grid.Column="0" Grid.Row="1">
-            <ListBox Name="DialogLinesList"/>
+            <!--<ListBox Name="DialogLinesList"/>-->
         </StackPanel>
         <StackPanel Name="DialogLineDataDisplay" Grid.Column="1" Grid.Row="1" CanVerticallyScroll="True">
             <DockPanel Name="LineIDSpeakerIDPanel" Height="30" VerticalAlignment="Center">

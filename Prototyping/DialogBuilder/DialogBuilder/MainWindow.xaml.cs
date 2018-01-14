@@ -256,7 +256,7 @@ namespace DialogBuilder
         /// </summary>
         private void OpenItem_Click(object sender, RoutedEventArgs e)
         {
-            DialogLinesList.Items.Clear();
+            DialogLinesPanel.Children.Clear();
             ResponseLineIDsList.Items.Clear();
             OpenFileDialog open = new OpenFileDialog();
             open.ShowDialog();
@@ -269,8 +269,9 @@ namespace DialogBuilder
                     PopulateForm(kvp.Key);
                 };
 
-                DialogLinesList.Items.Add(item);
+                DialogLinesPanel.Children.Add(item);
                 ResponseLineIDsList.Items.Add(new ComboBoxItem() { Content = kvp.Key });
+                ResponsesCount++;
             }
         }//end of OpenItem_Click
 
@@ -279,6 +280,7 @@ namespace DialogBuilder
         /// </summary>
         private void SaveItem_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog save = new SaveFileDialog();
             //wip
         }//end of SaveItem_Click
 
@@ -352,6 +354,26 @@ namespace DialogBuilder
 
             foreach (string response in selected.PossibleResponses)
             {
+                CheckBox item = new CheckBox() { Content = response };
+
+                item.Checked += (object subSender, RoutedEventArgs subE) =>
+                {
+                    SelectedResponses.Add(item);
+                    if (SelectedResponses.Count == ResponsesCount && !(bool)SelectAllResponsesBox.IsChecked)
+                    {
+                        SelectAllResponsesBox.IsChecked = true;
+                    }
+                };//end of item.Checked
+
+                item.Unchecked += (object subSender, RoutedEventArgs subE) =>
+                {
+                    SelectedResponses.Remove(item);
+                    if (SelectedResponses.Count <= 0 && (bool)SelectAllResponsesBox.IsChecked)
+                    {
+                        SelectAllResponsesBox.IsChecked = false;
+                    }
+                };//end of item.Unchecked
+
                 ResponsesPanel.Children.Add(new CheckBox() { Content = response });
                 ResponsesCount++;
             }
