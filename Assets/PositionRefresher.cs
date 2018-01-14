@@ -1,22 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Comparers;
+using UnityEngine.UI;
 
 public class PositionRefresher : MonoBehaviour
 {
-	const float Z = -4.665f;
+	const float Z = -9.2f;
 
 	public bool RecieveInput = false;
 	private CharacterController Controller;
 	public Facing OverMoveDir;
 	public GameObject Player;
 	[SerializeField] private float VisualAreaWidth;
+	public Camera Cam;
+	public Image blackScreen;
+
 	
 	// Use this for initialization
 	void Start ()
 	{
+		Cam = GetComponent<Camera>();
 		Player = GameObject.FindWithTag("Player");
 		Controller = GetComponent<CharacterController>();
+		FadeFromBlack();
 	}
 	
 	// Update is called once per frame
@@ -62,5 +69,24 @@ public class PositionRefresher : MonoBehaviour
 		{
 			Controller.Move(new Vector3(M.x*(XDist/(VisualAreaWidth*.4f)), 0f, M.y));
 		}
+	}
+
+	public void FadeToBlack(float time = .5f)
+	{
+		blackScreen.color = Color.black;
+		blackScreen.canvasRenderer.SetAlpha(0.0f);
+		blackScreen.CrossFadeAlpha (1.0f, time, false);
+	}
+     
+	public void FadeFromBlack (float time = .5f)
+	{
+		blackScreen.color = Color.black;
+		blackScreen.canvasRenderer.SetAlpha(1.0f);
+		blackScreen.CrossFadeAlpha (0.0f, time, false);
+	}
+
+	public void SnapToPlayer()
+	{
+		transform.position = new Vector3(Player.transform.position.x,transform.position.y,Z);
 	}
 }
