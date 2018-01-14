@@ -11,25 +11,50 @@ namespace DialogBuilder
     /// </summary>
     public class DialogLine
     {
-        public int indexInFile;
+        /// <summary>
+        /// Unique identifier for a dialogline
+        /// </summary>
+        public string LineID;
+        /// <summary>
+        /// The actual text being said
+        /// </summary>
         public string DialogString;
-        public string LineID; //ID of this 
-        public string SpeakerID;
+        /// <summary>
+        /// Line ID of the line signifying a pass
+        /// </summary>
+        public string PassID;
+        /// <summary>
+        /// Line ID of the line signifying a fail
+        /// </summary>
+        public string FailID;
+        /// <summary>
+        /// Line ID of the line signifying a critical fail
+        /// </summary>
+        public string CritFailID;
+        /// <summary>
+        /// One of the preset character names from the CharacterNames enum
+        /// </summary>
+        public CharacterNames SpeakerID;
+        /// <summary>
+        /// The current mood type for the speaker of this dialogline
+        /// </summary>
         public MoodTypes SpeakerMood;
-        public List<KeyValuePair<string, MoodTypes>> TargetMoods = new List<KeyValuePair<string, MoodTypes>>();
-
-        #region Responses Only
-        //what the npc will say next
-        public string PassTarget;
-        public string FailTarget;
-        public string CritFailTarget;
+        /// <summary>
+        /// pairs of characters being spoken to and their moods for this dialogline
+        /// </summary>
+        public Dictionary<CharacterNames, MoodTypes> TargetMoodPairs;
+        /// <summary>
+        /// A list of Line IDs that can serve as possble responses
+        /// </summary>
+        public List<string> Responses;
         //Requirement Fail        // if <= this condition, but > CritFail, failure.
         //Requirement CritFail   //If <= this condition, critical failure.
         //Requirement Available //Will this show up as an available response?
-        #endregion Responses Only
 
-        #region NPC Only
-        public List<string> PossibleResponses = new List<string>();
-        #endregion
-    }
-}
+        public DialogLine()
+        {
+            TargetMoodPairs = new Dictionary<CharacterNames, MoodTypes>();
+            Responses = new List<string>();
+        }//end of DialogLine ctor
+    }//end of DialogLine
+}//end of namespace

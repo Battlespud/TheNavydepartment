@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace DialogBuilder
 {
+    /// <summary>
+    /// Pre-set list of character names within the game
+    /// </summary>
     public enum CharacterNames : byte
     {
+        /// <summary>
+        /// Player's character
+        /// </summary>
         Player,
         Sasha,
         Vadim,
@@ -17,5 +23,5 @@ namespace DialogBuilder
         Dmitri,
         Putin,
         Medved
-    }
-}
+    }//end of CharacterNames
+}//end of namespace

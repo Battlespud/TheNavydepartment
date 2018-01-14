@@ -1,0 +1,24 @@
+Dialog Builder Controls Reference
+
+DEPRECATED - AppMenu : Contains the open save and exit buttons for the app
+DEPRECATED - DialogOptionsMenu : Contains the create copy paste apply redo undo reset and clear buttons for the dialog line creation/editing form
+ActiveDialogLinesListBox : Is the main list(box) located to the left, contains all the active dialog line instances
+LineIDTextBox : input for the dialogline's line id
+ParentDialogLineComboBox : drop down reference list of all the possible higher hierarchal dialogline's (effectively a clone of ActiveDialogLinesListBox minus lower hierarchal dialoglines)
+HierarchyTypeLabel : Displays the hierarchal level of the selected/loaded dialogline
+SpeakerIDComboBox : drop down of all the character's names including Player tag
+SpeakerMoodComboBox : drop down of all the possible moods the speaker can have
+DialogStringTextBox : Text box input used for storing the actual dialog being said for that particular dialogline
+PassIDComboBox : drop down of all the active line ids (effectively a clone of  ActiveDialogLinesListBox)
+FailIDComboBox : drop down of all the active line ids (effectively a clone of  ActiveDialogLinesListBox)
+CritFailIDComboBox : drop down of all the active line ids (effectively a clone of  ActiveDialogLinesListBox)
+TargetMoodPairsStackPanel : Main panel that holds the controls and any TargetMoodPairs
+TargetMoodPairsControlsMenu : menu that holds the controls for manipulating the TargetMoodPairs entries (really only used for reference)
+SelectAllTargetMoodPairsItem : self explanatory
+AddTargetMoodPairItem : self explanatory
+RemoveTargetMoodPairItem : self explanatory
+ResponseIDsStackPanel : Main panel that holds all the response ids entries
+ResponseIDsControlsMenu : menu that holds the controls for manipulating response id entries (really only used for reference)
+SelectAllResponseIDsItem : self explanatory
+RemoveResponseIDItem : self explanatory
+ResponseIDsComboBox : drop down of all the possible resposnes (line ID: effectively a copy of ActiveDialogLinesListBox)
