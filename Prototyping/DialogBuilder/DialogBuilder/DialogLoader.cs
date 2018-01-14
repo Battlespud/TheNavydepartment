@@ -6,6 +6,9 @@ using System.IO;
 
 namespace DialogBuilder
 {
+    /// <summary>
+    /// Handles loading/conversion of dialog text files and their inner DialogLine formatted chunks into actual DialogLine objects
+    /// </summary>
     public static class DialogLoader
     {
         /// <summary>
@@ -29,10 +32,13 @@ namespace DialogBuilder
 
         public static Dictionary<string, DialogLine> MasterDialogLineList;
 
+        /// <summary>
+        /// Used for init of global members
+        /// </summary>
         public static void Initialize()
         {
             MasterDialogLineList = new Dictionary<string, DialogLine>();
-        }
+        }//end of Initialize
 
         /// <summary>
         /// Reads each file in the Dialogs folder, later amendments will account for a dialog file prefixed by Day for more organization, though its superfluous and wont actually affect the functionality
@@ -161,5 +167,5 @@ namespace DialogBuilder
             }
             //string targetID = line.Substring()
         }//end of ParseTargetIDMoodPairs
-    }//end of class
-}
+    }//end of DialogLoader
+}//end of namespace

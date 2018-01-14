@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DialogBuilder
 {
+    /// <summary>
+    /// Reps a containers for all relevant data for each line a character says
+    /// </summary>
     public class DialogLine
     {
         public int indexInFile;

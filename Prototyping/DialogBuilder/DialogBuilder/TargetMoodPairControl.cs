@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 
 namespace DialogBuilder
 {
+    /// <summary>
+    /// Struct used for containing the necessary elements to display the targets list, moods list, and checkbox for each row in an enclosing dockpanel
+    /// </summary>
     public struct TargetMoodPairControl
     {
         public DockPanel tmpPanel;
@@ -22,6 +25,11 @@ namespace DialogBuilder
         public ComboBox targets;
         public ComboBox moods;
 
+        /// <summary>
+        /// Base ctor; pass ref to parent panel and select all checkbox
+        /// </summary>
+        /// <param name="panel">Parent Panel</param>
+        /// <param name="selectAll">Select All checkbox for the TMP section</param>
         public TargetMoodPairControl(StackPanel panel, CheckBox selectAll)
         {
             tmpPanel = new DockPanel();
@@ -30,8 +38,12 @@ namespace DialogBuilder
             moods = new ComboBox();
             panel.Children.Add(tmpPanel);
             PopulateValues(selectAll);
-        }
+        }//end of ctor(StackPanel panel, CheckBox selectAll)
 
+        /// <summary>
+        /// Populates, per instance, a DialogLines target|mood pairs
+        /// </summary>
+        /// <param name="selectAll"></param>
         void PopulateValues(CheckBox selectAll)
         {
             TargetMoodPairControl self = this;
@@ -46,7 +58,7 @@ namespace DialogBuilder
                 {
                     selectAll.IsChecked = true;
                 }
-            };
+            };//end of selectBox.Checked
 
             selectBox.Unchecked += (object sender, RoutedEventArgs e) =>
             {
@@ -55,7 +67,7 @@ namespace DialogBuilder
                 {
                     selectAll.IsChecked = false;
                 }
-            };
+            };//end of selectBox.Unchecked
 
             foreach (CharacterNames name in Enum.GetValues(typeof(CharacterNames)))
             {
@@ -66,6 +78,6 @@ namespace DialogBuilder
             {
                 moods.Items.Add(moodType);
             }
-        }
-    }
-}
+        }//end of PopulateValues
+    }//end of TargetMoodPairControl
+}//end of namespace
