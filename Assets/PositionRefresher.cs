@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PositionRefresher : MonoBehaviour
 {
 	const float Z = -9.2f;
+	const float YDiff = +.31f;
 
 	public bool RecieveInput = false;
 	private CharacterController Controller;
@@ -29,6 +30,7 @@ public class PositionRefresher : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 	//	transform.position = new Vector3(transform.position.x,transform.position.y,Z);
+		transform.position = new Vector3(transform.position.x, Player.transform.position.y + YDiff,Z);
 		VisualAreaWidth = Mathf.Abs(Mathf.Tan(Camera.main.fieldOfView) *Mathf.Abs(Player.transform.position.z - transform.position.z));
 
 		if (RecieveInput)
@@ -87,6 +89,6 @@ public class PositionRefresher : MonoBehaviour
 
 	public void SnapToPlayer()
 	{
-		transform.position = new Vector3(Player.transform.position.x,transform.position.y,Z);
+		transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y + YDiff,Z);
 	}
 }
