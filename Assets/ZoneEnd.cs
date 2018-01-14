@@ -7,24 +7,19 @@ using UnityEngine.UI;
 public class ZoneEnd : MonoBehaviour, IInteractable
 {
 
-	public GameObject SpawnRight;
-	public GameObject SpawnLeft;
-	public string RightName;
-	public string LeftName;
+	public GameObject TargetSpawn;
+	public string NameofDest;
 
-	public Text LabelLeft;
-	public Text LabelRight;
-	
-	
 	public bool Passable;
 	public float TimeToPass;
 	
 	public PositionRefresher Cam;
 
-	public GameObject UIPopupEnabledLeft;
-	public GameObject UIPopupEnabledRight;
+	public GameObject UIPopupEnabled;
+	public Text Label;
 
 	public GameObject UIPopupDisabled;
+	
 	public Animator DoorAnimator;
 	public Animation DoorAnimation;
 	public GameObject GatePrefab;
@@ -40,13 +35,11 @@ public class ZoneEnd : MonoBehaviour, IInteractable
 		Player = GameObject.FindGameObjectWithTag("Player");
 		Cam = Camera.main.GetComponent<PositionRefresher>();
 		UIPopupDisabled.SetActive(false);
-		UIPopupEnabledLeft.SetActive(false);
-		UIPopupEnabledRight.SetActive(false);
+		UIPopupEnabled.SetActive(false);
 		GatePosition = DoorAnimator.transform.position;
 		DoorAnimator.enabled = false;
 		
-		LabelRight.text = LeftName;
-		LabelLeft.text = RightName;
+		Label.text = NameofDest;
 	}
 	
 	// Update is called once per frame
@@ -59,22 +52,17 @@ public class ZoneEnd : MonoBehaviour, IInteractable
 		if (b)
 		{
 			if (Passable)
-				if (Player.transform.position.x < transform.position.x)
-				{
-					UIPopupEnabledLeft.SetActive(true);
-				}
-				else
-				{
-					UIPopupEnabledRight.SetActive(true);
-				}		
+			{
+				UIPopupEnabled.SetActive(true);
+			}
 			else
+			{
 				UIPopupDisabled.SetActive(true);
+			}
 		}
 		else
 		{
-				UIPopupEnabledLeft.SetActive(false);
-				UIPopupEnabledRight.SetActive(false);
-
+				UIPopupEnabled.SetActive(false);
 				UIPopupDisabled.SetActive(false);
 		}
 	}
@@ -96,7 +84,7 @@ public class ZoneEnd : MonoBehaviour, IInteractable
 	IEnumerator UseDoor()
 	{
 		DoorAnimator.enabled = true;
-
+		IEnableInteraction(false);
 		float f = .9f;
 		while (f > 0f)
 		{
@@ -120,14 +108,8 @@ public class ZoneEnd : MonoBehaviour, IInteractable
 		Gate.transform.position = GatePosition;
 		DoorAnimator.enabled = false;
 		IEnableInteraction(false);
-		if (Player.transform.position.x < transform.position.x)
-		{
-			Player.transform.position = SpawnRight.transform.position;
-		}
-		else
-		{
-			Player.transform.position = SpawnLeft.transform.position;
-		}
+			Player.transform.position = TargetSpawn.transform.position;
+
 		IEnableInteraction(true);
 
 
