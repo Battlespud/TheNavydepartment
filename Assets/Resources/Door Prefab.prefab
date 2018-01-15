@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 23542496290688786}
   - component: {fileID: 114406507659606462}
   - component: {fileID: 65192963100871192}
+  - component: {fileID: 191189349557037152}
   m_Layer: 9
   m_Name: Door Prefab
   m_TagString: Untagged
@@ -190,7 +191,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1051752997435154}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.5859985, y: 0, z: -2.4323277}
+  m_LocalPosition: {x: 5.649, y: 0, z: -2.4323277}
   m_LocalScale: {x: 1, y: 10, z: 10.844418}
   m_Children: []
   m_Father: {fileID: 4492636143795736}
@@ -342,7 +343,7 @@ MonoBehaviour:
   TargetSpawn: {fileID: 1051752997435154}
   NameofDest: Not Da Weh
   Passable: 1
-  TimeToPass: 0
+  TimeToPass: 15
   Cam: {fileID: 0}
   UIPopupEnabled: {fileID: 1156008021854470}
   Label: {fileID: 114889790430361852}
@@ -583,6 +584,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: New Text
+--- !u!191 &191189349557037152
+OffMeshLink:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961390969118450}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_AreaIndex: 0
+  m_AgentTypeID: 0
+  m_Start: {fileID: 4492636143795736}
+  m_End: {fileID: 4428412785786592}
+  m_CostOverride: -1
+  m_BiDirectional: 0
+  m_Activated: 1
+  m_AutoUpdatePositions: 0
 --- !u!212 &212158623450078036
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -709,7 +726,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1156008021854470}
   m_LocalRotation: {x: 0.15003228, y: -0.1500323, z: 0.6910068, w: 0.6910067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.892}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224339935564242850}
@@ -720,7 +737,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 24.5, y: 0, z: 90.00001}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0.67050004, y: -0.3}
+  m_AnchoredPosition: {x: 0.67050004, y: -0.504}
   m_SizeDelta: {x: 0.6123, y: 0.7748}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224339935564242850
@@ -786,7 +803,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659277560432038}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.999}
   m_LocalScale: {x: 1, y: 1, z: 1.0000001}
   m_Children: []
   m_Father: {fileID: 224447852218096350}

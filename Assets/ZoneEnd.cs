@@ -11,7 +11,7 @@ public class ZoneEnd : MonoBehaviour, IInteractable
 	public string NameofDest;
 
 	public bool Passable;
-	public float TimeToPass;
+	public int TimeToPass;
 	
 	public PositionRefresher Cam;
 
@@ -83,6 +83,8 @@ public class ZoneEnd : MonoBehaviour, IInteractable
 
 	IEnumerator UseDoor()
 	{
+		Clock.IncrementMinutes(TimeToPass);
+
 		DoorAnimator.enabled = true;
 		IEnableInteraction(false);
 		float f = .9f;
@@ -97,6 +99,7 @@ public class ZoneEnd : MonoBehaviour, IInteractable
 
 		//	World.Refresh();
 		float t = 1f;
+
 		while (t > 0f)
 		{
 			t -= Time.deltaTime;

@@ -25,7 +25,7 @@ public class WorldController : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Clock.IncrementHours(Increment);
+			Clock.IncrementMinutes(Increment);
 		}
 	}
 }

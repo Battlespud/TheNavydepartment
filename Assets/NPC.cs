@@ -48,7 +48,7 @@ public enum NPCTypes
             }
             
             Debug.Log(("Closest position is " + TargetPosition));
-           // Agent.SetDestination(TargetPosition);
+            Agent.SetDestination(TargetPosition);
         }
 
         void BuildSchedule()
@@ -99,6 +99,7 @@ public enum NPCTypes
             EndConvoButton.SetActive(false);
             SpeechTextbox.text = "";
             BuildSchedule();
+            Agent = GetComponent<NavMeshAgent>();
             Clock.TimeChange.AddListener(CheckSchedule);
         }
         
@@ -150,6 +151,16 @@ public enum NPCTypes
             }
             SpeechBubble.SetActive(false);
             EndConvoButton.SetActive(false);
+        }
+
+        void Update()
+        {
+            if (Agent.isOnOffMeshLink)
+            {
+                Vector3 buffer = Agent.destination;
+                Agent.Warp(Agent.currentOffMeshLinkData.endPos);
+                Agent.SetDestination(buffer);
+            }
         }
     }
     
