@@ -13,5 +13,3 @@ F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\Di
 F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder.csproj.CoreCompileInputs.cache
 F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder.exe
 F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\DialogBuilder.pdb
-F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\TargetMoodsCreationWindow.g.cs
-F:\GitHub\TheNavydepartment\Prototyping\DialogBuilder\DialogBuilder\obj\Debug\TargetMoodsCreationWindow.baml

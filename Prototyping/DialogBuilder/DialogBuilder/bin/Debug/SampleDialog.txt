@@ -1,0 +1,230 @@
+[
+LineID:Player Starts Game
+DialogString:Welcome to the station. Do my job.
+SpeakerID:Sasha
+SpeakerMood:Angry
+Pass:Player passes first test
+Fail:Player fails first test
+CritFail:Player critically fails first test
+Responses:4
+{
+Player is humbled by greeting
+Player is retarded during greeting
+Player is a dick during the greeting
+Player does a sharp 180 and leaves
+}
+Targets:2
+{
+Player
+Tanya
+}
+Moods:2
+{
+Questioning
+Happy
+}
+ReqFail:
+ReqCritFail:
+ReqAvailable:
+]
+[
+LineID:Player is humbled by the greeting
+DialogString:Thanks for the warm welcome Adm.Suka
+SpeakerID:Player
+SpeakerMood:Happy
+Pass:
+Fail:
+CritFail:
+Responses:0
+{
+}
+Targets:2
+{
+Sasha
+Tanya
+}
+Moods:2
+{
+Happy
+Happy
+}
+ReqFail:
+ReqCritFail:
+ReqAvailable:
+]
+[
+LineID:Player passes first test
+DialogString:Good, you passed the first step, you can be the admiral now.
+SpeakerID:Sasha
+SpeakerMood:Happy
+Pass:
+Fail:
+CritFail:
+Responses:0
+{
+}
+Targets:2
+{
+Player
+Tanya
+}
+Moods:2
+{
+Happy
+Happy
+}
+ReqFail:
+ReqCritFail:
+ReqAvailable:
+]
+[
+LineID:Player is retarded during greeting
+DialogString:I jerked off into your fern over there
+SpeakerID:Player
+SpeakerMood:Questioning
+Pass:
+Fail:
+CritFail:
+Responses:0
+{
+}
+Targets:2
+{
+Sasha
+Tanya
+}
+Moods:2
+{
+Angry
+Happy
+}
+ReqFail:
+ReqCritFail:
+ReqAvailable:
+]
+[
+LineID:Player fails the first test
+DialogString:You're not gonna make it far here.
+SpeakerID:Sasha
+SpeakerMood:Angry
+Pass:
+Fail:
+CritFail:
+Responses:0
+{
+}
+Targets:2
+{
+Player
+Tanya
+}
+Moods:2
+{
+Angry
+Sad
+}
+ReqFail:
+ReqCritFail:
+ReqAvailable:
+]
+[
+LineID:Player is a dick during the greeting
+DialogString:Hey bitch, suck my dick *hip thrust*
+SpeakerID:Player
+SpeakerMood:Happy
+Pass:
+Fail:
+CritFail:
+Responses:0
+{
+}
+Targets:2
+{
+Tanya
+Sasha
+}
+Moods:2
+{
+Happy
+Sad
+}
+ReqFail:
+ReqCritFail:
+ReqAvailable:
+]
+[
+LineID:Player critically fails first test
+DialogString:Get out, before I blow your head off.
+SpeakerID:Sasha
+SpeakerMood:Angry
+Pass:
+Fail:
+CritFail:
+Responses:0
+{
+}
+Targets:2
+{
+Player
+Tanya
+}
+Moods:2
+{
+Questioning
+Sad
+}
+ReqFail:
+ReqCritFail:
+ReqAvailable:
+]
+[
+LineID:Player does a sharp 180 and leaves
+DialogString:Nope nope nope nope nope nope nope nope nope
+SpeakerID:Player
+SpeakerMood:Questioning
+Pass:
+Fail:
+CritFail:
+Responses:1
+{
+Player quits game before it starts
+}
+Targets:2
+{
+Sasha
+Tanya
+}
+Moods:2
+{
+Questioning
+Questioning
+}
+ReqFail:
+ReqCritFail:
+ReqAvailable:
+]
+[
+LineID:Player quits game before it starts
+DialogString:Where are you going?... -Game End-
+SpeakerID:Tanya
+SpeakerMood:Sad
+Pass:
+Fail:
+CritFail:
+Responses:0
+{
+}
+Targets:2
+{
+Player
+Sasha
+}
+Moods:2
+{
+Happy
+Questioning
+}
+ReqFail:
+ReqCritFail:
+ReqAvailable:
+]

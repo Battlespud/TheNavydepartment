@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace DialogBuilder
 {
-    public enum MoodTypes
+    /// <summary>
+    /// Used to distinguish mood of all game characters, including during dialogs
+    /// </summary>
+    public enum MoodTypes : byte
     {
         Happy,
         Annoyed,
@@ -14,5 +17,5 @@ namespace DialogBuilder
         Sad,
         Neutral,
         Questioning
-    }
-}
+    }//end of MoodTypes
+}//end of namespace

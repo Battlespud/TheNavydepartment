@@ -2,164 +2,314 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.IO;
 
 namespace DialogBuilder
 {
+    /// <summary>
+    /// Handles read/write and conversion of dialog text files to and from DialogLine objects
+    /// </summary>
     public static class DialogLoader
     {
         /// <summary>
-        /// A chunk identifier type represents the actual tagged line in the dialog text file. The enum values and values in the text file need to be exact
+        /// Enum local to DialogLoader class only; A chunk identifier represents verbatim, the tag found in a dialog text file. They must be exact
         /// </summary>
-        enum ChunkIdentifierTypes //local enum
+        enum ChunkIdentifierTypes : byte
         {
-            DialogString,
+            /// <summary>
+            /// Unique identifier for a DialogLine
+            /// </summary>
             LineID,
+            /// <summary>
+            /// Exact text being spoken for the DialogLine
+            /// </summary>
+            DialogString,
+            /// <summary>
+            /// The current speaker of this DialogLine from the CharacterNames
+            /// </summary>
             SpeakerID,
-            PassTarget,
-            FailTarget,
-            CriticalFailTarget,
+            /// <summary>
+            /// The current mood of the speaker of this DialogLine from the MoodTypes
+            /// </summary>
             SpeakerMood,
-            TargetMoods,
-            Responses,
+            /// <summary>
+            /// The Line ID to the pass DialogLine
+            /// </summary>
+            Pass,
+            /// <summary>
+            /// The Line ID to the fail DialogLine
+            /// </summary>
             Fail,
-            CriticalFail,
-            Available
+            /// <summary>
+            /// The Line ID to the crit fail DialogLine
+            /// </summary>
+            CritFail,
+            /// <summary>
+            /// A list of possible responses 
+            /// </summary>
+            Responses,
+            /// <summary>
+            /// List of targets (listeners) for this DialogLine; Each target must have a mood
+            /// </summary>
+            Targets,
+            /// <summary>
+            /// List of moods for each target (listener) for this DialogLine; Each mood must have a target
+            /// </summary>
+            Moods,
+            /// <summary>
+            /// WIP: Reqs to fail this DialogLine
+            /// </summary>
+            ReqFail,
+            /// <summary>
+            /// WIP: reqs to crit fail this DialogLine
+            /// </summary>
+            ReqCritFail,
+            /// <summary>
+            /// WIP: reqs signifying that this DialogLine is even available
+            /// </summary>
+            ReqAvailable
         }//end of ChunkIdentifierTypes
-
-        public static Dictionary<string, DialogLine> MasterDialogLineList;
-
+        /// <summary>
+        /// Holds every DialogLine object in the game. Key: LineID (string); Value: DialogLine
+        /// </summary>
+        public static Dictionary<string, DialogLine> MasterDialogLinesList;
+        /// <summary>
+        /// Used for global member initialization of DialogLoader
+        /// </summary>
         public static void Initialize()
         {
-            MasterDialogLineList = new Dictionary<string, DialogLine>();
-        }
-
+            MasterDialogLinesList = new Dictionary<string, DialogLine>();
+        }//end of Initialize
         /// <summary>
-        /// Reads each file in the Dialogs folder, later amendments will account for a dialog file prefixed by Day for more organization, though its superfluous and wont actually affect the functionality
+        /// Handles reading of one or multiple dialog text files
         /// </summary>
-        public static void LoadDialogLinesFromFile(string file)
+        /// <param name="files">Director(ies) passed by the open file dialog</param>
+        public static void ReadDialogTextFiles(params string[] files)
         {
-            DialogLine buffer = new DialogLine();
-            List<string> targetMoods = new List<string>();
-            using (StreamReader reader = new StreamReader(File.Open(file,FileMode.Open,FileAccess.Read,FileShare.None)))
+            for (int i = 0; i < files.Length; i++)
+            {
+                ConvertFromTextToDialogLine(File.Open(files[i], FileMode.Open, FileAccess.Read, FileShare.None));
+            }
+        }//end of ReadDialogTextFiles
+        /// <summary>
+        /// Handles writing of dialog text file. Called on an individual file
+        /// </summary>
+        /// <param name="files"></param>
+        public static void WriteDialogTextFile(string file)
+        {
+            //TODO: after reading
+        }//end of WriteDialogTextFiles
+        /// <summary>
+        /// Handles conversion of text to DialogLines (assuming its in the proper format)
+        /// </summary>
+        /// <param name="file">Path of file to be read and converted, passed as a Stream object</param>
+        public static void ConvertFromTextToDialogLine(Stream file)
+        {
+            //simple reference for the DialogLine object currently being built
+            DialogLine bufferDialogLine = null;
+            //stores all of the target ids for the current DialogLine object being built
+            List<CharacterNames> bufferTargets = null;
+            //stores all of the target moods for the current DialogLine object being built
+            List<MoodTypes> bufferMoods = null;
+            using (StreamReader reader = new StreamReader(file))
             {
                 do
                 {
-                    string raw = reader.ReadLine();
-                    if (raw.Contains('['))//check for chunk start indicator and instantiate a new DialogLine buffer object
+                    string line = reader.ReadLine();
+                    if (line.Contains('['))
                     {
-                        buffer = new DialogLine();
+                        bufferDialogLine = new DialogLine();
                     }
-                    else if (raw.Contains(']')) //check for chunk end indicator and then check to see if the master reference contains key, add to master accordingly
+                    else if (line.Contains(']'))
                     {
-                        ParseTargetIDMoodPairs(targetMoods, buffer);
-                        MasterDialogLineList.Add(buffer.LineID, buffer);
-                    }
-                    else//in between start and end, check to see if ChunkIdentifierTypes (cit) is contained in the string currently being read, if so switch and set buffer.citValue to the string
-                    {
-                        foreach (ChunkIdentifierTypes cit in Enum.GetValues(typeof(ChunkIdentifierTypes)))
+                        for (int i = 0; i < bufferTargets.Count; i++)
                         {
-                            if (raw.Contains(cit.ToString()))
+                            bufferDialogLine.TargetMoodPairs.Add(bufferTargets[i], bufferMoods[i]);
+                        }
+                        MasterDialogLinesList.Add(bufferDialogLine.LineID, bufferDialogLine);
+                    }
+                    else
+                    {
+                        ChunkIdentifierTypes chunk = (ChunkIdentifierTypes)Enum.Parse(typeof(ChunkIdentifierTypes), line.Substring(0, line.IndexOf(':')));
+                        if (line[line.Length-1]!=':')
+                        {
+                            string value = line.Substring(line.IndexOf(':') + 1);
+                            switch (chunk)
                             {
-                                raw = raw.Substring(raw.IndexOf(':') + 1);
-                                switch (cit)
-                                {
-                                    case ChunkIdentifierTypes.DialogString:
-                                        buffer.DialogString = raw;
-                                        break;
-                                    case ChunkIdentifierTypes.LineID:
-                                        buffer.LineID = raw;
-                                        break;
-                                    case ChunkIdentifierTypes.SpeakerID:
-                                        buffer.SpeakerID = raw;
-                                        break;
-                                    case ChunkIdentifierTypes.PassTarget:
-                                        buffer.PassTarget = raw;
-                                        break;
-                                    case ChunkIdentifierTypes.FailTarget:
-                                        buffer.FailTarget = raw;
-                                        break;
-                                    case ChunkIdentifierTypes.CriticalFailTarget:
-                                        buffer.CritFailTarget = raw;
-                                        break;
-                                    case ChunkIdentifierTypes.SpeakerMood:
-                                        buffer.SpeakerMood = (MoodTypes)Enum.Parse(typeof(MoodTypes), raw);
-                                        break;
-                                    case ChunkIdentifierTypes.TargetMoods:
-                                        targetMoods.Clear();
-                                        do
+                                case ChunkIdentifierTypes.LineID:
+                                    bufferDialogLine.LineID = value;
+                                    break;
+                                case ChunkIdentifierTypes.DialogString:
+                                    bufferDialogLine.LineID = value;
+                                    break;
+                                case ChunkIdentifierTypes.SpeakerID:
+                                    bufferDialogLine.SpeakerID = (CharacterNames)Enum.Parse(typeof(CharacterNames), value);
+                                    break;
+                                case ChunkIdentifierTypes.SpeakerMood:
+                                    bufferDialogLine.SpeakerMood = (MoodTypes)Enum.Parse(typeof(MoodTypes), value);
+                                    break;
+                                case ChunkIdentifierTypes.Pass:
+                                    bufferDialogLine.PassID = value;
+                                    break;
+                                case ChunkIdentifierTypes.Fail:
+                                case ChunkIdentifierTypes.CritFail:
+                                    if (!line.Contains("CritFail"))
+                                    {
+                                        bufferDialogLine.FailID = value;
+                                    }
+                                    else
+                                    {
+                                        bufferDialogLine.CritFailID = value;
+                                    }
+                                    break;
+                                case ChunkIdentifierTypes.Responses:
+                                case ChunkIdentifierTypes.Targets:
+                                case ChunkIdentifierTypes.Moods:
+                                    bufferTargets = chunk == ChunkIdentifierTypes.Targets ? new List<CharacterNames>() : bufferTargets;
+                                    bufferMoods = chunk == ChunkIdentifierTypes.Moods ? new List<MoodTypes>() : bufferMoods;
+                                    do
+                                    {
+                                        string option = reader.ReadLine();
+                                        if (option.Contains('{'))
                                         {
-                                            string targetMood = reader.ReadLine();
-                                            if (targetMood.Contains('{'))
+                                            continue;
+                                        }
+                                        else if (option.Contains('}'))
+                                        {
+                                            //reader.ReadLine();
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            if (!string.IsNullOrEmpty(option) || !string.IsNullOrWhiteSpace(option))
                                             {
-                                                continue;
-                                            }
-                                            else if (targetMood.Contains('}'))//end of targetblock block, break loop and read to the next line
-                                            {
-                                                reader.ReadLine();
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                if (!string.IsNullOrEmpty(targetMood))
+                                                switch (chunk)
                                                 {
-                                                    targetMoods.Add(targetMood); //here its just adding the raw data from the file, it gets parsed at the end of each chunk
+                                                    case ChunkIdentifierTypes.Responses:
+                                                        bufferDialogLine.Responses.Add(option);
+                                                        break;
+                                                    case ChunkIdentifierTypes.Targets:
+                                                        bufferTargets.Add((CharacterNames)Enum.Parse(typeof(CharacterNames), option));
+                                                        break;
+                                                    case ChunkIdentifierTypes.Moods:
+                                                        bufferMoods.Add((MoodTypes)Enum.Parse(typeof(MoodTypes), option));
+                                                        break;
+                                                    default:
+                                                        break;
                                                 }
                                             }
-                                        } while (true);
-                                        break;
-                                    case ChunkIdentifierTypes.Responses:
-                                        do
-                                        {
-                                            string response = reader.ReadLine();
-                                            if (response.Contains('{'))
-                                            {
-                                                continue;
-                                            }
-                                            else if (response.Contains('}'))//end of response block, break loop and read to the next line
-                                            {
-                                                reader.ReadLine();
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                if (!string.IsNullOrEmpty(response))
-                                                {
-                                                    buffer.PossibleResponses.Add(response);
-                                                }
-                                            }
-                                        } while (true);
-                                        break;
-                                    case ChunkIdentifierTypes.Fail:
-                                    case ChunkIdentifierTypes.CriticalFail:
-                                    case ChunkIdentifierTypes.Available:
-                                        //handle requirements later
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                        }
+                                    } while (true);
+                                    break;
+                                case ChunkIdentifierTypes.ReqFail:
+                                    break;
+                                case ChunkIdentifierTypes.ReqCritFail:
+                                    break;
+                                case ChunkIdentifierTypes.ReqAvailable:
+                                    break;
+                                default:
+                                    break;
                             }
                         }
+                        //foreach (ChunkIdentifierTypes chunkIDType in Enum.GetValues(typeof(ChunkIdentifierTypes)))
+                        //{
+                        //    if (line.Contains(chunkIDType.ToString()))
+                        //    {
+                        //        if (line[line.Length - 1] != ':') //checks if the string isnt just ':'
+                        //        {
+                        //            string value = line.Substring(line.IndexOf(':') + 1);
+                        //            switch (chunkIDType)
+                        //            {
+                        //                case ChunkIdentifierTypes.LineID:
+                        //                    bufferDialogLine.LineID = value;
+                        //                    break;
+                        //                case ChunkIdentifierTypes.DialogString:
+                        //                    bufferDialogLine.LineID = value;
+                        //                    break;
+                        //                case ChunkIdentifierTypes.SpeakerID:
+                        //                    bufferDialogLine.SpeakerID = (CharacterNames)Enum.Parse(typeof(CharacterNames), value);
+                        //                    break;
+                        //                case ChunkIdentifierTypes.SpeakerMood:
+                        //                    bufferDialogLine.SpeakerMood = (MoodTypes)Enum.Parse(typeof(MoodTypes), value);
+                        //                    break;
+                        //                case ChunkIdentifierTypes.Pass:
+                        //                    bufferDialogLine.PassID = value;
+                        //                    break;
+                        //                case ChunkIdentifierTypes.Fail:
+                        //                case ChunkIdentifierTypes.CritFail:
+                        //                    if (!line.Contains("CritFail"))
+                        //                    {
+                        //                        bufferDialogLine.FailID = value;
+                        //                    }
+                        //                    else
+                        //                    {
+                        //                        bufferDialogLine.CritFailID = value;
+                        //                    }
+                        //                    break;
+                        //                case ChunkIdentifierTypes.Responses:
+                        //                case ChunkIdentifierTypes.Targets:
+                        //                case ChunkIdentifierTypes.Moods:
+                        //                    bufferTargets = chunkIDType == ChunkIdentifierTypes.Targets ? new List<CharacterNames>() : null;
+                        //                    bufferMoods = chunkIDType == ChunkIdentifierTypes.Moods ? new List<MoodTypes>() : null;
+                        //                    do
+                        //                    {
+                        //                        string option = reader.ReadLine();
+                        //                        if (option.Contains('{'))
+                        //                        {
+                        //                            continue;
+                        //                        }
+                        //                        else if (option.Contains('}'))
+                        //                        {
+                        //                            reader.ReadLine();
+                        //                            break;
+                        //                        }
+                        //                        else
+                        //                        {
+                        //                            if (!string.IsNullOrEmpty(option) || !string.IsNullOrWhiteSpace(option))
+                        //                            {
+                        //                                switch (chunkIDType)
+                        //                                {
+                        //                                    case ChunkIdentifierTypes.Responses:
+                        //                                        bufferDialogLine.Responses.Add(option);
+                        //                                        break;
+                        //                                    case ChunkIdentifierTypes.Targets:
+                        //                                        bufferTargets.Add((CharacterNames)Enum.Parse(typeof(CharacterNames), option));
+                        //                                        break;
+                        //                                    case ChunkIdentifierTypes.Moods:
+                        //                                        bufferMoods.Add((MoodTypes)Enum.Parse(typeof(MoodTypes), option));
+                        //                                        break;
+                        //                                    default:
+                        //                                        break;
+                        //                                }
+                        //                            }
+                        //                        }
+                        //                    } while (true);
+                        //                    break;
+                        //                case ChunkIdentifierTypes.ReqFail:
+                        //                    break;
+                        //                case ChunkIdentifierTypes.ReqCritFail:
+                        //                    break;
+                        //                case ChunkIdentifierTypes.ReqAvailable:
+                        //                    break;
+                        //                default:
+                        //                    break;
+                        //            }
+                        //        }
+                        //        break;
+                        //    }
+                        //}
                     }
                 } while (!reader.EndOfStream);
             }
-        }//end of PopulateDialogLines
-
+        }//end of ConvertFromTextToDialogLine
         /// <summary>
-        /// Parses kvps from text file into kvp string,MoodTypes. Being as this method is called at the end of each chunk being built, it can be used in the future for additional/broader parsing
+        /// Handles conversion of DialogLines to text
         /// </summary>
-        /// <param name="targetMoods">list of raw strings from text files</param>
-        /// <param name="buffer">buffer ref used to add parsed kvps to</param>
-        static void ParseTargetIDMoodPairs(List<string> targetMoods, DialogLine buffer)
+        /// <param name="dialogLine"></param>
+        public static void ConvertFromDialogLineToText(DialogLine dialogLine)
         {
-            foreach (string targetMood in targetMoods)
-            {
-                int separatorIndex = targetMood.IndexOf('|');
-                string target = targetMood.Substring(0, separatorIndex);
-                MoodTypes mood = (MoodTypes)Enum.Parse(typeof(MoodTypes), targetMood.Substring(separatorIndex + 1));
-                buffer.TargetMoods.Add(new KeyValuePair<string, MoodTypes>(target, mood));
-            }
-            //string targetID = line.Substring()
-        }//end of ParseTargetIDMoodPairs
-    }//end of class
-}
+            //TODO: after convert from text to DialogLine
+        }//end of ConvertFromDialogLineToText
+    }//end of DialogLoader
+}//end of namespace

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DialogBuilder
 {
+    /// <summary>
+    /// The scope of the dialog line, root being the outer most scope, leaf being hte inner most scope
+    /// </summary>
     public enum HierarchyTypes : byte
     {
         /// <summary>
@@ -32,5 +35,5 @@ namespace DialogBuilder
         /// extension from the twig, bottom most level (for now)
         /// </summary>
         Leaf
-    }
-}
+    }//end of HierarchyTypes
+}//end of namespace

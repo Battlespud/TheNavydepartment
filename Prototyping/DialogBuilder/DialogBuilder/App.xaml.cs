@@ -13,5 +13,6 @@ namespace DialogBuilder
     /// </summary>
     public partial class App : Application
     {
-    }
-}
+
+    }//end of App
+}//end of namespace
