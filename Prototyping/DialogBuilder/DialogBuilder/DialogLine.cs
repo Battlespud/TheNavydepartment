@@ -26,7 +26,7 @@ namespace DialogBuilder
         /// <summary>
         /// Line ID of the line signifying a fail
         /// </summary>
-        public string FailID;
+        public string RegFailID;
         /// <summary>
         /// Line ID of the line signifying a critical fail
         /// </summary>

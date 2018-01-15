@@ -21,14 +21,42 @@ namespace DialogBuilder
     /// </summary>
     public partial class MainWindow : Window
     {
+        public object SelectAllTargetMoodPairsHeader
+        {
+            get { return AllTargetMoodPairsSelected ? "Deselect All" : "Select All"; }
+        }
+        public object SelectAllResponseIDsHeader
+        {
+            get { return AllResponseIDsSelected ? "Deselect All" : "Select All"; }
+        }
         /// <summary>
         /// Represents the total amount of target mood pair entries for the current dialog line
         /// </summary>
-        public static int TotalTargetMoodPairs;
+        public int TotalTargetMoodPairs
+        {
+            get { return ActiveTargetMoodPairEntries.Count; }
+        }
         /// <summary>
         /// Represents the total amount of response ID entires for the current dialog line
         /// </summary>
-        public static int TotalResponseIDs;
+        public int TotalResponseIDs
+        {
+            get { return ActiveResponseIDEntries.Count; }
+        }
+        /// <summary>
+        /// Easy way to get the total selected target mood pairs count
+        /// </summary>
+        static int TotalSelectedTargetMoodPairs
+        {
+            get { return SelectedTargetMoodPairs.Count; }
+        }
+        /// <summary>
+        /// Easy way to get the total selected response ids count
+        /// </summary>
+        static int TotalSelectedResponseIDs
+        {
+            get { return SelectedResponseIDs.Count; }
+        }
         /// <summary>
         /// Stores all the currently selected target mood pair entries for the current dialogline
         /// </summary>
@@ -38,86 +66,161 @@ namespace DialogBuilder
         /// </summary>
         public static List<CheckBox> SelectedResponseIDs;
         /// <summary>
+        /// Stores all active tmp entries for the current DialogLine
+        /// </summary>
+        public static Dictionary<CheckBox, KeyValuePair<ComboBox, ComboBox>> ActiveTargetMoodPairEntries;
+        /// <summary>
+        /// Stores all the active rid entries for the current DialogLine
+        /// </summary>
+        public static List<CheckBox> ActiveResponseIDEntries;
+        /// <summary>
         /// global toggle for whether all the target mood pair entries are selected or not
         /// </summary>
-        public static bool AllTargetMoodPairsSelected;
+        public bool AllTargetMoodPairsSelected
+        {
+            get { return TotalSelectedTargetMoodPairs == TotalTargetMoodPairs && TotalTargetMoodPairs > 0 ? true : false; }
+        }
         /// <summary>
         /// global toggle for whether all the response id entries are selected or not
         /// </summary>
-        public static bool AllResponseIDsSelected;
+        public bool AllResponseIDsSelected
+        {
+            get { return TotalSelectedResponseIDs == TotalResponseIDs && TotalResponseIDs > 0 ? true : false; }
+        }
         /// <summary>
         /// Global reference for the currently selected DialogLine from the Active dialogliens list
         /// </summary>
         public DialogLine SelectedDialogLine { get; set; }
+        /// <summary>
+        /// private master reference for all of the _ID containing combobox elements so that they can be maniuplated easier
+        /// </summary>
+        static List<ComboBox> MasterListRference;
 
         public MainWindow()
         {
             InitializeComponent();
             DialogLoader.MasterDialogLinesList = new Dictionary<string, DialogLine>();
             Initialize();
+            InitializeComboBoxes();
+            ClearForm();
+            Loaded += (object sender, RoutedEventArgs e) =>
+            {
+                CheckSelectAllButtons();
+                UpdateDebug();
+                LayoutUpdated += (object subSender, EventArgs subE) =>
+                {
+                    UpdateDebug();
+                };
+            };
         }//end of MainWindow()
         /// <summary>
         /// Handles initialization of global static members of MainWindow, also used in ClearForm to clear lists and reset values outside the scope of the form
         /// </summary>
         void Initialize()
         {
-            TotalTargetMoodPairs = 0;
-            TotalResponseIDs = 0;
             SelectedTargetMoodPairs = new List<CheckBox>();
             SelectedResponseIDs = new List<CheckBox>();
-            AllTargetMoodPairsSelected = false;
-            SelectAllTargetMoodPairsItem.Header = "Select All";
-            AllResponseIDsSelected = false;
-            SelectAllResponseIDsItem.Header = "Select All";
+            ActiveTargetMoodPairEntries = new Dictionary<CheckBox, KeyValuePair<ComboBox, ComboBox>>();
+            ActiveResponseIDEntries = new List<CheckBox>();
             PopulateConsistentFormValues();
         }//end of Initialize
+        void InitializeComboBoxes()
+        {
+            MasterListRference = new List<ComboBox>()
+            {
+                ParentDialogLinesComboBox,
+                SpeakerIDComboBox,
+                SpeakerMoodComboBox,
+                PassIDComboBox,
+                RegFailIDComboBox,
+                CritFailIDComboBox,
+                ResponseIDsComboBox
+            };
+            //populate all the drop downs with "Choose One"
+            foreach (ItemsControl item in MasterListRference)
+            {
+                item.Items.Add("Choose Option");
+            }
+        }
         /// <summary>
         /// Clears and resets all  form values
         /// </summary>
         void ClearForm()
         {
-            Initialize();
+            //Initialize();
             LineIDTextBox.Text = null;
-            ParentDialogLinesComboBox.SelectedItem = null;
+            ParentDialogLinesComboBox.SelectedIndex = 0;
             SpeakerIDComboBox.SelectedIndex = 0;
             SpeakerMoodComboBox.SelectedIndex = 0;
             DialogStringTextBox.Text = null;
-            PassIDComboBox.SelectedItem = null;
-            FailIDComboBox.SelectedItem = null;
-            CritFailIDComboBox.SelectedItem = null;
-            CleanLists(TargetMoodPairsStackPanel, false);
-            CleanLists(ResponseIDsStackPanel, false);
-            ResponseIDsComboBox.SelectedItem = null;
+            PassIDComboBox.SelectedIndex = 0;
+            RegFailIDComboBox.SelectedIndex = 0;
+            CritFailIDComboBox.SelectedIndex = 0;
+            CleanLists(TargetMoodPairsStackPanel, SelectedTargetMoodPairs, false, false, TotalTargetMoodPairs);
+            CleanLists(ResponseIDsStackPanel, SelectedResponseIDs, false, true, TotalResponseIDs);
+            ResponseIDsComboBox.SelectedIndex = 0;
         }//end of ClearForm
         /// <summary>
         /// Handles list cleaning (ie right now handles cleaning of Target Mood Pairs and Response IDs lists)
         /// </summary>
-        /// <param name="panel"></param>
-        void CleanLists(StackPanel panel, bool selectedOnly)
+        /// <param name="panel">panel to clean</param>
+        /// <param name="selectedList">list of elements to clean</param>
+        /// <param name="selectedOnly">toggle whether to remove selected elements only</param>
+        /// <param name="isResponseIDs">toggle to indicate whether its the tmps section or rids section</param>
+        /// <param name="totalEntries">toggle count of entries in the panel</param>
+        void CleanLists(StackPanel panel, List<CheckBox> selectedList, bool selectedOnly, bool isResponseIDs, int totalEntries)
         {
-            List<CheckBox> garbage = new List<CheckBox>();
-            foreach (var item in panel.Children)
+            if (selectedOnly)
             {
-                if (item is CheckBox)
+                List<CheckBox> garbageRIDs = isResponseIDs ? new List<CheckBox>() : null;
+                Dictionary<CheckBox, KeyValuePair<ComboBox, ComboBox>> garbageTMPs = !isResponseIDs ? new Dictionary<CheckBox, KeyValuePair<ComboBox, ComboBox>>() : null;
+                if (isResponseIDs)
                 {
-                    if (selectedOnly)
+                    foreach (var item in ActiveResponseIDEntries)
                     {
-                        if ((bool)(item as CheckBox).IsChecked)
+                        if ((bool)item.IsChecked)
                         {
-                            garbage.Add(item as CheckBox);
+                            garbageRIDs.Add(item);
                         }
                     }
-                    else
+
+                    foreach (var item in garbageRIDs)
                     {
-                        garbage.Add(item as CheckBox);
+                        panel.Children.Remove(item);
+                        ActiveResponseIDEntries.Remove(item);
+                        SelectedResponseIDs.Remove(item);
+                    }
+                }
+                else
+                {
+                    foreach (var item in ActiveTargetMoodPairEntries)
+                    {
+                        if ((bool)item.Key.IsChecked)
+                        {
+                            garbageTMPs.Add(item.Key, item.Value);
+                        }
+                    }
+
+                    foreach (var item in garbageTMPs)
+                    {
+                        panel.Children.Remove(item.Key);
+                        ActiveTargetMoodPairEntries.Remove(item.Key);
+                        SelectedTargetMoodPairs.Remove(item.Key);
                     }
                 }
             }
-
-            foreach (var item in garbage)
+            else
             {
-                panel.Children.Remove(item);
-                TotalResponseIDs--;
+                if (isResponseIDs)
+                {
+                    ActiveResponseIDEntries.Clear();
+                }
+                else
+                {
+                    ActiveTargetMoodPairEntries.Clear();
+                }
+                panel.Children.RemoveRange(1, totalEntries);
+                selectedList.Clear();
             }
         }//end of CleanLists
         /// <summary>
@@ -125,41 +228,54 @@ namespace DialogBuilder
         /// </summary>
         void FromDialogLineToForm(DialogLine selected)
         {
+            ClearForm();
             LineIDTextBox.Text = selected.LineID;
             SpeakerIDComboBox.SelectedItem = selected.SpeakerID;
             SpeakerMoodComboBox.SelectedItem = selected.SpeakerMood;
             DialogStringTextBox.Text = selected.DialogString;
-            PassIDComboBox.SelectedValue = selected.PassID;
-            FailIDComboBox.SelectedValue = selected.FailID;
-            CritFailIDComboBox.SelectedValue = selected.CritFailID;
+            PassIDComboBox.SelectedValue = selected.PassID ?? "Choose Option";
+            RegFailIDComboBox.SelectedValue = selected.RegFailID ?? "Choose Option";
+            CritFailIDComboBox.SelectedValue = selected.CritFailID ?? "Choose Option";
             PopulateTargetMoodPairEntries(selected.TargetMoodPairs);
             PopulateResponseIDEntries(selected.Responses);
             ResponseIDsComboBox.SelectedIndex = 0;
-
-            int i = 1;
-            foreach (var item in selected.TargetMoodPairs)
-            {
-                for (int j = 0; j < 2; j++)
-                {
-                    ComboBox list = ((TargetMoodPairsStackPanel.Children[i] as CheckBox).Content as DockPanel).Children[j] as ComboBox;
-                    if (j == 0)
-                    {
-                        list.SelectedValue = item.Key;
-                    }
-                    else
-                    {
-                        list.SelectedValue = item.Value;
-                    }
-                }
-                i++;
-            }
         }//end of DialogLineToForm
         /// <summary>
         /// Converts form data and values to a DialogLine object
         /// </summary>
         void FromFormToDialogLine()
         {
+            DialogLine created = new DialogLine()
+            {
+                LineID = LineIDTextBox.Text,
+                DialogString = DialogStringTextBox.Text,
+                SpeakerID = (CharacterNames)SpeakerIDComboBox.SelectedValue,
+                SpeakerMood = (MoodTypes)SpeakerMoodComboBox.SelectedValue
+            };
 
+            created.PassID = PassIDComboBox.SelectedIndex != 0 ? PassIDComboBox.SelectedValue.ToString() : null;
+            created.RegFailID = RegFailIDComboBox.SelectedIndex != 0 ? RegFailIDComboBox.SelectedValue.ToString() : null;
+            created.CritFailID = CritFailIDComboBox.SelectedIndex != 0 ? CritFailIDComboBox.SelectedValue.ToString() : null;
+
+            if (TotalTargetMoodPairs > 0)
+            {
+                foreach (var item in ActiveTargetMoodPairEntries)
+                {
+                    created.TargetMoodPairs.Add((CharacterNames)item.Value.Key.SelectedValue, (MoodTypes)item.Value.Value.SelectedValue);
+                }
+            }
+
+            if (TotalResponseIDs > 0)
+            {
+                foreach (var item in ActiveResponseIDEntries)
+                {
+                    created.Responses.Add(item.Content.ToString());
+                }
+            }
+
+            DialogLoader.MasterDialogLinesList.Add(created.LineID, created);
+            PopulateFromMasterDialogLinesList();
+            ClearForm();
         }//end of FromFormToDialogLine
          /// <summary>
          /// Handles populating form values that are consistent throughout the dialog creation work flow
@@ -185,20 +301,21 @@ namespace DialogBuilder
         void PopulateFromMasterDialogLinesList()
         {
             //This populates all of the Line ID based lists/drop downs with all of the dialog line objects' Line IDs from the master list. I feel like there's a better way to do this but I don't know how right now
+            ActiveDialogLinesListBox.Items.Clear();
             foreach (var item in DialogLoader.MasterDialogLinesList)
             {
                 ListBoxItem active = new ListBoxItem() { Content = item.Key };
                 active.Selected += (object sender, RoutedEventArgs e) =>
                 {
                     ClearForm();
-                    SelectedDialogLine = item.Value;
+                    SelectedDialogLine = DialogLoader.MasterDialogLinesList[item.Key.ToString()];
                     FromDialogLineToForm(SelectedDialogLine);
                 };
 
                 ActiveDialogLinesListBox.Items.Add(active);
                 ParentDialogLinesComboBox.Items.Add(item.Key);
                 PassIDComboBox.Items.Add(item.Key);
-                FailIDComboBox.Items.Add(item.Key);
+                RegFailIDComboBox.Items.Add(item.Key);
                 CritFailIDComboBox.Items.Add(item.Key);
                 ResponseIDsComboBox.Items.Add(item.Key);
             }
@@ -209,34 +326,12 @@ namespace DialogBuilder
         /// <param name="targetMoodPairs">The current dialog line's dictionary of CharacterNames|MoodTypes</param>
         void PopulateTargetMoodPairEntries(Dictionary<CharacterNames, MoodTypes> targetMoodPairs)
         {
-            int checkBoxWidth = 300;
-            int comboBoxWidth = 140;
+            KeyValuePair<ComboBox, ComboBox> children;
             foreach (var item in targetMoodPairs)
             {
-                TotalTargetMoodPairs++;
-                CheckBox entry = new CheckBox()
-                {
-                    Width = checkBoxWidth,
-                    VerticalContentAlignment = VerticalAlignment.Center,
-                    Content = new DockPanel()
-                    {
-                        Children =
-                        {
-                            new ComboBox()
-                            {
-                                Width = comboBoxWidth,
-                                ItemsSource = Enum.GetValues(typeof(CharacterNames))
-                            },
-                            new ComboBox()
-                            {
-                                Width = comboBoxWidth,
-                                ItemsSource = Enum.GetValues(typeof(MoodTypes))
-                            }
-                        }
-                    }
-                };
-                InitializeItemEntryControlsOnPopulation(entry, false);
-                TargetMoodPairsStackPanel.Children.Add(entry);
+                children = AddTargetMoodPairEntry();
+                children.Key.SelectedValue = item.Key;
+                children.Value.SelectedValue = item.Value;
             }
         }//end of PopulateTargetMoodPairEntries
         /// <summary>
@@ -247,10 +342,7 @@ namespace DialogBuilder
         {
             foreach (var item in responseIDs)
             {
-                TotalResponseIDs++;
-                CheckBox entry = new CheckBox() { Content = item };
-                InitializeItemEntryControlsOnPopulation(entry, true);
-                ResponseIDsStackPanel.Children.Add(entry);
+                AddResponseIDEntry(item);
             }
         }//end of PopulateResponseIDEntries
         /// <summary>
@@ -262,6 +354,8 @@ namespace DialogBuilder
         {
             entry.Checked += (object sender, RoutedEventArgs e) =>
             {
+                MenuItem selectAllButton = isResponseIDEntry ? SelectAllResponseIDsItem : SelectAllTargetMoodPairsItem;
+
                 if (isResponseIDEntry)
                 {
                     SelectedResponseIDs.Add(entry);
@@ -270,17 +364,14 @@ namespace DialogBuilder
                 {
                     SelectedTargetMoodPairs.Add(entry);
                 }
-                CheckSelectAllButton
-                (
-                    isResponseIDEntry ? SelectAllResponseIDsItem : SelectAllTargetMoodPairsItem,
-                    isResponseIDEntry ? SelectedResponseIDs : SelectedTargetMoodPairs,
-                    ref isResponseIDEntry ? ref AllResponseIDsSelected : ref AllTargetMoodPairsSelected,
-                    ref isResponseIDEntry ? ref TotalResponseIDs : ref TotalTargetMoodPairs
-                );
+
+                CheckSelectAllButtons();
             };//end of Checked
 
             entry.Unchecked += (object sender, RoutedEventArgs e) =>
             {
+                MenuItem selectAllButton = isResponseIDEntry ? SelectAllResponseIDsItem : SelectAllTargetMoodPairsItem;
+
                 if (isResponseIDEntry)
                 {
                     SelectedResponseIDs.Remove(entry);
@@ -290,81 +381,125 @@ namespace DialogBuilder
                     SelectedTargetMoodPairs.Remove(entry);
                 }
 
-                CheckSelectAllButton
-                (
-                    isResponseIDEntry ? SelectAllResponseIDsItem : SelectAllTargetMoodPairsItem,
-                    isResponseIDEntry ? SelectedResponseIDs : SelectedTargetMoodPairs,
-                    ref isResponseIDEntry ? ref AllResponseIDsSelected : ref AllTargetMoodPairsSelected,
-                    ref isResponseIDEntry ? ref TotalResponseIDs : ref TotalTargetMoodPairs
-                );
+                CheckSelectAllButtons();
             };//end of Unchecked
         }//end of InitializeResponseIDEntryControlsOnPopulation
         /// <summary>
-        /// Checks the relevative select all button and it's corresponding bool and adjust values based off of certain conditions
+        /// Checks the state of the Select all button for TMPs and RIDs. Honestly it's just aesthetic lol
         /// </summary>
-        /// <param name="selectAllItem">The select all button in question</param>
-        /// <param name="selectedList">The list of currently selected items</param>
-        /// <param name="allSelected">A ref to the corresponding bool of the button in question</param>
-        /// <param name="totalEntries">A ref to the total amount of entries</param>
-        void CheckSelectAllButton(MenuItem selectAllItem, List<CheckBox> selectedList, ref bool allSelected, ref int totalEntries)
+        void CheckSelectAllButtons()
         {
-            if (selectedList.Count == totalEntries)
-            {
-                if (!allSelected)
-                {
-                    allSelected = true;
-                }
-
-                selectAllItem.Header = "Deselect All";
-                return;
-            }
-
-            if (selectedList.Count == 0)
-            {
-                if (allSelected)
-                {
-                    allSelected = false;
-                }
-
-                selectAllItem.Header = "Select All";
-                return;
-            }
-
-            if (totalEntries <= 0)
-            {
-                selectAllItem.Header = "Select All";
-                return;
-            }
-        }//end of CheckSelectAllButton
+            SelectAllTargetMoodPairsItem.Header = SelectAllTargetMoodPairsHeader;
+            SelectAllResponseIDsItem.Header = SelectAllResponseIDsHeader;
+        }//end of CheckSelectAllButtons
         /// <summary>
-        /// Removes entries from a collection. If there are entries that are selected then the remove button serves as a remove selected button, else it removes from the bottom
+        /// Checks the state of the select all button.
         /// </summary>
-        /// <param name="panel">Container or entries</param>
-        /// <param name="selectedEntries">Selected entries list if there are any</param>
-        /// <param name="totalEntries">ref to total entries for the container</param>
-        void RemoveEntry(StackPanel panel, List<CheckBox> selectedEntries, bool isResponsePanel, ref int totalEntries)
+        /// <param name="panel">panel of the select all button</param>
+        /// <param name="allSelected">bool toggle indicator whether all are selected or not</param>
+        /// <param name="selectedList">the list of the selected elements (if any)</param>
+        void SelectOrDeselectAll(StackPanel panel, bool allSelected, List<CheckBox> selectedList)
         {
-            if (totalEntries > 0) //if we have at least one entry
+            bool value = allSelected; //bc allSelected is a read only
+            foreach (var item in panel.Children)
             {
-                if (selectedEntries.Count <= 0) //if none are selected
+                if (item is CheckBox)
                 {
-                    panel.Children.RemoveAt(totalEntries);
-                    totalEntries--;
+                    (item as CheckBox).IsChecked = !allSelected;
+                }
+            }
+        }//end of SelectOrDeselectAll
+        /// <summary>
+        /// Add's a new blank tmp entry to the panel (CheckBox(DockPanel(ComboBox, ComboBox)). Returns collection for easier values population when loading reading from DialogLines
+        /// </summary>
+        /// <returns>KeyValuePair ComboBox|ComboBox</returns>
+        KeyValuePair<ComboBox, ComboBox> AddTargetMoodPairEntry()
+        {
+            int checkBoxWidth = 300;
+            int comboBoxWidth = 140;
+
+            ComboBox names = new ComboBox()
+            {
+                Width = comboBoxWidth,
+                ItemsSource = Enum.GetValues(typeof(CharacterNames)),
+            };
+
+            ComboBox moods = new ComboBox()
+            {
+                Width = comboBoxWidth,
+                ItemsSource = Enum.GetValues(typeof(MoodTypes)),
+            };
+
+            DockPanel panel = new DockPanel()
+            {
+                Children =
+                {
+                    names,
+                    moods
+                }
+            };
+
+            CheckBox entry = new CheckBox()
+            {
+                Width = checkBoxWidth,
+                VerticalContentAlignment = VerticalAlignment.Center,
+                Content = panel
+            };
+
+            InitializeItemEntryControlsOnPopulation(entry, false);
+            TargetMoodPairsStackPanel.Children.Add(entry);
+            ActiveTargetMoodPairEntries.Add(entry, new KeyValuePair<ComboBox, ComboBox>(names, moods));
+            return ActiveTargetMoodPairEntries[entry];
+        }//end of AddTargetMoodPairEntry
+        /// <summary>
+        /// Adds a new RID entry to the panel
+        /// </summary>
+        /// <param name="responseID">The lineID of the dialogline being added, passed as an object to avoid annoying .ToString() conversions</param>
+        void AddResponseIDEntry(object responseID)
+        {
+            foreach (var item in ActiveResponseIDEntries)
+            {
+                if (item.Content.ToString() == responseID.ToString())
+                {
+                    return;
+                }
+            }
+
+            CheckBox entry = new CheckBox() { Content = responseID };
+            InitializeItemEntryControlsOnPopulation(entry, true);
+            ResponseIDsStackPanel.Children.Add(entry);
+            ActiveResponseIDEntries.Add(entry);
+        }//end of AddResponseIDEntry
+        /// <summary>
+        /// Removes an entry from a panel. Unlike the differentiation between adding a TMP and a RID, removing can be more generic being as its removing from a checkbox from a panel
+        /// </summary>
+        /// <param name="panel">Panel to remove from</param>
+        /// <param name="selectedList">List of selected checkbox elements (if any)</param>
+        /// <param name="isResponseIDs">differentiate between the tmps section and the rids section</param>
+        /// <param name="totalSelectEntries">Total selected entries (if any)</param>
+        /// <param name="totalEntries">Total entries (if any)</param>
+        void RemoveEntry(StackPanel panel, List<CheckBox> selectedList, bool isResponseIDs, int totalSelectEntries, int totalEntries)
+        {
+            if (totalEntries > 0)
+            {
+                if (totalSelectEntries > 0)
+                {
+                    CleanLists(panel, selectedList, true, isResponseIDs, totalEntries); //this handles removing selected entries (both partial and full selection)
                 }
                 else
                 {
-                    CleanLists(panel, true);
+                    if (isResponseIDs)
+                    {
+                        ActiveResponseIDEntries.RemoveAt(totalEntries - 1);
+                    }
+                    else
+                    {
+                        ActiveTargetMoodPairEntries.Remove(ActiveTargetMoodPairEntries.ElementAt(totalEntries - 1).Key);
+                    }
+                    panel.Children.RemoveAt(totalEntries);
                 }
             }
-
-            CheckSelectAllButton
-            (
-                isResponsePanel ? SelectAllResponseIDsItem : SelectAllTargetMoodPairsItem,
-                selectedEntries,
-                ref isResponsePanel ? ref AllResponseIDsSelected : ref AllTargetMoodPairsSelected,
-                ref totalEntries
-            );
-        }//end of RemoveEntry
+        }// end of RemoveEntry
         //Handles opening of dialog text files
         private void OpenItem_Click(object sender, RoutedEventArgs e)
         {
@@ -384,16 +519,18 @@ namespace DialogBuilder
         {
             Close();
         }//end of ExitItem_Click
+         //Calls CheckForm and creates a new dialogline object from the data in the form assuming CheckForm returns true
+        private void CreateItem_Click(object sender, RoutedEventArgs e)
+        {
+            FromFormToDialogLine();
+        }//end of CreateItem_Click
+        #region WIP Later
         //Calls ClearForm() and resets all values to allow for creation of a new dialogline
         private void NewItem_Click(object sender, RoutedEventArgs e)
         {
             //im not sure if im gonna use this
         }//end of NewItem_Click
-        //Calls CheckForm and creates a new dialogline object from the data in the form assuming CheckForm returns true
-        private void CreateItem_Click(object sender, RoutedEventArgs e)
-        {
 
-        }//end of CreateItem_Click
         //Copies all data, in it's current state, from the current form layout
         private void CopyItem_Click(object sender, RoutedEventArgs e)
         {
@@ -419,6 +556,7 @@ namespace DialogBuilder
         {
 
         }//end of UndoItem_Click
+        #endregion
         //Resets all changes done to the current dialogline to its last most saved state
         private void ResetItem_Click(object sender, RoutedEventArgs e)
         {
@@ -432,55 +570,58 @@ namespace DialogBuilder
         //Searches list of active DialogLine instances and compares against that which is being type where a red background will signify a duplicate ID or that it contains []{}: or one of the ChunkIdentifierTypes
         private void LineIDTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
+
         }//end of LineIDTextBox_TextChanged
         //Handles (de)selection of all target mood pairs entries
         private void SelectAllTargetMoodPairsItem_Click(object sender, RoutedEventArgs e)
         {
-            MenuItem item = ((MenuItem)sender);
-            AllTargetMoodPairsSelected = !AllTargetMoodPairsSelected;
-            foreach (var entry in TargetMoodPairsStackPanel.Children)
-            {
-                if (entry is CheckBox)
-                {
-                    (entry as CheckBox).IsChecked = AllTargetMoodPairsSelected;
-                }
-            }
-            CheckSelectAllButton(item, SelectedTargetMoodPairs, ref AllTargetMoodPairsSelected, ref TotalTargetMoodPairs);
+            SelectOrDeselectAll(TargetMoodPairsStackPanel, AllTargetMoodPairsSelected, SelectedTargetMoodPairs);
+            CheckSelectAllButtons();
         }//end of SelectAllTargetMoodPairsItem_Click
         //handles adding a new target mood pair entry -> CheckBox (DockPanel(ComboBox, ComboBox))
         private void AddTargetMoodPairItem_Click(object sender, RoutedEventArgs e)
         {
-
+            AddTargetMoodPairEntry();
+            CheckSelectAllButtons();
         }//end of AddTargetMoodPairItem_Click
         //handles removing an existing target mood pair entry; If there are selected entries, it will remove all selected, else itll remove from the bottom
         private void RemoveTargetMoodPairItem_Click(object sender, RoutedEventArgs e)
         {
-            RemoveEntry(TargetMoodPairsStackPanel, SelectedTargetMoodPairs, false, ref TotalTargetMoodPairs);
+            RemoveEntry(TargetMoodPairsStackPanel, SelectedTargetMoodPairs, false, TotalSelectedTargetMoodPairs, TotalTargetMoodPairs);
+            CheckSelectAllButtons();
         }//end of RemoveTargetMoodPairItem_Click
         //Handles (de)selection of all response ID entries
         private void SelectAllResponseIDsItem_Click(object sender, RoutedEventArgs e)
         {
-            MenuItem item = ((MenuItem)sender);
-            AllResponseIDsSelected = !AllResponseIDsSelected;
-            foreach (var entry in ResponseIDsStackPanel.Children)
-            {
-                if (entry is CheckBox)
-                {
-                    (entry as CheckBox).IsChecked = AllResponseIDsSelected;
-                }
-            }
-            CheckSelectAllButton(item, SelectedResponseIDs, ref AllResponseIDsSelected, ref TotalResponseIDs);
+            SelectOrDeselectAll(ResponseIDsStackPanel, AllResponseIDsSelected, SelectedResponseIDs);
+            CheckSelectAllButtons();
         }//end of SelectAllResponseIDsItem_Click
         //handles removing an existing response ID entry; If there are selected entries, it will remove all selected, else itll remove from the bottom
         private void RemoveResponseIDItem_Click(object sender, RoutedEventArgs e)
         {
-            RemoveEntry(ResponseIDsStackPanel, SelectedResponseIDs, true, ref TotalResponseIDs);
+            RemoveEntry(ResponseIDsStackPanel, SelectedResponseIDs, true, TotalSelectedResponseIDs, TotalResponseIDs);
+            CheckSelectAllButtons();
         }//end of RemoveResponseIDItem_Click
         //Serves as a pseudo add function, when selection is changed, itll add to the list of response ID entries, assuming there's no prexisting one of the same type.
         private void ResponseIDsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (((ComboBox)sender).SelectedIndex != 0)
+            {
+                AddResponseIDEntry(((ComboBox)sender).SelectedItem);
+            }
+            CheckSelectAllButtons();
         }//end of ResponseIDsComboBox_SelectionChanged
+        #region debugging
+        //Only noticeable bug was that when clicking on one of the drop downs for the target mood pairs entries, because the comboboxes are in that checkbox's content value (a dockpanel), just clicking it or it's child elements counts as "Checked" and itll register as a selected element, however the state reverts and really it doesnt affect anything. It'll only cause the select all button to change when its not supposed to (but then fix itself when the state reverts). So this is just a graphical bug until I notice it affecting something else
+        void UpdateDebug()
+        {
+            SelTMP.Content = "Sel TMP ct: " + TotalSelectedTargetMoodPairs;
+            TotTMP.Content = "Tot TMP ct: " + TotalTargetMoodPairs;
+            AllSelTMP.Content = "All sel TMP: " + AllTargetMoodPairsSelected;
+            SelRID.Content = "Sel RID ct: " + TotalSelectedResponseIDs;
+            TotRID.Content = "Tot RID ct: " + TotalResponseIDs;
+            AllSelRID.Content = "All sel RID: " + AllResponseIDsSelected;
+        }
+        #endregion
     }//end of MainWindow
 }//end of namespace

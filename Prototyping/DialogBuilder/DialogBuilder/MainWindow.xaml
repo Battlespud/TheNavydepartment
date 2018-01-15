@@ -24,13 +24,13 @@
             <MenuItem Name="ExitItem" Header="Exit" Click="ExitItem_Click"/>
         </Menu>
         <Menu Grid.Column="1">
-            <MenuItem Name="NewItem" Header="New" Click="NewItem_Click"/>
+            <!--<MenuItem Name="NewItem" Header="New" Click="NewItem_Click"/>-->
             <MenuItem Name="CreateItem" Header="Create" Click="CreateItem_Click"/>
-            <MenuItem Name="CopyItem" Header="Copy" Click="CopyItem_Click"/>
+            <!--<MenuItem Name="CopyItem" Header="Copy" Click="CopyItem_Click"/>
             <MenuItem Name="PasteItem" Header="Paste" Click="PasteItem_Click"/>
             <MenuItem Name="ApplyItem" Header="Apply" Click="ApplyItem_Click"/>
             <MenuItem Name="RedoItem" Header="Redo" Click="RedoItem_Click"/>
-            <MenuItem Name="UndoItem" Header="Undo" Click="UndoItem_Click"/>
+            <MenuItem Name="UndoItem" Header="Undo" Click="UndoItem_Click"/>-->
             <MenuItem Name="ResetItem" Header="Reset" Click="ResetItem_Click"/>
             <MenuItem Name="ClearItem" Header="Clear" Click="ClearItem_Click"/>
         </Menu>
@@ -57,7 +57,7 @@
                 <Label Content="Pass ID"/>
                 <ComboBox Name="PassIDComboBox" VerticalAlignment="Center"/>
                 <Label Content="Fail ID"/>
-                <ComboBox Name="FailIDComboBox" VerticalAlignment="Center"/>
+                <ComboBox Name="RegFailIDComboBox" VerticalAlignment="Center"/>
                 <Label Content="Critical Fail ID"/>
                 <ComboBox Name="CritFailIDComboBox" VerticalAlignment="Center"/>
                 <Separator Background="White"/>
@@ -66,23 +66,17 @@
                 <Label Content="Target Mood Pairs" Width="300"/>
                 <Label Content="Response IDs"/>
             </DockPanel>
-            <DockPanel>
+            <DockPanel Name="TMPRIDControlsPanel">
                 <StackPanel Name="TargetMoodPairsStackPanel" Width="300">
                     <Menu Name="TargetMoodPairsControlsMenu" Height="22" VerticalAlignment="Center">
                         <MenuItem Name="SelectAllTargetMoodPairsItem" Click="SelectAllTargetMoodPairsItem_Click"/>
                         <MenuItem Name="AddTargetMoodPairItem" Header="Add" Click="AddTargetMoodPairItem_Click"/>
                         <MenuItem Name="RemoveTargetMoodPairItem" Header="Remove" Click="RemoveTargetMoodPairItem_Click"/>
                     </Menu>
-                    <!--<CheckBox Width="300" VerticalContentAlignment="Center">
-                        <DockPanel>
-                            <ComboBox Width="142"/>
-                            <ComboBox Width="142"/>
-                        </DockPanel>
-                    </CheckBox>-->
                 </StackPanel>
                 <StackPanel Name="ResponseIDsStackPanel">
                     <DockPanel Background="#FFF0F0F0">
-                        <Menu Name="ResponseIDsControlsMenu" VerticalAlignment="Top">
+                        <Menu Name="ResponseIDsControlsMenu" VerticalAlignment="Top" Height="23">
                             <MenuItem Name="SelectAllResponseIDsItem" Click="SelectAllResponseIDsItem_Click"/>
                             <MenuItem Name="RemoveResponseIDItem" Header="Remove" Click="RemoveResponseIDItem_Click"/>
                         </Menu>
@@ -93,6 +87,14 @@
                     </DockPanel>
                 </StackPanel>
             </DockPanel>
+            <StatusBar>
+                <StatusBarItem Name="SelTMP"/>
+                <StatusBarItem Name="TotTMP"/>
+                <StatusBarItem Name="AllSelTMP"/>
+                <StatusBarItem Name="SelRID"/>
+                <StatusBarItem Name="TotRID"/>
+                <StatusBarItem Name="AllSelRID"/>
+            </StatusBar>
         </StackPanel>
     </Grid>
 </Window>

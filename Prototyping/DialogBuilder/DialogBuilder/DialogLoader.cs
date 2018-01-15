@@ -40,7 +40,7 @@ namespace DialogBuilder
             /// <summary>
             /// The Line ID to the fail DialogLine
             /// </summary>
-            Fail,
+            RegFail,
             /// <summary>
             /// The Line ID to the crit fail DialogLine
             /// </summary>
@@ -60,7 +60,7 @@ namespace DialogBuilder
             /// <summary>
             /// WIP: Reqs to fail this DialogLine
             /// </summary>
-            ReqFail,
+            ReqRegFail,
             /// <summary>
             /// WIP: reqs to crit fail this DialogLine
             /// </summary>
@@ -132,7 +132,7 @@ namespace DialogBuilder
                     else
                     {
                         ChunkIdentifierTypes chunk = (ChunkIdentifierTypes)Enum.Parse(typeof(ChunkIdentifierTypes), line.Substring(0, line.IndexOf(':')));
-                        if (line[line.Length-1]!=':')
+                        if (line[line.Length - 1] != ':')
                         {
                             string value = line.Substring(line.IndexOf(':') + 1);
                             switch (chunk)
@@ -141,7 +141,7 @@ namespace DialogBuilder
                                     bufferDialogLine.LineID = value;
                                     break;
                                 case ChunkIdentifierTypes.DialogString:
-                                    bufferDialogLine.LineID = value;
+                                    bufferDialogLine.DialogString = value;
                                     break;
                                 case ChunkIdentifierTypes.SpeakerID:
                                     bufferDialogLine.SpeakerID = (CharacterNames)Enum.Parse(typeof(CharacterNames), value);
@@ -152,16 +152,11 @@ namespace DialogBuilder
                                 case ChunkIdentifierTypes.Pass:
                                     bufferDialogLine.PassID = value;
                                     break;
-                                case ChunkIdentifierTypes.Fail:
+                                case ChunkIdentifierTypes.RegFail:
+                                    bufferDialogLine.RegFailID = value;
+                                    break;
                                 case ChunkIdentifierTypes.CritFail:
-                                    if (!line.Contains("CritFail"))
-                                    {
-                                        bufferDialogLine.FailID = value;
-                                    }
-                                    else
-                                    {
-                                        bufferDialogLine.CritFailID = value;
-                                    }
+                                    bufferDialogLine.CritFailID = value;
                                     break;
                                 case ChunkIdentifierTypes.Responses:
                                 case ChunkIdentifierTypes.Targets:
@@ -177,7 +172,6 @@ namespace DialogBuilder
                                         }
                                         else if (option.Contains('}'))
                                         {
-                                            //reader.ReadLine();
                                             break;
                                         }
                                         else
@@ -202,7 +196,7 @@ namespace DialogBuilder
                                         }
                                     } while (true);
                                     break;
-                                case ChunkIdentifierTypes.ReqFail:
+                                case ChunkIdentifierTypes.ReqRegFail:
                                     break;
                                 case ChunkIdentifierTypes.ReqCritFail:
                                     break;
@@ -212,93 +206,6 @@ namespace DialogBuilder
                                     break;
                             }
                         }
-                        //foreach (ChunkIdentifierTypes chunkIDType in Enum.GetValues(typeof(ChunkIdentifierTypes)))
-                        //{
-                        //    if (line.Contains(chunkIDType.ToString()))
-                        //    {
-                        //        if (line[line.Length - 1] != ':') //checks if the string isnt just ':'
-                        //        {
-                        //            string value = line.Substring(line.IndexOf(':') + 1);
-                        //            switch (chunkIDType)
-                        //            {
-                        //                case ChunkIdentifierTypes.LineID:
-                        //                    bufferDialogLine.LineID = value;
-                        //                    break;
-                        //                case ChunkIdentifierTypes.DialogString:
-                        //                    bufferDialogLine.LineID = value;
-                        //                    break;
-                        //                case ChunkIdentifierTypes.SpeakerID:
-                        //                    bufferDialogLine.SpeakerID = (CharacterNames)Enum.Parse(typeof(CharacterNames), value);
-                        //                    break;
-                        //                case ChunkIdentifierTypes.SpeakerMood:
-                        //                    bufferDialogLine.SpeakerMood = (MoodTypes)Enum.Parse(typeof(MoodTypes), value);
-                        //                    break;
-                        //                case ChunkIdentifierTypes.Pass:
-                        //                    bufferDialogLine.PassID = value;
-                        //                    break;
-                        //                case ChunkIdentifierTypes.Fail:
-                        //                case ChunkIdentifierTypes.CritFail:
-                        //                    if (!line.Contains("CritFail"))
-                        //                    {
-                        //                        bufferDialogLine.FailID = value;
-                        //                    }
-                        //                    else
-                        //                    {
-                        //                        bufferDialogLine.CritFailID = value;
-                        //                    }
-                        //                    break;
-                        //                case ChunkIdentifierTypes.Responses:
-                        //                case ChunkIdentifierTypes.Targets:
-                        //                case ChunkIdentifierTypes.Moods:
-                        //                    bufferTargets = chunkIDType == ChunkIdentifierTypes.Targets ? new List<CharacterNames>() : null;
-                        //                    bufferMoods = chunkIDType == ChunkIdentifierTypes.Moods ? new List<MoodTypes>() : null;
-                        //                    do
-                        //                    {
-                        //                        string option = reader.ReadLine();
-                        //                        if (option.Contains('{'))
-                        //                        {
-                        //                            continue;
-                        //                        }
-                        //                        else if (option.Contains('}'))
-                        //                        {
-                        //                            reader.ReadLine();
-                        //                            break;
-                        //                        }
-                        //                        else
-                        //                        {
-                        //                            if (!string.IsNullOrEmpty(option) || !string.IsNullOrWhiteSpace(option))
-                        //                            {
-                        //                                switch (chunkIDType)
-                        //                                {
-                        //                                    case ChunkIdentifierTypes.Responses:
-                        //                                        bufferDialogLine.Responses.Add(option);
-                        //                                        break;
-                        //                                    case ChunkIdentifierTypes.Targets:
-                        //                                        bufferTargets.Add((CharacterNames)Enum.Parse(typeof(CharacterNames), option));
-                        //                                        break;
-                        //                                    case ChunkIdentifierTypes.Moods:
-                        //                                        bufferMoods.Add((MoodTypes)Enum.Parse(typeof(MoodTypes), option));
-                        //                                        break;
-                        //                                    default:
-                        //                                        break;
-                        //                                }
-                        //                            }
-                        //                        }
-                        //                    } while (true);
-                        //                    break;
-                        //                case ChunkIdentifierTypes.ReqFail:
-                        //                    break;
-                        //                case ChunkIdentifierTypes.ReqCritFail:
-                        //                    break;
-                        //                case ChunkIdentifierTypes.ReqAvailable:
-                        //                    break;
-                        //                default:
-                        //                    break;
-                        //            }
-                        //        }
-                        //        break;
-                        //    }
-                        //}
                     }
                 } while (!reader.EndOfStream);
             }

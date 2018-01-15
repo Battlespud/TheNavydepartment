@@ -4,7 +4,7 @@ DialogString:
 SpeakerID:
 SpeakerMood:
 Pass:
-Fail:
+RegFail:
 CritFail:
 Responses:#
 {

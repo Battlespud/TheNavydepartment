@@ -4,7 +4,7 @@ DialogString:Welcome to the station. Do my job.
 SpeakerID:Sasha
 SpeakerMood:Angry
 Pass:Player passes first test
-Fail:Player fails first test
+RegFail:Player fails first test
 CritFail:Player critically fails first test
 Responses:4
 {
@@ -23,17 +23,17 @@ Moods:2
 Questioning
 Happy
 }
-ReqFail:
+ReqRegFail:
 ReqCritFail:
 ReqAvailable:
 ]
 [
-LineID:Player is humbled by the greeting
+LineID:Player is humbled by greeting
 DialogString:Thanks for the warm welcome Adm.Suka
 SpeakerID:Player
 SpeakerMood:Happy
 Pass:
-Fail:
+RegFail:
 CritFail:
 Responses:0
 {
@@ -48,7 +48,7 @@ Moods:2
 Happy
 Happy
 }
-ReqFail:
+ReqRegFail:
 ReqCritFail:
 ReqAvailable:
 ]
@@ -58,7 +58,7 @@ DialogString:Good, you passed the first step, you can be the admiral now.
 SpeakerID:Sasha
 SpeakerMood:Happy
 Pass:
-Fail:
+RegFail:
 CritFail:
 Responses:0
 {
@@ -73,7 +73,7 @@ Moods:2
 Happy
 Happy
 }
-ReqFail:
+ReqRegFail:
 ReqCritFail:
 ReqAvailable:
 ]
@@ -83,7 +83,7 @@ DialogString:I jerked off into your fern over there
 SpeakerID:Player
 SpeakerMood:Questioning
 Pass:
-Fail:
+RegFail:
 CritFail:
 Responses:0
 {
@@ -98,17 +98,17 @@ Moods:2
 Angry
 Happy
 }
-ReqFail:
+ReqRegFail:
 ReqCritFail:
 ReqAvailable:
 ]
 [
-LineID:Player fails the first test
+LineID:Player fails first test
 DialogString:You're not gonna make it far here.
 SpeakerID:Sasha
 SpeakerMood:Angry
 Pass:
-Fail:
+RegFail:
 CritFail:
 Responses:0
 {
@@ -123,7 +123,7 @@ Moods:2
 Angry
 Sad
 }
-ReqFail:
+ReqRegFail:
 ReqCritFail:
 ReqAvailable:
 ]
@@ -133,7 +133,7 @@ DialogString:Hey bitch, suck my dick *hip thrust*
 SpeakerID:Player
 SpeakerMood:Happy
 Pass:
-Fail:
+RegFail:
 CritFail:
 Responses:0
 {
@@ -148,7 +148,7 @@ Moods:2
 Happy
 Sad
 }
-ReqFail:
+ReqRegFail:
 ReqCritFail:
 ReqAvailable:
 ]
@@ -158,7 +158,7 @@ DialogString:Get out, before I blow your head off.
 SpeakerID:Sasha
 SpeakerMood:Angry
 Pass:
-Fail:
+RegFail:
 CritFail:
 Responses:0
 {
@@ -173,7 +173,7 @@ Moods:2
 Questioning
 Sad
 }
-ReqFail:
+ReqRegFail:
 ReqCritFail:
 ReqAvailable:
 ]
@@ -183,7 +183,7 @@ DialogString:Nope nope nope nope nope nope nope nope nope
 SpeakerID:Player
 SpeakerMood:Questioning
 Pass:
-Fail:
+RegFail:
 CritFail:
 Responses:1
 {
@@ -199,7 +199,7 @@ Moods:2
 Questioning
 Questioning
 }
-ReqFail:
+ReqRegFail:
 ReqCritFail:
 ReqAvailable:
 ]
@@ -209,7 +209,7 @@ DialogString:Where are you going?... -Game End-
 SpeakerID:Tanya
 SpeakerMood:Sad
 Pass:
-Fail:
+RegFail:
 CritFail:
 Responses:0
 {
@@ -224,7 +224,7 @@ Moods:2
 Happy
 Questioning
 }
-ReqFail:
+ReqRegFail:
 ReqCritFail:
 ReqAvailable:
 ]
