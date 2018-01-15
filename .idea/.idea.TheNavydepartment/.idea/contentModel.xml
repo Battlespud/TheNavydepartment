@@ -31,6 +31,7 @@
         <e p="NPC.cs" t="Include" />
         <e p="PositionRefresher.cs" t="Include" />
         <e p="Resources" t="Include">
+          <e p="Clock.cs" t="Include" />
           <e p="FreeParallax" t="Include">
             <e p="Readme.txt" t="Include" />
             <e p="Scripts" t="Include">
@@ -141,6 +142,8 @@
               </e>
             </e>
           </e>
+          <e p="TimeEvent.cs" t="Include" />
+          <e p="WorldController.cs" t="Include" />
         </e>
         <e p="StreamingAssets" t="Include">
           <e p="Characters" t="Include">
