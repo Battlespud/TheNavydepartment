@@ -156,6 +156,7 @@
             <e p="SingleSampleDialog.txt" t="Include" />
           </e>
         </e>
+        <e p="StringEvent.cs" t="Include" />
         <e p="TestMovementScene" t="Include">
           <e p="MovementController.cs" t="Include" />
         </e>

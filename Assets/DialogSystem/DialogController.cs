@@ -7,7 +7,7 @@ public class DialogController : MonoBehaviour
 {
 
 	public static DialogController Controller;
-
+	public static StringEvent DialogEvent = new StringEvent();
 
 	public GameObject DialogParent;
 	public GameObject ResponseButtonPrefab;
@@ -126,6 +126,7 @@ public class DialogController : MonoBehaviour
 			ResponseButtonController c = g.GetComponent<ResponseButtonController>();
 			c.AssignEnd();
 		}
+		DialogEvent.Invoke(Line.LineID);
 	}
 
 	private void AssignSprites(DialogLine Line)
