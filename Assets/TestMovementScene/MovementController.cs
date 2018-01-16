@@ -13,10 +13,12 @@ public enum Facing
 public class MovementController : MonoBehaviour
 {
 
+	public static bool Locked = false;
+	
 	public CharacterController Controller;
 	public Facing facing = Facing.RIGHT;
 	
-	
+	//We use multiple sprites for the player so they can be a bit more customized, npc just flip a single sprite.
 	public Sprite Right;
 	public Sprite Left;
 
@@ -47,6 +49,7 @@ public class MovementController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if(!Locked)
 		InputProcess();
 	}
 

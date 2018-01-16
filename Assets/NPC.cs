@@ -76,6 +76,11 @@ public enum NPCTypes
         private const float TimeForSpeechToAppear = 3f;
 
         public NPCTypes NPCType;
+        public string NPCName;
+        
+        
+        public Facing facing;
+        public SpriteRenderer Renderer;
         
         public Text SpeechTextbox;
         public GameObject SpeechBubble;
@@ -93,14 +98,17 @@ public enum NPCTypes
         
         void Awake()
         {
-            LinesOfSpeech = new List<string>(){"Hi Tanya!", "Lovely Meteor Shower last weekend huh?", "Real shame how Detroit got nuked.."};
+            LinesOfSpeech = new List<string>(){"Hey Tanya!", "Lovely Meteor Shower last weekend huh?", "Shame how Detroit got hit though."};
             SpeechBubble.SetActive(false);
             InteractButton.SetActive(false);
             EndConvoButton.SetActive(false);
             SpeechTextbox.text = "";
             BuildSchedule();
-            Agent = GetComponent<NavMeshAgent>();
+            Renderer = GetComponentInChildren<SpriteRenderer>();
+            Agent = GetComponentInParent<NavMeshAgent>();
             Clock.TimeChange.AddListener(CheckSchedule);
+            if (NPCName == "")
+                NPCName = NPCType.ToString();
         }
         
         public void IEnableInteraction(bool b)
@@ -155,6 +163,8 @@ public enum NPCTypes
 
         void Update()
         {
+
+            Graphics();            
             if (Agent.isOnOffMeshLink)
             {
                 Vector3 buffer = Agent.destination;
@@ -162,6 +172,19 @@ public enum NPCTypes
                 Agent.SetDestination(buffer);
             }
         }
+
+            void Graphics()
+            {
+                if (Agent.desiredVelocity.x < 0)
+                    facing = Facing.LEFT;
+                else if (Agent.desiredVelocity.x > 0)
+                        facing = Facing.RIGHT;
+                
+                if(facing == Facing.RIGHT)
+                Renderer.flipX = false;
+                else
+                Renderer.flipX = true;
+            }
     }
     
     

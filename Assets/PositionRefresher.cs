@@ -33,7 +33,7 @@ public class PositionRefresher : MonoBehaviour
 		transform.position = new Vector3(transform.position.x, Player.transform.position.y + YDiff,Z);
 		VisualAreaWidth = Mathf.Abs(Mathf.Tan(Camera.main.fieldOfView) *Mathf.Abs(Player.transform.position.z - transform.position.z));
 
-		if (RecieveInput)
+		if (RecieveInput && !MovementController.Locked)
 		{
 			InputProcess();
 		}
