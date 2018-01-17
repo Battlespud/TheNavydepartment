@@ -44,7 +44,10 @@ public enum NPCTypes
                 index = ~index;
                 index--;
                 Debug.Log(string.Format("Returning time {0} with index of {1}",newTime,index));
+                if(index >= 0)
                 TargetPosition = Schedule[ScheduleTimes[index]];
+                else  //Should handle not having an entry at 0
+                TargetPosition = Schedule[ScheduleTimes[ScheduleTimes.Count-1]];
             }
             
             Debug.Log(("Closest position is " + TargetPosition));

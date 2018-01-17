@@ -10,6 +10,7 @@
         <e p="Characters" t="Include">
           <e p="CharacterLoader.cs" t="Include" />
         </e>
+        <e p="ClockUI.cs" t="Include" />
         <e p="Debugger.cs" t="Include" />
         <e p="Design.txt" t="Include" />
         <e p="DialogFormattingDesign.txt" t="Include" />

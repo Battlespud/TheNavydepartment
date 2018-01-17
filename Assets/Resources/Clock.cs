@@ -20,6 +20,30 @@ public static class Clock
 		return (Time[0] * 100  + Time[1]);
 	}
 
+	public static int[] GetTimeArray()
+	{
+		return Time;
+	}
+
+	public static string GetTimeString()
+	{
+		string suffix = "PM";
+		if (Clock.GetTimeArray()[0] < 12)
+			suffix = "AM";
+		string hours = Clock.GetTimeArray()[0] < 12 ? Clock.GetTimeArray()[0].ToString() : (Clock.GetTimeArray()[0] - 12).ToString() ;
+		if (hours == "0" && suffix == "PM")
+			hours = "12";
+		string minutes = Clock.GetTimeArray()[1].ToString();
+		if (minutes.Length < 2)
+		{
+			minutes = "0" + minutes;
+		}
+
+
+		return hours + ":" + minutes + " " + suffix;
+	}
+	
+	
 	public static void IncrementHours(int i)
 	{
 		for (int x = 0; x < i; x++)
@@ -27,6 +51,8 @@ public static class Clock
 			IncrementMinutes(60);
 		}
 	}
+
+
 	
 	public static void IncrementMinutes(int AddedTime)
 	{   
