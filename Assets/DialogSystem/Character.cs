@@ -43,6 +43,9 @@ public class Character : MonoBehaviour
 
     public int Relationship;
 
+    public bool Alive = true;
+    public List<Item> Items = new List<Item>();
+
     public List<Sprite> SpriteList = new List<Sprite>();
     
     Dictionary<MoodTypes,Sprite> SpriteDictionary = new Dictionary<MoodTypes, Sprite>();

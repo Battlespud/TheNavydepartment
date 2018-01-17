@@ -60,15 +60,25 @@ public class DialogController : MonoBehaviour
         DialogLine f = new DialogLine("test01");
         f.SetDialog("Testing Testing 123 Testing! It's me, [Player]!");
         f.PossibleResponses.Add("test02");
+	    f.PossibleResponses.Add("test03");
         f.SpeakerID = "Player";
         f.TargetMoods = new List<KeyValuePair<string, MoodTypes>>() { new KeyValuePair<string, MoodTypes>("Player", MoodTypes.Happy) };
         f.SpeakerMood = MoodTypes.Angry;
 
         DialogLine g = new DialogLine("test02");
         g.SpeakerID = "Player";
-        g.SetDialog("Wow it worked!");
+        g.SetDialog("If this shows up, then requirements work!");
         g.SpeakerMood = MoodTypes.Happy;
-
+	    g.Requirements.Add(new Requirement(RequirementTypes.IsAlive, new List<string>(){"Player"}));
+	    
+	    Item i = new Item("I01");
+	    
+	    DialogLine h = new DialogLine("test03");
+	    h.SpeakerID = "Player";
+	    h.SetDialog("If this shows up, then requirements don't work!");
+	    h.SpeakerMood = MoodTypes.Angry;
+	    h.Requirements.Add(new Requirement(RequirementTypes.HasItem, new List<string>(){"Player", "I01"}));
+	    
         LoadLine(GetDialog("test01"));
     }
 
@@ -101,7 +111,7 @@ public class DialogController : MonoBehaviour
 		DialogText.text = Line.GetDialog();
 		float counter = 1.8f;
 		float offset = 90;
-		Line.PossibleResponses.ForEach(x =>
+		Line.GetResponses().ForEach(x =>
 		{
 			DialogLine D = null;
 			try{D = DialogLine.DialogByLineID[x];}catch{
@@ -118,7 +128,7 @@ public class DialogController : MonoBehaviour
 			counter++;
 
 		});
-		if (Line.PossibleResponses.Count < 1)
+		if (Line.GetResponses().Count < 1)
 		{
 			GameObject g = Instantiate(ResponseButtonPrefab, DialogParent.transform);
 			RectTransform r = g.GetComponent<RectTransform>();

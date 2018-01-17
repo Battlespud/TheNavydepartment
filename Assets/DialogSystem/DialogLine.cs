@@ -9,11 +9,28 @@ public class DialogLine
 {
     public static Dictionary<string, DialogLine> DialogByLineID = new Dictionary<string, DialogLine>();
 
+    public DialogLine GetDialogLine(string id)
+    {
+        try
+        {
+            return DialogByLineID[id];
+        }
+        catch
+        {
+            Debug.LogError("Invalid Dialog LineID: " + id);
+            return null;
+        }
+    }
+
+    
+    
     public string DialogString;
     public string LineID; //ID of this 
     public string SpeakerID;
     public MoodTypes SpeakerMood;
     public List<KeyValuePair<string, MoodTypes>> TargetMoods;
+    
+    public List<Requirement> Requirements = new List<Requirement>();
 
     #region Responses Only
     //what the npc will say next
@@ -27,7 +44,32 @@ public class DialogLine
 
     #region NPC Only
     public List<string> PossibleResponses = new List<string>();
+
+    public List<string> GetResponses()
+    {
+        List<string> valid = new List<string>();
+        foreach (var v in  PossibleResponses)
+        {
+            if (GetDialogLine(v).RequirementsMet())
+                valid.Add(v);
+        }
+        return valid;
+    }
     #endregion
+    
+    public bool RequirementsMet()
+    {
+        bool solution = true;
+        foreach (var r in Requirements)
+        {
+            if (!RequirementHandler.Evaluate(r))
+            {
+                solution = false;
+                break;
+            }
+        }
+        return solution;
+    }
 
     public string GetDialog()
     {
