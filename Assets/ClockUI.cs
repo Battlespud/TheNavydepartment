@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class ClockUI : MonoBehaviour
 {
-
+	//Just Handles the clock display in the scene upper right corner.
+	
 	public Text ClockText;
 
 	void Awake()

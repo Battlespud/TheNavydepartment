@@ -29,6 +29,11 @@ public enum NPCTypes
         [SerializeField]
         public Dictionary<int,Vector3> Schedule = new Dictionary<int, Vector3>();
         
+        //Recieves the TimeChange event from Clock.cs and determines where that time would be (its index) if it were inserted into the ScheduleTimes list using a binary search algorithm.  
+            //Then, it subtracts 1 from that index to get the closest, earlier event (We assume that npcs do not move in between scheduled moves. IE if an npc is home at 4PM and at the store at 6 pm, they are still home at 5:55 PM
+            //If the nearest event would have a negative index, like an event at 1am if the npc had no earlier event that morning, then itdefaults to the last event in the schedule (which in most cases should be going to bed) 
+            //because we assume they should still be there from last night since they had no scheduled move
+        //The schedule is entirely dependent on all lists being both consistent and sorted chronologically.  This will be handled automatically on game start, but adding events manually without calling BuildSchedule() will result in inaccuracies.
         void CheckSchedule(int newTime)
         {
             Vector3 TargetPosition = new Vector3();
@@ -54,6 +59,7 @@ public enum NPCTypes
             Agent.SetDestination(TargetPosition);
         }
 
+        //Sorts and rebuilds the Schedule Times and Positions lists and builds the Schedule dictionary.  Overkill but necessary for keeping the schedule safe while allowing for setting it up in Inspector.
         void BuildSchedule()
         {
            List<KeyValuePair<int,Vector3>> Sorted = new List<KeyValuePair<int, Vector3>>();
@@ -76,26 +82,33 @@ public enum NPCTypes
 
         }
         
+        //How long speech bubbles will stay open (This only affects speech bubbles, not full dialogues.)
         private const float TimeForSpeechToAppear = 3f;
 
+        //What type of npc is this, this class is intended primarily for repetetive generic npcs.
         public NPCTypes NPCType;
+        //If name is blank, the name will just be NPCType.tostring
         public string NPCName;
         
-        
+        //Used to determine which sprite to show.  NPCs use onl a single sprite and are symmetrical, so theyre easier to manage with less code.
         public Facing facing;
         public SpriteRenderer Renderer;
         
+        //Worldspace UI that appears when InteractButton is pressed
         public Text SpeechTextbox;
         public GameObject SpeechBubble;
 
+        //The blue and red button respectively. Shows up when player is near.
         public GameObject InteractButton;
         public GameObject EndConvoButton;
 
+        //Handles movement
         public NavMeshAgent Agent;
         
+        //Hardcoded default lines.  Will iterate through in order and loop infinitely.
         [SerializeField]
         public List<string> LinesOfSpeech = new List<string>(){"Hi Tanya", "Lovely Meteor Shower last weekend huh?", "Real shame how Detroit got nuked"};
-
+        //handles aforementioned looping.
         private int SpeechCounter = 0;
 
         
@@ -114,16 +127,15 @@ public enum NPCTypes
                 NPCName = NPCType.ToString();
         }
         
+        //Called whenever player enters or leaves range.
         public void IEnableInteraction(bool b)
         {
                 InteractButton.SetActive(b);
-
-            if (!b)
-            {
+            if (!b) //Hides the speech bubble when player walks away too far.
                 EndConvo();
-            }
         }
 
+        //Called when interact button is pressed by player, makes the speechbubble show up.
         public void IInteract()
         {
             StopAllCoroutines();
@@ -138,6 +150,7 @@ public enum NPCTypes
             EndConvoButton.SetActive(false);
         }
 
+        //Makes the speech bubble show, determines which line to display, waits a little then hides it again.
         IEnumerator ShowSpeech()
         {
             EndConvoButton.SetActive(true);
@@ -167,16 +180,22 @@ public enum NPCTypes
         void Update()
         {
 
-            Graphics();            
+            Graphics();    
+           
             if (Agent.isOnOffMeshLink)
-            {
-                Vector3 buffer = Agent.destination;
-                Agent.Warp(Agent.currentOffMeshLinkData.endPos);
-                Agent.SetDestination(buffer);
-            }
+                    Warp();
         }
 
-            void Graphics()
+        //Teleports the npc to its destination when using doors.
+        void Warp()
+        {
+            Vector3 buffer = Agent.destination;
+            Agent.Warp(Agent.currentOffMeshLinkData.endPos);
+            Agent.SetDestination(buffer);
+        }
+    
+        //Reads the NavMeshAgent to determine appropriate sprite orientation.
+        void Graphics()
             {
                 if (Agent.desiredVelocity.x < 0)
                     facing = Facing.LEFT;

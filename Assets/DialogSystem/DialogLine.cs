@@ -22,7 +22,7 @@ public class DialogLine
         }
     }
 
-    
+    #region Fields
     
     public string DialogString;
     public string LineID; //ID of this 
@@ -45,6 +45,9 @@ public class DialogLine
     #region NPC Only
     public List<string> PossibleResponses = new List<string>();
 
+     #endregion Fields
+    
+    //Checks the requirements of each response and returns a list of all ones that hvae their requirements met.
     public List<string> GetResponses()
     {
         List<string> valid = new List<string>();
@@ -57,7 +60,8 @@ public class DialogLine
     }
     #endregion
     
-    public bool RequirementsMet()
+    //Returns true if all requirements are met. Used by GetResponses().
+    bool RequirementsMet()
     {
         bool solution = true;
         foreach (var r in Requirements)
@@ -71,6 +75,7 @@ public class DialogLine
         return solution;
     }
 
+    //Returns the actual line of speech.
     public string GetDialog()
     {
         StringBuilder sb = new StringBuilder();
@@ -127,17 +132,15 @@ public class DialogLine
     {
         DialogString = s;
     }
-    public bool IsAvailable()
-    {
-        //TODO Evaluate AvailableReq
-        return true;
-    }
-
+ 
     public DialogLine()
     {
         TargetMoods = new List<KeyValuePair<string, MoodTypes>>();
     }//end of ctor()
 
+    
+    //Overrides
+    #region Overrides
     public DialogLine(string thisID) : this() //ctor chain, after using DialogLine(string thisID) ctor, it goes to the parameterless ctor to init TargetMoods list
     {
         LineID = thisID;
@@ -161,4 +164,5 @@ public class DialogLine
         }
         return string.Format("LineID: {0}\n{1}:\tHello{2}, {3}.\nHere are your possible responses:\n{4}", LineID, SpeakerID, "TargetID", DialogString, responses.ToString());
     }//end of ToString override
+    #endregion
 }

@@ -53,6 +53,7 @@ public class MovementController : MonoBehaviour
 		InputProcess();
 	}
 
+	//Enables or disables worldspace uis for interacting with objects.  See the Boundary End Zone for a sample
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.GetComponent<IInteractable>() != null)
@@ -70,6 +71,7 @@ public class MovementController : MonoBehaviour
 		
 	}
 
+	//Catch player input.
 	void InputProcess()
 	{
 		Vector2 Movement = new Vector2();
@@ -84,7 +86,7 @@ public class MovementController : MonoBehaviour
 		Move(Movement);
 	}
 	
-
+	//Executes previously captured movement and chooses sprite based on last movement.
 	void Move(Vector2 M)
 	{
 		if (M.x < 0)

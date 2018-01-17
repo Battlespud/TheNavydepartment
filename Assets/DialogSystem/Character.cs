@@ -17,10 +17,10 @@ public enum MoodTypes
 
 public class Character : MonoBehaviour
 {
+    //Game should not start until this is true, set by CharacterLoader at awake.  If this is staying false, then you probably forgot to put a CharacterLoader component somewhere in your scene.
     public static bool Loaded = false;
-    
+    //All Characters
     public static Dictionary<string,Character>CharactersByID = new Dictionary<string, Character>();
-    
     public static Character GetCharacter(string ID)
     {
         try
@@ -32,22 +32,22 @@ public class Character : MonoBehaviour
             Debug.LogError("Invalid Character ID: " + ID);
             return null;
         }
-    }
+    } //Convenience
  
+    //How we organize and find the character
     public string CharacterID;
     
     public string CharacterName;
-    public string CharacterNameShort;
+    public string CharacterNameShort; //Nickname
 
-    public bool Registered = false;
+    public int Relationship;         //Relationship to the player, will probably expand into a struct of its own later.
 
-    public int Relationship;
+    public bool Alive = true;        //Character is still kicking, just used for testing requirements atm.
+    public List<Item> Items = new List<Item>(); //Used for testing requirements
 
-    public bool Alive = true;
-    public List<Item> Items = new List<Item>();
-
-    public List<Sprite> SpriteList = new List<Sprite>();
-    
+    //Sprites must be named for the MoodType they are inteded to represent.
+    public List<Sprite> SpriteList = new List<Sprite>();  
+    //We move our sprites here from Spritelist on game start, this is because Dictionaries cant be edited in inspector.
     Dictionary<MoodTypes,Sprite> SpriteDictionary = new Dictionary<MoodTypes, Sprite>();
 
     public Sprite GetSprite(MoodTypes m)
@@ -88,7 +88,6 @@ public class Character : MonoBehaviour
             sb.Append(s.name + ", ");
         }
         Debug.Log(sb.ToString());
-        Registered = true;
     }
 
     private void Update()

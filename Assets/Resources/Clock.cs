@@ -8,11 +8,12 @@ using UnityEngine.Events;
 
 public static class Clock
 {
-	
+	//Invoked whenever time is incremented and passes the current time as an int, we'll probably want to revisit this and pass as an array instead.	
 	public static TimeEvent TimeChange = new TimeEvent();
 	
 	public static int Day = 0;
 		
+	//Time is stored as an array of Hours (x/24), Minutes (x/60)
 	private static int[] Time = new int[]{0,0};
 			
 	public static int GetTime()
@@ -25,6 +26,7 @@ public static class Clock
 		return Time;
 	}
 
+	//Converts from 24hr to 12hr clock and formats for display.
 	public static string GetTimeString()
 	{
 		string suffix = "PM";
@@ -43,7 +45,7 @@ public static class Clock
 		return hours + ":" + minutes + " " + suffix;
 	}
 	
-	
+	//increase the time by any amount of hours. Will trigger an update every 60 minutes to keep things sane.
 	public static void IncrementHours(int i)
 	{
 		for (int x = 0; x < i; x++)
@@ -53,7 +55,7 @@ public static class Clock
 	}
 
 
-	
+	//Increase the time by any amount of minutes
 	public static void IncrementMinutes(int AddedTime)
 	{   
 		
@@ -90,7 +92,6 @@ public static class Clock
 			Debug.Log(AddedTime);
 			Debug.Log(AddArray[0] + " Hours  |  Mins  " + AddArray[1]);
 		}
-		
 		*/
 		
 		int Limit = 60;
@@ -116,6 +117,7 @@ public static class Clock
 		TimeChange.Invoke(GetTime());
 	}
 
+	//Placeholder in case we need an event on day change.  DO NOT CALL TO INCREASE TIME, ITS NOT AN INCREMENT FUNCTION TYVM.
 	static void ProgressDays(int i)
 	{
 		//TODO event
