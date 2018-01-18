@@ -30,8 +30,11 @@ public class DialogLine
     public MoodTypes SpeakerMood;
     public List<KeyValuePair<string, MoodTypes>> TargetMoods;
     
+    //These requirements must be met for this to show up as an option.
     public List<Requirement> Requirements = new List<Requirement>();
-
+    //When the dialog line is loaded, these flags will be set. If you want to check for flags, then create a requirement and assign it flags.
+    public List<Flag> Flags = new List<Flag>();
+    
     #region Responses Only
     //what the npc will say next
     public string PassTarget;
@@ -60,7 +63,7 @@ public class DialogLine
     }
     #endregion
     
-    //Returns true if all requirements are met. Used by GetResponses().
+    //Returns true if all requirements are met.
     bool RequirementsMet()
     {
         bool solution = true;
@@ -75,6 +78,13 @@ public class DialogLine
         return solution;
     }
 
+    public void SetFlags()
+    {
+        Flags.ForEach(x =>
+        {
+            x.Set();
+        });
+    }
     //Returns the actual line of speech.
     public string GetDialog()
     {

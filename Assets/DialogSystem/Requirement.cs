@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public enum RequirementTypes
     HasItem //1 Character([0]) has any number of items
 }
 
+[Serializable]
 public class Requirement
 {
 
@@ -22,13 +24,31 @@ public class Requirement
         //Because of the way this is handled internally, you must make that decision here, not try to negate the result later.
     public bool Affirmative;
     
-    public Requirement(RequirementTypes r, List<string> objs, bool RequirementMetIfTrue = true)
+    public List<Flag> CheckFlags = new List<Flag>();
+    
+    public Requirement(RequirementTypes r, List<string> objs, bool RequirementMetIfTrue = true, List<Flag> flags = null)
     {
         _Type = r;
         Targets = objs;
         Affirmative = RequirementMetIfTrue;
+        if (flags != null)
+        {
+            CheckFlags.AddRange(flags);
+        }
+    }
+    
+    public Requirement(RequirementTypes r, List<string> objs, List<Flag> flags, bool RequirementMetIfTrue = true)
+    {
+        _Type = r;
+        Targets = objs;
+        Affirmative = RequirementMetIfTrue;
+        if (flags != null)
+        {
+            CheckFlags.AddRange(flags);
+        }
     }
 }
+
 
 
 

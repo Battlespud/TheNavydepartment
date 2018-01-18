@@ -106,6 +106,7 @@ public class DialogController : MonoBehaviour
 
 		AssignSprites(Line);
 		Character speaker = Character.GetCharacter(Line.SpeakerID);
+		Line.SetFlags();
 		
 		SpeakerText.text = Character.CharactersByID[Line.SpeakerID].CharacterName;
 		DialogText.text = Line.GetDialog();
@@ -117,14 +118,12 @@ public class DialogController : MonoBehaviour
 			try{D = DialogLine.DialogByLineID[x];}catch{
 				Debug.LogError("Invalid LineID: " + x);
 			}
-			if (D.IsAvailable())
-			{
+
 				GameObject g = Instantiate(ResponseButtonPrefab, DialogParent.transform);
 				RectTransform r = g.GetComponent<RectTransform>();
 				r.anchoredPosition = new Vector2(ResponseButtonStartingTransform.anchoredPosition.x, ResponseButtonStartingTransform.anchoredPosition.y-(counter*offset));
 				ResponseButtonController c = g.GetComponent<ResponseButtonController>();
 				c.Assign(D);
-			}
 			counter++;
 
 		});

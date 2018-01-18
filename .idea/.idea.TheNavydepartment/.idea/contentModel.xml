@@ -19,6 +19,7 @@
           <e p="DialogController.cs" t="Include" />
           <e p="DialogLine.cs" t="Include" />
           <e p="DialogLoader.cs" t="Include" />
+          <e p="FlagHandler.cs" t="Include" />
           <e p="Requirement.cs" t="Include" />
           <e p="RequirementHandler.cs" t="Include" />
           <e p="ResponseButtonController.cs" t="Include" />

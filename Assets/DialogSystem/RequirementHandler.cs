@@ -11,6 +11,12 @@ public static class RequirementHandler {
     public static bool Evaluate(Requirement R)
     {
         Character _C;
+
+        foreach (var f in R.CheckFlags)
+        {
+            bool? b = FlagHandler.GetFlag(f.ID);
+            if (b == null || b != f.ToSet) ;
+        }
         
         //Switch over types of requirements and solve them independently.
         switch (R._Type)
